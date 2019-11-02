@@ -1,0 +1,13 @@
+<p>
+    {% if not year%}
+        Welcome to second generation sports success
+    {% endif %}
+</p>
+<form method = "POST">
+    {{ form.hidden_tag() }}
+    {{ form.year.label }}{{ form.year() }}
+    {{ form.team.label }}{{ form.team() }}
+    {{ form.sport.label }}{{ form.sport() }}
+    {{ form.gend.label }}{{ form.gend() }}
+    {{ form.submit() }}
+</form>
