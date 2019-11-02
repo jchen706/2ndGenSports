@@ -1,13 +1,21 @@
+<title>2nd gen sports</title>
 <p>
     {% if not year%}
         Welcome to second generation sports success
     {% endif %}
 </p>
-<form method = "POST">
-    {{ form.hidden_tag() }}
-    {{ form.year.label }}{{ form.year() }}
-    {{ form.team.label }}{{ form.team() }}
-    {{ form.sport.label }}{{ form.sport() }}
-    {{ form.gend.label }}{{ form.gend() }}
-    {{ form.submit() }}
-</form>
+<div>
+    <form method = "POST">
+        {{ form.hidden_tag() }}
+        {{ form.year.label }}{{ form.year(size = 20) }}
+        {{ form.team.label }}{{ form.team(size = 30) }}
+        {{ form.sport.label }}{{ form.sport() }}
+        {{ form.gend.label }}{{ form.gend() }}
+        <br>
+        {{ form.mediapdf.label}}{{ form.mediapdf() }}
+        <br>
+        {{form.submit()}}
+
+
+    </form>
+</div>
