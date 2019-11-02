@@ -9,7 +9,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
-  <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='homestyle.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='homestyle.css') }}">
 
 </head>
 
@@ -26,16 +26,38 @@
       <button type="button" class="userBtn btn btn-dark">User Guide</button>
     </div>
 
-    <div class="row">
+    <div class="justify-content-center row" align='center'>
 
-        <form method="POST">
-          {{ form.hidden_tag() }}
-          {{ form.year.label }}{{ form.year() }}
-          {{ form.team.label }}{{ form.team() }}
-          {{ form.sport.label }}{{ form.sport() }}
-          {{ form.gend.label }}{{ form.gend() }}
-          {{ form.submit() }}
-        </form>
+      <form action='/' method="POST" enctype="multipart/form-data">
+
+        <div class="form-group">
+          <label class="year-label " for="year">Year:</label>
+          <input type="text" name="year" id='year1'>
+
+          <label class="team-label " for="team">Team:</label>
+          <input type="text" name="team" id='team1'>
+
+          <select class="mdb-select md-form" searchable="Search here.." name="sport">
+            <option value="" disabled selected>Choose Your Sport</option>
+            <option value="basketball">Basketball</option>
+            <option value="football">Football</option>
+          </select>
+
+          <select class="mdb-select md-form" searchable="Search here.." name="gender">
+            <option value="" disabled selected>Choose Your Gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+          </select>
+
+          <div class="file-field">
+              <input type="file" name="pdffile">
+          </div>
+
+
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+
 
     </div>
   </div>
