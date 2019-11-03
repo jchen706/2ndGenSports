@@ -1,7 +1,7 @@
 # 2ndGenSports
 
-Static Pages need to be in Static folder 
-Html pages need to be in Templates folder
+Static Pages need to be in Static folder. 
+Html pages need to be in Templates folder.
 
 create a virutal environtment
 
