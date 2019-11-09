@@ -1,6 +1,4 @@
-
-
-from flask import Flask, render_template, session, redirect, url_for, request
+from flask import Flask, render_template, session, redirect, url_for, request, abort, flash
 from flask_wtf import FlaskForm
 from wtforms import StringField, SelectField, SubmitField
 from wtforms.validators import DataRequired
@@ -18,11 +16,21 @@ import json
 import tika
 tika.initVM()
 from tika import parser
+import mysql.connector
+from mysql.connector import Error
+
+
+
+
+
 #from flask_sqlalchemy import SQLAlchemy
 #import SQLAlchemy
 
+#absolute path of the file
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+
 #change this path to a folder for the upload
-UPLOAD_FOLDER = 'C:/Users/jchen/Documents/2ndGenSports/static/pdfs'
+UPLOAD_FOLDER = '\static\pdfs'
 
 ALLOWED_EXTENSIONS = {'pdf'}
 DEBUG = True
@@ -43,6 +51,13 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 #     def __init__(self, arg):
 #         super(, self).__init__()
 #         self.arg = arg
+
+
+@app.errorhandler(400)
+def bad_request(e):
+     return render_template('400.html'), 400
+
+
 
 
 
@@ -81,15 +96,81 @@ def newIndex():
 
 @app.route('/',methods = ['GET','POST'])
 def index():
-    year = False
-    #form = MediaForm()
+    processed = False
+    year = 0000
+    team = "No Team"
+    gender = "No Input"
+    sport = "No Input"
+    list1 = []
 
+    error_year = False
+    error_team = False
+    error_gender = False
+    error_sport = False
+    error_file = False
+
+    #form = MediaForm()
+    print(BASE_DIR)
+
+    file_path = BASE_DIR + app.config['UPLOAD_FOLDER']
+    print(file_path)
+
+    #database server connection ...
+    try:
+        connection = mysql.connector.connect(host='localhost',
+                                         database='sportgen',
+                                         user='root',
+                                         password='1547')
+
+        if connection.is_connected():
+            db_Info = connection.get_server_info()
+            print("Connected to MySQL Server version ", db_Info)
+            cursor = connection.cursor()
+            cursor.execute("select database();")
+            record = cursor.fetchone()
+            print("You're connected to database: ", record)
+    except Error as e:
+        print("Error while connecting to MySQL", e)
+    finally:
+        if (connection.is_connected()):
+            cursor.close()
+            connection.close()
+            print("MySQL connection is closed")
+
+
+    #action posted from frontend
     if(request.method == "POST"):
 
         year = request.form['year']
         team = request.form['team']
         gender = request.form['gender']
         sport = request.form['sport']
+        processed = True
+
+
+        
+
+
+        try:
+            year = int(year)
+        except:
+            error_year = True
+
+        try:
+            year = int(year)
+        except:
+            error_year = True
+  
+        
+
+
+
+
+
+        
+
+
+
         #count
         #pdf
           
@@ -101,14 +182,16 @@ def index():
         if request.files:
 
             file1 = request.files["pdffile"]
+            print(file1.filename == '')
 
             if (file1.filename == ''):
                 flash('No file selected')
+                abort(400, description="No file submitted.")
 
             print(allowed_file(file1.filename))
             if(allowed_file(file1.filename)):
-                file1.save(os.path.join(app.config['UPLOAD_FOLDER'], file1.filename))
-                file = open(os.path.join(app.config['UPLOAD_FOLDER'], file1.filename), 'r')
+                file1.save(os.path.join(file_path, file1.filename))
+                file = open(os.path.join(file_path, file1.filename), 'r')
 
 
 
@@ -121,7 +204,7 @@ def index():
                 # print(match)
                 # creating a pdf file object
                 #
-                pdfFileObj = open(os.path.join(app.config['UPLOAD_FOLDER'], file1.filename), 'rb')
+                pdfFileObj = open(os.path.join(file_path, file1.filename), 'rb')
 
                 # creating a pdf reader object
                 pdfReader = PyPDF2.PdfFileReader(pdfFileObj)
@@ -136,50 +219,55 @@ def index():
                 print(pageObj.extractText())
                 #text = textract.process(os.path.join(app.config['UPLOAD_FOLDER'], file1.filename), extension='pdf')
 
-                parsed = parser.from_file(os.path.join(app.config['UPLOAD_FOLDER'], file1.filename))
+                parsed = parser.from_file(os.path.join(file_path, file1.filename))
                 #print(parsed["metadata"])
                 #print(parsed["content"])
                 input_text = parsed['content']
 
                 tokenizer_words = TweetTokenizer()
-                tokens_sentences = [tokenizer_words.tokenize(t) for t in
-                nltk.sent_tokenize(input_text)]
+                tokens_sentences = [tokenizer_words.tokenize(t) for t in nltk.sent_tokenize(input_text)]
                 #print(tokens_sentences)
-                wantedList=['parent','Parents', 'Father', 'Mother', 'father', 'mother', 'brother', 'sister' ]
+                wantedList=['parent','Parents', 'Father', 'Mother', 'father', 'mother', 'dad', 'Dad', 'Mom', 'mom']
                 count = 0
-                list = []
+                
                 for eachSentence in tokens_sentences:
                     for each in wantedList:
                         if each in eachSentence:
                             count+=1
-                            print(eachSentence)
-                            print(" ")
-                            print(" ")
+                            #print(eachSentence)
+                            #print(" ")
+                            #print(" ")
+                            aSentence =' '.join(eachSentence)
+                            list1.append(aSentence)
 
 
-                print(count)
+                #print(count)
                 # for i in range(count):
                 #     print(list[i])
                 #     print('')
 
 
-
-
-
                 # closing the pdf file object
                 pdfFileObj.close()
-
-
-
                 print('file save')
+                
+                return render_template('home.html', processed = processed, team_name =team , team_year=year, team_gender=gender, team_sport=sport, list1 = list1, len1 = len(list1))
+        else:
+            abort(400, description="No file submitted.")
+
+
 
     else:
-        return render_template('home.html')
-    return render_template('home.html')
+        
+        
+        return render_template('home.html', processed = processed, team_name =team , team_year=year, team_gender=gender, team_sport=sport, list1 = list1, len1 = len(list1))
 
-@app.route('/successful')
+
+    return render_template('home.html',processed = processed, team_name =team , team_year=year, team_gender=gender, team_sport=sport, list1 = list1,len1 = len(list1))
+
+@app.route('/processing')
 def successful():
-    return render_template('successful.html')
+    return render_template('process.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
