@@ -19,6 +19,11 @@ from tika import parser
 import mysql.connector
 from mysql.connector import Error
 
+import re
+
+from nltk.tokenize import sent_tokenize
+
+
 
 
 
@@ -116,26 +121,26 @@ def index():
     print(file_path)
 
     #database server connection ...
-    try:
-        connection = mysql.connector.connect(host='localhost',
-                                         database='sportgen',
-                                         user='root',
-                                         password='1547')
+    # try:
+    #     connection = mysql.connector.connect(host='localhost',
+    #                                      database='sportgen',
+    #                                      user='root',
+    #                                      password='1547')
 
-        if connection.is_connected():
-            db_Info = connection.get_server_info()
-            print("Connected to MySQL Server version ", db_Info)
-            cursor = connection.cursor()
-            cursor.execute("select database();")
-            record = cursor.fetchone()
-            print("You're connected to database: ", record)
-    except Error as e:
-        print("Error while connecting to MySQL", e)
-    finally:
-        if (connection.is_connected()):
-            cursor.close()
-            connection.close()
-            print("MySQL connection is closed")
+    #     if connection.is_connected():
+    #         db_Info = connection.get_server_info()
+    #         print("Connected to MySQL Server version ", db_Info)
+    #         cursor = connection.cursor()
+    #         cursor.execute("select database();")
+    #         record = cursor.fetchone()
+    #         print("You're connected to database: ", record)
+    # except Error as e:
+    #     print("Error while connecting to MySQL", e)
+    # finally:
+    #     if (connection.is_connected()):
+    #         cursor.close()
+    #         connection.close()
+    #         print("MySQL connection is closed")
 
 
     #action posted from frontend
@@ -230,15 +235,124 @@ def index():
                 wantedList=['parent','Parents', 'Father', 'Mother', 'father', 'mother', 'dad', 'Dad', 'Mom', 'mom']
                 count = 0
                 
+                diction1 = {}
+                count1 = 0
+                list10 = []
                 for eachSentence in tokens_sentences:
+                    diction1[count1] = []
                     for each in wantedList:
-                        if each in eachSentence:
-                            count+=1
+                        if each in eachSentence:           
                             #print(eachSentence)
                             #print(" ")
                             #print(" ")
                             aSentence =' '.join(eachSentence)
-                            list1.append(aSentence)
+                            diction1[count1].append(aSentence)
+                            count1+=1
+                            list10.append(aSentence)
+                            break
+                dictiona = {}
+                for j in range(len(list10)):
+                     dictiona[j] = []
+                     list00 = list10[j].split(' ')
+                     for i in range(len(list00)):
+                         for eachword in wantedList:
+                                if (eachword == list00[i]): 
+                                   list00[i] = eachword
+                                   if (len(list00) < 20):
+                                       dictiona[j].append(list00)
+                                       break
+                                   else:
+                                     try: 
+                                         #print(list33[i-15:i+20])
+                                         a = list00[i-15:i+20] 
+                                         dictiona[j].append(a)
+                                     except:
+                                        #print('pass')
+                                        a = list00[i:]
+                                        dictiona[j].append(a)
+                                        #dic[count].append(a)
+               
+                print('hereeeee')
+
+
+                list33 = []
+                print(len(dictiona))
+                for key in dictiona:
+                    for ij in range(len(dictiona[key])):
+                         if(len(dictiona[key][0]) > 0):
+                             aSentence =' '.join(dictiona[key][0])
+                             list33.append(aSentence)
+                             break
+
+
+
+
+
+
+                dic = {}
+                list3 = []
+                for key in diction1:
+                    count = 0
+                    if(len(diction1[key]) >=1):             
+                        string = diction1[key][0]
+                        list2 = diction1[key][0].split(' ')
+                        dic[count] = []
+                        for i in range(len(list2)):
+                            for eachword in wantedList:
+                                if (eachword == list2[i]):
+                                   if (len(list2) < 20):
+                                       dic[count].append(list2)
+                                       break
+                                       list3.append(a)
+                                   else:
+                                     try: 
+                                         print(list2[i-15:i+20])
+                                         a = list2[i-15:i+20] 
+                                         dic[count].append(a)
+                                         list3.append(a)
+                                     except:
+                                        print('pass')
+                                        a = list2[i:]
+                                        list3.append(a)
+                                        dic[count].append(a)
+                    count+=1
+
+
+                print(' ')
+                print(' ')
+                print(' here')
+                print(dic) 
+                print(len(dic))   
+
+                print(list3)             
+                
+
+
+                        # list1
+                        # for eachword in wantedList:
+                        #    try:
+                        #        index = string.index(eachword)
+
+
+
+                        #    except:
+
+                        # r = re.compile(r'\b%s\b' % word, re.I)
+                        # m = r.search(string)
+                        # index = m.start()
+                    #    a = re.search(r'\b(father)\b', diction1[key][0])
+                #        count12 = 0
+                #        for eachsegment in b:
+                #           container = []
+                #           for eachword in wantedList:
+                #             if eachword in eachsegment:
+                #                 container.append(eachsegment)
+                #        dic[count12] = container
+                #        count12+=1
+                
+                # print(dic)
+
+
 
 
                 #print(count)
@@ -246,12 +360,26 @@ def index():
                 #     print(list[i])
                 #     print('')
 
+                # list3 = []
+                # for i in range(len(list1)):
+                #     b = list1[i].split('•')
+                #     list3.append(b)
+                
+                # diction = {}
+                # for j in range(len(list3)):
+                #     diction[j] = []
+                #     count = 0
+                #     for eachSen in list3[j]:
+                #         for each in wantedList:
+                #             if each in eachSen:
+                #                 diction[j].append(eachSen)
 
+                
                 # closing the pdf file object
                 pdfFileObj.close()
                 print('file save')
                 
-                return render_template('home.html', processed = processed, team_name =team , team_year=year, team_gender=gender, team_sport=sport, list1 = list1, len1 = len(list1))
+                return render_template('home.html', processed = processed, team_name =team , team_year=year, team_gender=gender, team_sport=sport, list1 = list33, len1 = len(list33))
         else:
             abort(400, description="No file submitted.")
 
