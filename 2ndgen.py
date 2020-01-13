@@ -35,7 +35,7 @@ from nltk.tokenize import sent_tokenize
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
 #change this path to a folder for the upload
-UPLOAD_FOLDER = '\static\pdfs'
+UPLOAD_FOLDER = '/static/pdfs'
 
 ALLOWED_EXTENSIONS = {'pdf'}
 DEBUG = True
@@ -153,7 +153,7 @@ def index():
         processed = True
 
 
-        
+
 
 
         try:
@@ -165,20 +165,20 @@ def index():
             year = int(year)
         except:
             error_year = True
-  
-        
 
 
 
 
 
-        
+
+
+
 
 
 
         #count
         #pdf
-          
+
         print(year)
         print(team)
         print(gender)
@@ -234,14 +234,14 @@ def index():
                 #print(tokens_sentences)
                 wantedList=['parent','Parents', 'Father', 'Mother', 'father', 'mother', 'dad', 'Dad', 'Mom', 'mom']
                 count = 0
-                
+
                 diction1 = {}
                 count1 = 0
                 list10 = []
                 for eachSentence in tokens_sentences:
                     diction1[count1] = []
                     for each in wantedList:
-                        if each in eachSentence:           
+                        if each in eachSentence:
                             #print(eachSentence)
                             #print(" ")
                             #print(" ")
@@ -256,22 +256,22 @@ def index():
                      list00 = list10[j].split(' ')
                      for i in range(len(list00)):
                          for eachword in wantedList:
-                                if (eachword == list00[i]): 
+                                if (eachword == list00[i]):
                                    list00[i] = eachword
                                    if (len(list00) < 20):
                                        dictiona[j].append(list00)
                                        break
                                    else:
-                                     try: 
+                                     try:
                                          #print(list33[i-15:i+20])
-                                         a = list00[i-15:i+20] 
+                                         a = list00[i-15:i+20]
                                          dictiona[j].append(a)
                                      except:
                                         #print('pass')
                                         a = list00[i:]
                                         dictiona[j].append(a)
                                         #dic[count].append(a)
-               
+
                 print('hereeeee')
 
 
@@ -293,7 +293,7 @@ def index():
                 list3 = []
                 for key in diction1:
                     count = 0
-                    if(len(diction1[key]) >=1):             
+                    if(len(diction1[key]) >=1):
                         string = diction1[key][0]
                         list2 = diction1[key][0].split(' ')
                         dic[count] = []
@@ -305,9 +305,9 @@ def index():
                                        break
                                        list3.append(a)
                                    else:
-                                     try: 
+                                     try:
                                          print(list2[i-15:i+20])
-                                         a = list2[i-15:i+20] 
+                                         a = list2[i-15:i+20]
                                          dic[count].append(a)
                                          list3.append(a)
                                      except:
@@ -321,11 +321,11 @@ def index():
                 print(' ')
                 print(' ')
                 print(' here')
-                print(dic) 
-                print(len(dic))   
+                print(dic)
+                print(len(dic))
 
-                print(list3)             
-                
+                print(list3)
+
 
 
                         # list1
@@ -349,7 +349,7 @@ def index():
                 #                 container.append(eachsegment)
                 #        dic[count12] = container
                 #        count12+=1
-                
+
                 # print(dic)
 
 
@@ -364,7 +364,7 @@ def index():
                 # for i in range(len(list1)):
                 #     b = list1[i].split('•')
                 #     list3.append(b)
-                
+
                 # diction = {}
                 # for j in range(len(list3)):
                 #     diction[j] = []
@@ -374,11 +374,11 @@ def index():
                 #             if each in eachSen:
                 #                 diction[j].append(eachSen)
 
-                
+
                 # closing the pdf file object
                 pdfFileObj.close()
                 print('file save')
-                
+
                 return render_template('home.html', processed = processed, team_name =team , team_year=year, team_gender=gender, team_sport=sport, list1 = list33, len1 = len(list33))
         else:
             abort(400, description="No file submitted.")
@@ -386,8 +386,8 @@ def index():
 
 
     else:
-        
-        
+
+
         return render_template('home.html', processed = processed, team_name =team , team_year=year, team_gender=gender, team_sport=sport, list1 = list1, len1 = len(list1))
 
 

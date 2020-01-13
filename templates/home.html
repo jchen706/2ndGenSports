@@ -62,34 +62,41 @@
 
 
       {% if processed %}
+      <form action='/' method="POST" enctype="multipart/form-data">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Team</th>
+              <th scope="col">Year</th>
+              <th scope="col">Sport</th>
+              <th scope="col">Gender</th>
+              <th scope="col">Count</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
 
-      <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">Team</th>
-            <th scope="col">Year</th>
-            <th scope="col">Sport</th>
-            <th scope="col">Gender</th>
-            <th scope="col">Count</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th scope="row">{{team_name}}</th>
-            <td>{{team_year}}</td>
-            <td>{{team_sport}}</td>
-            <td>{{team_gender}}</td>
-            <td>{{len1}}</td>
-          </tr>
-        </tbody>
-      </table>
+              <th scope="row">{{team_name}}</th>
+              <td>{{team_year}}</td>
+              <td>{{team_sport}}</td>
+              <td>{{team_gender}}</td>
+              <td>{{len1}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </form>
 
 
       <ol>
         <!-- For loop logic of jinja template -->
         {%for i in range(0, len1)%}
-
-        <li>{{list1[i]}}</li>
+        <div class="row float-left">
+          <input class="col" type="checkbox" name="box" value="{{i}}">
+            <li class="col">
+              {{list1[i]}}
+            </li>
+          </input>
+      </div>
         {%endfor%}
 
       </ol>
