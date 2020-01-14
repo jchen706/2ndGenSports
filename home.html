@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>2nd Generation Sports Success</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='homestyle.css') }}">
+
+</head>
+
+<body>
+
+  <div class="container-fluid">
+    <div class="justify-content-center row" align='center'>
+      <h1 class="display-4">2nd Generation Sports Success</h1>
+      <p></p>
+    </div>
+
+    <div class="justify-content-center row" align='center'>
+      <button type="button" class="aboutBtn btn btn-dark">About</button>
+      <button type="button" class="userBtn btn btn-dark">User Guide</button>
+    </div>
+
+    <div class="justify-content-center row" align='center'>
+
+      <form action='/' method="POST" enctype="multipart/form-data">
+
+        <div class="form-group">
+          <label class="year-label " for="year">Year:</label>
+          <input type="text" name="year" id='year1'>
+
+          <label class="team-label " for="team">Team:</label>
+          <input type="text" name="team" id='team1'>
+
+          <select class="mdb-select md-form" searchable="Search here.." name="sport">
+            <option value="" disabled selected>Choose Your Sport</option>
+            <option value="basketball">Basketball</option>
+            <option value="football">Football</option>
+          </select>
+
+          <select class="mdb-select md-form" searchable="Search here.." name="gender">
+            <option value="" disabled selected>Choose Your Gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+          </select>
+
+          <div class="file-field">
+            <input type="file" name="pdffile">
+          </div>
+
+
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+    <div class="justify-content-center row" align='center'>
+
+
+      {% if processed %}
+      <form action='/' method="POST" enctype="multipart/form-data">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Team</th>
+              <th scope="col">Year</th>
+              <th scope="col">Sport</th>
+              <th scope="col">Gender</th>
+              <th scope="col">Count</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+
+              <th scope="row">{{team_name}}</th>
+              <td>{{team_year}}</td>
+              <td>{{team_sport}}</td>
+              <td>{{team_gender}}</td>
+              <td>{{len1}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </form>
+
+
+      <ol>
+        <!-- For loop logic of jinja template -->
+        {%for i in range(0, len1)%}
+        <div class="row float-left">
+          <li class="col"><input type="checkbox" name="box" value="{{i}}">{{list1[i]}}</li>
+      </div>
+        {%endfor%}
+
+      </ol>
+
+      {% else %}
+
+      <p>
+        No file has been processed.
+      </p>
+
+      {% endif %}
+
+
+
+
+
+
+
+    </div>
+  </div>
+
+
+
+
+
+</body>
+
+</html>
