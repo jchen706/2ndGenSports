@@ -90,11 +90,10 @@
       <ol>
         <!-- For loop logic of jinja template -->
         {%for i in range(0, len1)%}
-        <div class="row float-left">
+        <br class="row float-left">
           <li class="col"><input type="checkbox" name="box" value="{{i}}">{{list1[i]}}</li>
-      </div>
+      </br>
         {%endfor%}
-
       </ol>
 
       {% else %}
