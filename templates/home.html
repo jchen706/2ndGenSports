@@ -86,15 +86,17 @@
         </table>
       </form>
 
-
-      <ol>
-        <!-- For loop logic of jinja template -->
-        {%for i in range(0, len1)%}
-        <br class="row float-left">
-          <li class="col"><input type="checkbox" name="box" value="{{i}}">{{list1[i]}}</li>
-      </br>
-        {%endfor%}
-      </ol>
+      <form action='/' method="POST" enctype="multipart/form-data">
+        <ol>
+          <!-- For loop logic of jinja template -->
+          {%for i in range(0, len1)%}
+          <br class="row float-left">
+            <li class="col"><input class = "float-left" type="checkbox" name="box" value="{{i}}">{{list1[i]}}</li>
+        </br>
+          {%endfor%}
+        </ol>
+          <input type="submit" value="Submit">
+      </form>
 
       {% else %}
 
