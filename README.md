@@ -1,6 +1,6 @@
 # 2nd Generation Sports
 
-**Team**
+## Team
 
 Jun Chen
 Phillip Hong
@@ -8,7 +8,7 @@ Justin Chiu
 Eric Vizcaya-Eternod
 Jesus Gonzalez
 
-**Setup**
+## Setup
 
 Using Miniconda Python 3.7 to install a virtual python environment. 
 Miniconda: https://docs.conda.io/en/latest/miniconda.html 
