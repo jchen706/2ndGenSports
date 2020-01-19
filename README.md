@@ -18,13 +18,18 @@ Clone or Download the Repository
 Open Miniconda or Anaconda Prompt
 
 #### Create Environment
-`$conda create -n myenv python=3.6
- $conda activate myenv
-`
+`$conda create -n myenv python=3.6`
+`$conda activate myenv`
 
+Go to the respository root directory.
 
+##### Install Dependences from requirements.txt
+`$pip install -r requirements.txt`
 
+##### Run the Application
+`$python 2ndgen.py`
 
+## More Information
 first time installing ntlk, you'll have to download the library 
 so you have to put nltk.download() in the 2ndgen.py , comment out that line after the first time trial
 
