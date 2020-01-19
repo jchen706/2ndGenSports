@@ -1,17 +1,28 @@
-# 2ndGenSports
+# 2nd Generation Sports
 
-Static Pages need to be in Static folder. 
-Html pages need to be in Templates folder.
+**Team**
 
-create a virutal environtment
+Jun Chen
+Phillip Hong
+Justin Chiu
+Eric Vizcaya-Eternod
+Jesus Gonzalez
 
-You can install Miniconda and create a virutal env. Just google
+**Setup**
 
-Install the dependencies with pip install -r requirement.txt.
+Using Miniconda Python 3.7 to install a virtual python environment. 
+Miniconda: https://docs.conda.io/en/latest/miniconda.html 
 
-To run app. python 2ndgen.py
+Clone or Download the Repository
 
-localhost:5000
+Open Miniconda or Anaconda Prompt
+
+####Create Environment
+`$conda create -n myenv python=3.6
+ $conda activate myenv
+`
+
+
 
 
 first time installing ntlk, you'll have to download the library 
