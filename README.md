@@ -17,7 +17,7 @@ Clone or Download the Repository
 
 Open Miniconda or Anaconda Prompt
 
-####Create Environment
+#### Create Environment
 `$conda create -n myenv python=3.6
  $conda activate myenv
 `
