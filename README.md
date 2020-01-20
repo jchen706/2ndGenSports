@@ -18,8 +18,9 @@ Clone or Download the Repository
 Open Miniconda or Anaconda Prompt
 
 #### Create Environment
-`$conda create -n myenv python=3.6`
-`$conda activate myenv`
+ `$conda create -n myenv python=3.6`
+
+ `$conda activate myenv`
 
 Go to the respository root directory.
 
@@ -27,8 +28,8 @@ Go to the respository root directory.
 `$pip install -r requirements.txt`
 
 ##### Run the Application
-`$python 2ndgen.py`
-Application currently runs on localhost:5000
+ `$python 2ndgen.py`
+ Application currently runs on localhost:5000
 
 ## More Information
 First time installing ntlk, you'll have to download the library 
