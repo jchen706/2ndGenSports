@@ -29,6 +29,7 @@ Go to the respository root directory.
 
 ##### Run the Application
  `$python 2ndgen.py`
+ 
  Application currently runs on localhost:5000
 
 ## More Information
