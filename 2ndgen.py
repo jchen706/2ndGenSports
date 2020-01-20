@@ -22,7 +22,7 @@ from tika import parser
 import re
 
 from nltk.tokenize import sent_tokenize
-
+from dynamo import putItem as putItem
 
 
 
@@ -58,9 +58,9 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 #         self.arg = arg
 
 
-@app.errorhandler(400)
-def bad_request(e):
-     return render_template('400.html'), 400
+# @app.errorhandler(400)
+# def bad_request(e):
+#      return render_template('400.html'), 400
 
 
 
@@ -392,5 +392,35 @@ def index():
 def successful():
     return render_template('process.html')
 
+@app.route('/postCheckList',methods = ['POST']) 
+def postCheckList():
+
+
+    if(request.method == "POST"):
+        year = None
+        team = None
+        gender = None
+        sport = None
+        team = request.form['teamName']
+        year = request.form['teamYear']
+        sport = request.form['teamSport']
+        list1 = request.form.getlist('checkboxVal')
+        count = len(list1)
+        teamid = sport+team+str(year)
+
+        print(sport)
+        print(team)
+        print(year)
+        print(count)
+        putItem(sport,team,year,count)
+
+
+        return render_template('postedList.html', teamId=teamid)
+    else:
+        return render_template('postedList.html', teamId="nothing is processed")
+
+
+    return render_template('postedList.html', teamId="nothing is processed")
+
 if __name__ == '__main__':
-    app.run(debug=False)
+    app.run(debug=True)

@@ -32,8 +32,8 @@
     </div>
 
     <div class="justify-content-center row" align='center'>
-      <button type="button" class="aboutBtn btn btn-dark">About</button>
-      <button type="button" class="userBtn btn btn-dark">User Guide</button>
+      <button type="button" class="aboutBtn btn btn-dark"><a href="about.html"> About</a></button>
+      <button type="button" class="userBtn btn btn-dark"><a href="userguide.html">User Guide</a></button>
     </div>
 
     <div class="justify-content-center row" align='center'>
@@ -95,12 +95,17 @@
       </table>
       
     <div class="row checkList">
-      <form action='/' method="POST" enctype="multipart/form-data">
+      <form action='/postCheckList' method="POST" enctype="multipart/form-data">
+        <div>
+          <input type="text" name=teamName value="{{team_name}}" readonly="readonly">
+          <input type="text" name=teamYear value="{{team_year}}" readonly="readonly">
+          <input type="text" name=teamSport value="{{team_sport}}"readonly="readonly">
+        </div>
         <ul style="list-style: none;">
           <!-- For loop logic of jinja template -->
           {%for i in range(0, len1)%}
           <br class="row float-left">
-            <li class="col"><input style="margin-top: 8px;" class = "float-left" type="checkbox" name="box" value="{{i}}"><div style="text-align: justify; margin-left: 25px;">
+            <li class="col"><input style="margin-top: 8px;" class = "float-left" type="checkbox" name="checkboxVal" value="{{list1[i]}}"><div style="text-align: justify; margin-left: 25px;">
               {{list1[i].strip()}}
             </div></li>
         </br>

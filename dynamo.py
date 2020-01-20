@@ -65,7 +65,4 @@ def putItem(sport, teamName, year, count):
 	if (DEBUG): 
 		print(response)  
 
-
-
-if __name__ == '__main__':
-	putItem("basketball", "duke", 2018, 8)
+	
