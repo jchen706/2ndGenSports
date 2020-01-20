@@ -21,6 +21,66 @@
 
   </script>
 
+  <script type="text/javascript">
+    function populate(s1, s2){
+      var s1 = document.getElementById(s1);
+      var s2 = document.getElementById(s2);
+      s2.innerHTML = "";
+      console.log("in func");
+      if(s1.value == "male"){
+        var optionArr = ["basketball|Basketball","football|Football"];
+        console.log("male");
+      } else if(s1.value == "female"){
+        console.log("female");
+         var optionArr = ["basketball|Basketball"];
+      }
+      var i =0;
+      for(var option in optionArr){
+        console.log(i);
+        i++;
+        var pair = optionArray[option].split("|");
+        var newOption = document.createElement("option");
+        newOption.value = pair[0];
+
+        newOption.innerHTML = pair[1];
+        console.log(pair[0]);
+        console.log(pair[1]);
+        s2.options.add(newOption);
+
+      }
+    }
+  </script>
+
+  <script type="text/javascript">
+    function populate2(s1,s2,s3){
+      var s1 = document.getElementById(s1);
+      var s2 = document.getElementById(s2);
+      var s3 = document.getElementById(s3);
+      s3.innerHTML = "";
+      if(s2.value = "female"){
+        var optionArr = ["wbasketballteams|wBasketballteams"];
+      } else if(s1.value = "basketball"){
+        var optionArr = ["basketballteams|Basketballteams"];
+      } else if(s1.value = "football"){
+        var optionArr = ["footballteams|Footballteams"];
+      }
+      var i = 0;
+      for(var option in optionArr){
+        console.log(i);
+        i++;
+        var pair = optionArray[option].split("|");
+        var newOption = document.createElement("option");
+        newOption.value = pair[0];
+
+        newOption.innerHTML = pair[1];
+        console.log(pair[0]);
+        console.log(pair[1]);
+        s3.options.add(newOption);
+
+      }
+    }
+  </script>>
+
 </head>
 
 <body>
@@ -41,23 +101,26 @@
       <form action='/' method="POST" enctype="multipart/form-data">
 
         <div class="form-group">
+
           <label class="year-label " for="year">Year:</label>
-          <input type="text" name="year" id='year1'>
+            <input type="text" name="year" id='year1'>
 
-          <label class="team-label " for="team">Team:</label>
-          <input type="text" name="team" id='team1'>
-
-          <select class="mdb-select md-form" searchable="Search here.." name="sport">
-            <option value="" disabled selected>Choose Your Sport</option>
-            <option value="basketball">Basketball</option>
-            <option value="football">Football</option>
-          </select>
-
-          <select class="mdb-select md-form" searchable="Search here.." name="gender">
+          <select id="gender" class="mdb-select md-form" searchable="Search here.." name="gender" onchange="populate(this.id,'sport')">
             <option value="" disabled selected>Choose Your Gender</option>
             <option value="male">Male</option>
             <option value="female">Female</option>
           </select>
+
+          <select id="sport" class="mdb-select md-form" searchable="Search here.." name="sport" onchange="populate2(this.id, 'gender', 'team')">
+                          <option value="mas">none</option>
+          </select>
+
+          <select id="team" class="mdb-select md-form" searchable="Search here.." name = "team">
+            <option value="n">no team</option>
+          </select>
+
+
+
 
           <div class="file-field">
             <input type="file" name="pdffile">
@@ -93,7 +156,7 @@
             </tr>
           </tbody>
       </table>
-      
+
     <div class="row checkList">
       <form action='/postCheckList' method="POST" enctype="multipart/form-data">
         <div>

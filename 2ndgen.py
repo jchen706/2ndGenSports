@@ -22,7 +22,7 @@ from tika import parser
 import re
 
 from nltk.tokenize import sent_tokenize
-from dynamo import putItem as putItem
+#from dynamo import putItem as putItem
 
 
 
@@ -319,7 +319,7 @@ def index():
                 #     count+=1
 
 
-             
+
 
 
 
@@ -392,7 +392,7 @@ def index():
 def successful():
     return render_template('process.html')
 
-@app.route('/postCheckList',methods = ['POST']) 
+@app.route('/postCheckList',methods = ['POST'])
 def postCheckList():
 
 
