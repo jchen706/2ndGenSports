@@ -2,11 +2,11 @@
 
 ## Team
 
-Jun Chen
-Phillip Hong
-Justin Chiu
-Eric Vizcaya-Eternod
-Jesus Gonzalez
+1. Jun Chen
+2. Phillip Hong
+3. Justin Chiu
+4. Eric Vizcaya-Eternod
+5. Jesus Gonzalez
 
 ## Setup
 
