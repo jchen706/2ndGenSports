@@ -32,7 +32,7 @@ def putItem(sport, teamName, year, count):
 		count = int(count) 
 
 	
-	#checking if sport and teamName are all lowercase and stripping them of beginning and ending whitespace
+	#checking if sport and teamName are all lowercase and them of beginning and ending whitespace
 	if not (sport.islower()):
 		sport = sport.lower()  
 
@@ -63,9 +63,48 @@ def putItem(sport, teamName, year, count):
 	)   
 
 	if (DEBUG): 
-		print(response)  
+		print(response)   
+
+def getItem(sport, teamName, year): 
+
+	#checking if sport variable is a string
+	if not (type(sport) == str):
+		sport = str(sport) 
+	
+	#checking if teamName variable is a string
+	if not (type(teamName) == str):
+		teamName = str(teamName)
+	
+	#checking if year variable is an int
+	if not (type(year) == int):
+		year = int(year)
+	
+	
+	#checking if sport and teamName are all lowercase and them of beginning and ending whitespace
+	if not (sport.islower()):
+		sport = sport.lower()  
+
+	sport = sport.strip()
+
+	if not (teamName.islower()):
+		teamName = teamName.lower()
+
+	teamName = teamName.strip()
+	
+
+	#creating ID which is used to uniquely identify the data in the database
+	ID = sport + teamName + str(year)
+
+	response = table.get_item(
+		Key = {
+			"ID": ID
+		} 
+	) 
+	
+	return response["Item"] 
 
 
 
 if __name__ == '__main__':
-	putItem("basketball", "duke", 2018, 8)
+	putItem("basketball", "duke", 2018, 8) 
+	print(getItem("basketball", "duke", 2018))
