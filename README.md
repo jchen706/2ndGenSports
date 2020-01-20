@@ -1,12 +1,12 @@
 # 2nd Generation Sports
 
-## Team
+## Team & Contact Information
 
-1. Jun Chen
-2. Phillip Hong
-3. Justin Chiu
-4. Eric Vizcaya-Eternod
-5. Jesus Gonzalez
+1. Jun Chen  jchen706@gatech.edu 
+2. Phillip Hong phong9@gatech.edu 
+3. Justin Chiu jchiu33@gatech.edu 
+4. Eric Vizcaya-Eternod eve6@gatech.edu
+5. Jesus Gonzalez jgonzalez314@gatech.edu 
 
 ## Setup
 
