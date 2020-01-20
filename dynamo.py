@@ -32,7 +32,7 @@ def putItem(sport, teamName, year, count):
 		count = int(count) 
 
 	
-	#checking if sport and teamName are all lowercase and them of beginning and ending whitespace
+	#checking if sport and teamName are all lowercase and stripping them of beginning and ending whitespace
 	if not (sport.islower()):
 		sport = sport.lower()  
 
