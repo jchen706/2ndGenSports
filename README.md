@@ -31,11 +31,17 @@ Go to the respository root directory.
 Application currently runs on localhost:5000
 
 ## More Information
-first time installing ntlk, you'll have to download the library 
-so you have to put nltk.download() in the 2ndgen.py , comment out that line after the first time trial
+First time installing ntlk, you'll have to download the library 
+so you have to put nltk.download() in the 2ndgen.py , comment out that line after  the first time trial or on command line python editor
+here:
+
+```python
+import nltk
+nltk.download('punkt')
+```
 
 
-So upload Pdf words. 
+
 Don't use Pypdf2, the pdf extraction is terrible. 
 
 Current pdf extraction uses tika, which uses a multithread virtual machine to process text. Works pretty fast 196 pages in less than 1 minute.
