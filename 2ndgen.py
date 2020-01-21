@@ -319,7 +319,7 @@ def index():
                 #     count+=1
 
 
-             
+
 
 
 
@@ -357,7 +357,6 @@ def index():
 
                 # list3 = []
                 # for i in range(len(list1)):
-                #     b = list1[i].split('•')
                 #     list3.append(b)
 
                 # diction = {}
@@ -392,7 +391,7 @@ def index():
 def successful():
     return render_template('process.html')
 
-@app.route('/postCheckList',methods = ['POST']) 
+@app.route('/postCheckList',methods = ['POST'])
 def postCheckList():
 
 
