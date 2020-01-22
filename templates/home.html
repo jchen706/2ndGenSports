@@ -11,6 +11,26 @@
 
   <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='homestyle.css') }}">
 
+<script type="text/javascript">// <![CDATA[
+        function loading(){
+
+            $("#load").show();
+            if(processed){
+              $("#load").hide();
+            }
+
+        }
+// ]]></script>
+<style type="text/css">
+  div#loading{
+    width: 35px;
+    height: 35px;
+    display: none;
+    background: url(/static/loadingimg.gif);
+    cursor: wait;
+  }
+
+</style>
 </head>
 
 <body>
@@ -104,9 +124,13 @@
 
 
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary" onclick="loading();">Submit</button>
       </form>
     </div>
+
+    <div id="load" > loading hereeeeee</div>
+
+
     <div class="justify-content-center row" align='center'>
 
 
