@@ -14,20 +14,21 @@
 <script type="text/javascript">// <![CDATA[
         function loading(){
 
-            $("#load").show();
-            if(processed){
-              $("#load").hide();
-            }
+          $("#loading").show();
+
+          $("#content").hide();
+            // $("#include").load("process.html");
 
         }
 // ]]></script>
 <style type="text/css">
   div#loading{
-    width: 35px;
-    height: 35px;
+    width: 500px;
+    height: 500px;
     display: none;
-    background: url(/static/loadingimg.gif);
+    background: url(/process.html);
     cursor: wait;
+    margin-left: 100px;
   }
 
 </style>
@@ -128,8 +129,19 @@
       </form>
     </div>
 
-    <div id="load" > loading hereeeeee</div>
+    <div id="include">
 
+    </div>
+
+     <div id="loading" style="margin-left: 400px;">
+        <img src="https://media.giphy.com/media/jAYUbVXgESSti/giphy.gif" alt="loading" width="460" height="345">
+
+    </div>
+<!--
+    <div id="include">
+
+    </div>
+-->
 
     <div class="justify-content-center row" align='center'>
 
