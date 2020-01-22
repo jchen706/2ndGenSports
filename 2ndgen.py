@@ -357,7 +357,6 @@ def index():
 
                 # list3 = []
                 # for i in range(len(list1)):
-                #     b = list1[i].split('•')
                 #     list3.append(b)
 
                 # diction = {}
