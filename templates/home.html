@@ -10,16 +10,6 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
   <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='homestyle.css') }}">
-  <script type="text/javascript" src="../static/hilitor.js"></script>
-  <script type="text/javascript">
-
-  var myHilitor = new Hilitor(); // id of the element to parse
-  document.addEventListener("DOMContentLoaded", function() {
-    myHilitor = new Hilitor();
-    myHilitor.apply("father parent mother parents Father Mother dad Dad Mom mom");
-   }, false);
-
-  </script>
 
   <script type="text/javascript">
     function populate(s1, s2){
@@ -157,14 +147,19 @@
           </tbody>
       </table>
 
+<<<<<<< HEAD
     <div class="row checkList">
       <form action='/postCheckList' method="POST" enctype="multipart/form-data">
+=======
+    <div id="checkL" class="row checkList">
+      <form id="clForm" action='/postCheckList' method="POST" enctype="multipart/form-data">
+>>>>>>> 0b1c8df8dc284cc5a15d6285edbce2a57c694996
         <div>
           <input type="text" name=teamName value="{{team_name}}" readonly="readonly">
           <input type="text" name=teamYear value="{{team_year}}" readonly="readonly">
           <input type="text" name=teamSport value="{{team_sport}}"readonly="readonly">
         </div>
-        <ul style="list-style: none;">
+        <ul id="cList" style="list-style: none;">
           <!-- For loop logic of jinja template -->
           {%for i in range(0, len1)%}
           <br class="row float-left">
@@ -177,6 +172,19 @@
           <input type="submit" value="Submit">
       </form>
     </div>
+
+    <script type="text/javascript" src="../static/hilitor.js"></script>
+    <script type="text/javascript">
+
+    var myHilitor;
+    document.getElementById("cList").addEventListener("mouseover", function() {
+      myHilitor = new Hilitor();
+      myHilitor.apply("father parent mother parents Father Mother dad Dad Mom mom");
+      console.log("highlighting later ")
+     }, false);
+    console.log("highlighter applied later");
+
+    </script>
 
       {% else %}
 
