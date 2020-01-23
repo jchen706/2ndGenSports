@@ -22,7 +22,11 @@ from tika import parser
 import re
 
 from nltk.tokenize import sent_tokenize
+<<<<<<< HEAD
 #from dynamo import putItem as putItem
+=======
+from dynamo import putItem as putItem
+>>>>>>> e6e80fb64f3a13a33de093bb8eda3ec3170fa0ca
 
 
 
@@ -319,7 +323,11 @@ def index():
                 #     count+=1
 
 
+<<<<<<< HEAD
              
+=======
+
+>>>>>>> e6e80fb64f3a13a33de093bb8eda3ec3170fa0ca
 
 
 
@@ -357,7 +365,6 @@ def index():
 
                 # list3 = []
                 # for i in range(len(list1)):
-                #     b = list1[i].split('•')
                 #     list3.append(b)
 
                 # diction = {}
@@ -392,7 +399,11 @@ def index():
 def successful():
     return render_template('process.html')
 
+<<<<<<< HEAD
 @app.route('/postCheckList',methods = ['POST']) 
+=======
+@app.route('/postCheckList',methods = ['POST'])
+>>>>>>> e6e80fb64f3a13a33de093bb8eda3ec3170fa0ca
 def postCheckList():
 
 

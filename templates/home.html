@@ -87,7 +87,10 @@
     </div>
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> e6e80fb64f3a13a33de093bb8eda3ec3170fa0ca
     <div class="justify-content-center row" align='center'>
 
       <form action='/' method="POST" enctype="multipart/form-data">
@@ -145,15 +148,26 @@
             </tr>
           </tbody>
       </table>
+<<<<<<< HEAD
       
     <div class="row checkList">
       <form action='/postCheckList' method="POST" enctype="multipart/form-data">
         <div>
+=======
+
+    <div id="checkL" class="row checkList">
+      <form id="clForm" action='/postCheckList' method="POST" enctype="multipart/form-data">
+        <div style="margin-left: 50px">
+>>>>>>> e6e80fb64f3a13a33de093bb8eda3ec3170fa0ca
           <input type="text" name=teamName value="{{team_name}}" readonly="readonly">
           <input type="text" name=teamYear value="{{team_year}}" readonly="readonly">
           <input type="text" name=teamSport value="{{team_sport}}"readonly="readonly">
         </div>
+<<<<<<< HEAD
         <ul style="list-style: none;">
+=======
+        <ul id="cList" style="list-style: none;">
+>>>>>>> e6e80fb64f3a13a33de093bb8eda3ec3170fa0ca
           <!-- For loop logic of jinja template -->
           {%for i in range(0, len1)%}
           <br class="row float-left">
@@ -163,9 +177,28 @@
         </br>
           {%endfor%}
         </ul>
+<<<<<<< HEAD
           <input type="submit" value="Submit">
       </form>
     </div>
+=======
+          <input type="submit" value="Submit" style="margin-bottom: 30px; margin-left: 50px;">
+      </form>
+    </div>
+
+    <script type="text/javascript" src="../static/hilitor.js"></script>
+    <script type="text/javascript">
+
+    var myHilitor;
+    document.getElementById("cList").addEventListener("mouseover", function() {
+      myHilitor = new Hilitor();
+      myHilitor.apply("father parent mother parents Father Mother dad Dad Mom mom");
+      console.log("highlighting later ")
+     }, false);
+    console.log("highlighter applied later");
+
+    </script>
+>>>>>>> e6e80fb64f3a13a33de093bb8eda3ec3170fa0ca
 
       {% else %}
 
