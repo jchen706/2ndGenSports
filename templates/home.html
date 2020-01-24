@@ -10,18 +10,6 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
   <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='homestyle.css') }}">
-  <script type="text/javascript" src="../static/hilitor.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-  <script type="text/javascript">
-
-  var myHilitor = new Hilitor(); // id of the element to parse
-  document.addEventListener("DOMContentLoaded", function() {
-    myHilitor = new Hilitor();
-    myHilitor.apply("father parent mother parents Father Mother dad Dad Mom mom");
-   }, false);
-
-  </script>
 
 </head>
 
@@ -87,10 +75,6 @@
     </div>
 
 
-<<<<<<< HEAD
-
-=======
->>>>>>> e6e80fb64f3a13a33de093bb8eda3ec3170fa0ca
     <div class="justify-content-center row" align='center'>
 
       <form action='/' method="POST" enctype="multipart/form-data">
@@ -127,47 +111,37 @@
 
 
       {% if processed %}
-      <table class="table">
-          <thead>
-            <tr>
-              <th scope="col">Team</th>
-              <th scope="col">Year</th>
-              <th scope="col">Sport</th>
-              <th scope="col">Gender</th>
-              <th scope="col">Count</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-
-              <th scope="row">{{team_name}}</th>
-              <td>{{team_year}}</td>
-              <td>{{team_sport}}</td>
-              <td>{{team_gender}}</td>
-              <td>{{len1}}</td>
-            </tr>
-          </tbody>
-      </table>
-<<<<<<< HEAD
-      
-    <div class="row checkList">
-      <form action='/postCheckList' method="POST" enctype="multipart/form-data">
-        <div>
-=======
+     
 
     <div id="checkL" class="row checkList">
       <form id="clForm" action='/postCheckList' method="POST" enctype="multipart/form-data">
-        <div style="margin-left: 50px">
->>>>>>> e6e80fb64f3a13a33de093bb8eda3ec3170fa0ca
-          <input type="text" name=teamName value="{{team_name}}" readonly="readonly">
-          <input type="text" name=teamYear value="{{team_year}}" readonly="readonly">
-          <input type="text" name=teamSport value="{{team_sport}}"readonly="readonly">
+        <div style="margin-left: 70px">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Team</th>
+                <th scope="col">Year</th>
+                <th scope="col">Sport</th>
+                <th scope="col">Gender</th>
+                <th scope="col">Count</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+  
+                <th scope="row"> <input  style="border: none;"class ="inputPost" type="text" name=teamName value="{{team_name}}" readonly="readonly"></th>
+                <td> <input  style="border: none;" class ="inputPost" type="text" name=teamYear value="{{team_year}}" readonly="readonly">
+                </td>
+                <td> <input  style="border: none;" class = "inputPost" type="text" name=teamSport value="{{team_sport}}"readonly="readonly"></td>
+                <td>{{team_gender}}</td>
+                <td>{{len1}}</td>
+              </tr>
+            </tbody>
+        </table>
+         
+         
         </div>
-<<<<<<< HEAD
-        <ul style="list-style: none;">
-=======
         <ul id="cList" style="list-style: none;">
->>>>>>> e6e80fb64f3a13a33de093bb8eda3ec3170fa0ca
           <!-- For loop logic of jinja template -->
           {%for i in range(0, len1)%}
           <br class="row float-left">
@@ -177,11 +151,6 @@
         </br>
           {%endfor%}
         </ul>
-<<<<<<< HEAD
-          <input type="submit" value="Submit">
-      </form>
-    </div>
-=======
           <input type="submit" value="Submit" style="margin-bottom: 30px; margin-left: 50px;">
       </form>
     </div>
@@ -198,7 +167,6 @@
     console.log("highlighter applied later");
 
     </script>
->>>>>>> e6e80fb64f3a13a33de093bb8eda3ec3170fa0ca
 
       {% else %}
 

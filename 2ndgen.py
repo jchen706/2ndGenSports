@@ -22,11 +22,8 @@ from tika import parser
 import re
 
 from nltk.tokenize import sent_tokenize
-<<<<<<< HEAD
-#from dynamo import putItem as putItem
-=======
 from dynamo import putItem as putItem
->>>>>>> e6e80fb64f3a13a33de093bb8eda3ec3170fa0ca
+from dynamo import getItem as getItem
 
 
 
@@ -323,11 +320,7 @@ def index():
                 #     count+=1
 
 
-<<<<<<< HEAD
-             
-=======
 
->>>>>>> e6e80fb64f3a13a33de093bb8eda3ec3170fa0ca
 
 
 
@@ -399,11 +392,7 @@ def index():
 def successful():
     return render_template('process.html')
 
-<<<<<<< HEAD
-@app.route('/postCheckList',methods = ['POST']) 
-=======
 @app.route('/postCheckList',methods = ['POST'])
->>>>>>> e6e80fb64f3a13a33de093bb8eda3ec3170fa0ca
 def postCheckList():
 
 
@@ -423,10 +412,14 @@ def postCheckList():
         print(team)
         print(year)
         print(count)
+        added = False
         putItem(sport,team,year,count)
 
+        added = True
+        item1 = getItem(sport,team, year)
 
-        return render_template('postedList.html', teamId=teamid)
+
+        return render_template('postedList.html', added1 = added , item11 = item1)
     else:
         return render_template('postedList.html', teamId="nothing is processed")
 
@@ -434,4 +427,4 @@ def postCheckList():
     return render_template('postedList.html', teamId="nothing is processed")
 
 if __name__ == '__main__':
-    app.run(debug=False)
+    app.run(debug=True)

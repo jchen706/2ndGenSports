@@ -16,9 +16,33 @@
 
 
 <body>
-    <h1>{{teamId}}</h1>
 
-
-    
+  <div class="container-fluid" style="margin-top: 10vh;">
+    <div class="justify-content-center row" align='center'>
+      <h1 class="display-4" style="color: #b5e7a0;">Success</h1>
+      <h4>Item Submitted:</h4>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Team</th>
+            <th scope="col">Year</th>
+            <th scope="col">Sport</th>
+            <th scope="col">Count</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">{{item11['TeamName'].upper()}} </th>
+            <td>{{item11['Year']}} </td>
+            <td>{{item11['Sport']}} </td>
+            <td>{{item11['Count']}}</td>
+          </tr>
+        </tbody>
+    </table>
+    <form action='/' method="GET" enctype="multipart/form-data">
+      <button type="submit" class="userBtn btn btn-dark">Home</button>
+    </form>
+    </div>
+  </div>
 </body>
 </html>
