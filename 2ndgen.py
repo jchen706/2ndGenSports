@@ -23,6 +23,7 @@ import re
 
 from nltk.tokenize import sent_tokenize
 from dynamo import putItem as putItem
+from dynamo import getItem as getItem
 
 
 
@@ -411,10 +412,14 @@ def postCheckList():
         print(team)
         print(year)
         print(count)
+        added = False
         putItem(sport,team,year,count)
 
+        added = True
+        item1 = getItem(sport,team, year)
 
-        return render_template('postedList.html', teamId=teamid)
+
+        return render_template('postedList.html', added1 = added , item11 = item1)
     else:
         return render_template('postedList.html', teamId="nothing is processed")
 
