@@ -21,7 +21,7 @@
     <div class="justify-content-center row" align='center'>
       <h1 class="display-4" style="color: #b5e7a0;">Success</h1>
       <h4>Item Submitted:</h4>
-      <table class="table">
+      <table id="postedTable" class="table">
         <thead>
           <tr>
             <th scope="col">Team</th>
@@ -42,6 +42,28 @@
     <form action='/' method="GET" enctype="multipart/form-data">
       <button type="submit" class="userBtn btn btn-dark">Home</button>
     </form>
+    <button id="btnExportToCsv" type="button" class="button">Export to CSV</button>
+    <script type="text/javascript" src="../static/TableCSVExporter.js" ></script>
+    <script>
+        const dataTable = document.getElementById("postedTable");
+        const btnExportToCsv = document.getElementById("btnExportToCsv");
+
+        btnExportToCsv.addEventListener("click", () => {
+            const exporter = new TableCSVExporter(dataTable);
+            const csvOutput = exporter.convertToCSV();
+            const csvBlob = new Blob([csvOutput], { type: "text/csv" });
+            const blobUrl = URL.createObjectURL(csvBlob);
+            const anchorElement = document.createElement("a");
+
+            anchorElement.href = blobUrl;
+            anchorElement.download = "table-export.csv";
+            anchorElement.click();
+
+            setTimeout(() => {
+                URL.revokeObjectURL(blobUrl);
+            }, 500);
+        });
+    </script>
     </div>
   </div>
 </body>
