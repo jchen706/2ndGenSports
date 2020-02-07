@@ -189,6 +189,11 @@ def updateItem(sport, teamName, year, count):
 		} 
 	)
 
+def getAllItems():
+
+	response = table.scan() 
+
+	return response["Items"]
 
 
 
@@ -198,4 +203,5 @@ if __name__ == '__main__':
 	print(getItem("basketball", "duke", 2018)) 
 	#deleteItem("basketball", "duke", 2018) 
 	updateItem("basketball", "duke", 2018, 20) 
-	print(getItem("basketball", "duke", 2018)) 
+	print(getItem("basketball", "duke", 2018))  
+	print(getAllItems())
