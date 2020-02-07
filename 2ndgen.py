@@ -22,8 +22,8 @@ from tika import parser
 import re
 
 from nltk.tokenize import sent_tokenize
-from dynamo import putItem as putItem
-from dynamo import getItem as getItem
+from dynamo import * 
+
 
 
 
@@ -416,15 +416,27 @@ def postCheckList():
         putItem(sport,team,year,count)
 
         added = True
-        item1 = getItem(sport,team, year)
+        item1 = getItem(sport,team, year) 
+        item1 = [item1]
 
 
-        return render_template('postedList.html', added1 = added , item11 = item1)
+        return render_template('postedList.html', added1 = added , items = item1)
     else:
         return render_template('postedList.html', teamId="nothing is processed")
 
 
     return render_template('postedList.html', teamId="nothing is processed")
+
+
+@app.route('/getAll', methods = ['GET']) 
+def getAllData():
+
+
+    if(request.method == "GET"): 
+        items = getAllItems() 
+        added = False
+
+        return render_template('postedList.html', added1 = added, items = items)
 
 if __name__ == '__main__':
     app.run(debug=True)
