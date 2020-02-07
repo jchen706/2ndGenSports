@@ -30,18 +30,28 @@
             <th scope="col">Count</th>
           </tr>
         </thead>
-        <tbody>
-          <tr>
-            <th scope="row">{{item11['TeamName'].upper()}} </th>
-            <td>{{item11['Year']}} </td>
-            <td>{{item11['Sport']}} </td>
-            <td>{{item11['Count']}}</td>
-          </tr>
+        <tbody> 
+          {%for item in items%}
+          <tr> 
+            <th scope="row">{{item['TeamName'].upper()}} </th>
+            <td>{{item['Year']}} </td>
+            <td>{{item['Sport']}} </td>
+            <td>{{item['Count']}}</td>
+          </tr> 
+          {%endfor%}
         </tbody>
     </table>
     <form action='/' method="GET" enctype="multipart/form-data">
       <button type="submit" class="userBtn btn btn-dark">Home</button>
-    </form>
+    </form> 
+
+
+    <form action= '/getAll' method='GET' enctype="multipart/form-data"> 
+      <button type='submit' class="userBtn btn btn-dark">Get All Data</button> 
+    </form> 
+
+
+
     <button id="btnExportToCsv" type="button" class="button">Export to CSV</button>
     <script type="text/javascript" src="../static/TableCSVExporter.js" ></script>
     <script>

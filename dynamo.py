@@ -101,10 +101,107 @@ def getItem(sport, teamName, year):
 		}
 	)
 
-	return response["Item"]
+	return response["Item"] 
+
+def deleteItem(sport, teamName, year): 
+
+	#checking if sport variable is a string
+	if not (type(sport) == str):
+		sport = str(sport)
+
+	#checking if teamName variable is a string
+	if not (type(teamName) == str):
+		teamName = str(teamName)
+
+	#checking if year variable is an int
+	if not (type(year) == int):
+		year = int(year)
+
+
+	#checking if sport and teamName are all lowercase and them of beginning and ending whitespace
+	if not (sport.islower()):
+		sport = sport.lower()
+
+	sport = sport.strip()
+
+	if not (teamName.islower()):
+		teamName = teamName.lower()
+
+	teamName = teamName.strip()
+
+
+	#creating ID which is used to uniquely identify the data in the database
+	ID = sport + teamName + str(year) 
+
+	response = table.delete_item( 
+		Key = { 
+			"ID" : ID 
+		}
+	) 
+
+	if (DEBUG):
+		print(response) 
+
+def updateItem(sport, teamName, year, count): 
+
+	#checking if sport variable is a string
+	if not (type(sport) == str):
+		sport = str(sport)
+
+	#checking if teamName variable is a string
+	if not (type(teamName) == str):
+		teamName = str(teamName)
+
+	#checking if year variable is an int
+	if not (type(year) == int):
+		year = int(year) 
+
+	#checking if count variable is an int
+	if not (type(count) == int):
+		count = int(count)
+
+
+	#checking if sport and teamName are all lowercase and them of beginning and ending whitespace
+	if not (sport.islower()):
+		sport = sport.lower()
+
+	sport = sport.strip()
+
+	if not (teamName.islower()):
+		teamName = teamName.lower()
+
+	teamName = teamName.strip()
+
+
+	#creating ID which is used to uniquely identify the data in the database
+	ID = sport + teamName + str(year)  
+
+	response = table.update_item(
+		Key = {
+			"ID" : ID
+		}, 
+		UpdateExpression = "set #t = :i", 
+		ExpressionAttributeValues = {
+			':i' : count
+		}, 
+		ExpressionAttributeNames = { 
+			"#t" : "Count"
+		} 
+	)
+
+def getAllItems():
+
+	response = table.scan() 
+
+	return response["Items"]
+
 
 
 
 if __name__ == '__main__':
 	putItem("basketball", "duke", 2018, 8)
-	print(getItem("basketball", "duke", 2018))
+	print(getItem("basketball", "duke", 2018)) 
+	#deleteItem("basketball", "duke", 2018) 
+	updateItem("basketball", "duke", 2018, 20) 
+	print(getItem("basketball", "duke", 2018))  
+	print(getAllItems())
