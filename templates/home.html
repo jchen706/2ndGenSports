@@ -20,6 +20,70 @@
 
         }
 // ]]></script>
+<script type="text/javascript">
+  var created = 0;
+  var gcreated = 0;
+  function gdisplay(){
+    var temp="";
+      $("#sport").val(temp);
+  }
+  function display(){
+    if(created == 1){
+      removeDrop();
+    }
+    var sport = document.getElementById('sport');
+    var gender = document.getElementById('gender');
+
+    var whereToPut = document.getElementById('team');
+
+    if(gender.value == 'female' && sport.value == 'basketball'){
+
+      var listwb = ["South Carolina", "Baylor", "Oregon", "UConn", "Louisville", "Stanford", "N.C. State", "Mississippi St.", "Oregon St.", "UCLA"];
+
+      for(var i = 0; i < listwb.length; i++){
+        var option=document.createElement("option");
+        option.text=listwb[i];
+        whereToPut.add(option,whereToPut.options[null]);
+      }
+      var temp="";
+      $("#team").val(temp);
+    } else if(sport.value == 'basketball' && gender.value == 'male'){
+
+      var listb = ["Clemson", "Ohio State", "LSU", "San Diego State", "Louisville", "Dayton", "Duke", "Florida State", "Maryland", "Villanova"];
+
+      for(var i = 0; i < listb.length; i++){
+        var option=document.createElement("option");
+        option.text=listb[i];
+        whereToPut.add(option,whereToPut.options[null]);
+      }
+      var temp="";
+      $("#team").val(temp);
+    }else if(sport.value == 'football' && gender.value == 'male'){
+      var listf = ["Clemson", "Ohio State", "LSU", "Georgia", "Oregon", "Florida", "Oklahoma", "Alabama", "Penn State", "Minnesota"];
+
+      for(var i = 0; i < listf.length; i++){
+        var option=document.createElement("option");
+        option.text=listf[i];
+        whereToPut.add(option,whereToPut.options[null]);
+      }
+      var temp="";
+      $("#team").val(temp);
+
+    }else{
+      var option=document.createElement("option");
+        option.text="No Teams";
+        option.disabled = true;
+        whereToPut.add(option,whereToPut.options[null]);
+    }
+    created = 1;
+  }
+  function removeDrop() {
+            $('#team').empty();
+        }
+  function gremoveDrop() {
+            $('#sport').empty();
+        }
+</script>
 <style type="text/css">
   div #loadingGif{
     width: 500px;
@@ -102,21 +166,40 @@
 
         <div class="form-group">
           <label class="year-label " for="year">Year:</label>
-          <input type="text" name="year" id='year1'>
+          <select id="year" class="mdb-select md-form" searchable="Search here.." name="year" >
+            <option value="" disabled selected>Choose Your Year</option>
+            <option value="2003">2003</option>
+            <option value="2004">2004</option>
+            <option value="2005">2005</option>
+            <option value="2006">2006</option>
+            <option value="2007">2007</option>
+            <option value="2008">2008</option>
+            <option value="2009">2009</option>
+            <option value="2010">2010</option>
+            <option value="2011">2011</option>
+            <option value="2012">2012</option>
+            <option value="2013">2013</option>
+            <option value="2014">2014</option>
+            <option value="2015">2015</option>
+            <option value="2016">2016</option>
+            <option value="2017">2017</option>
+            <option value="2018">2018</option>
+          </select>
 
-          <label class="team-label " for="team">Team:</label>
-          <input type="text" name="team" id='team1'>
+          <select id="gender" class="mdb-select md-form" searchable="Search here.." name="gender" onchange="gdisplay()">
+            <option value="" disabled selected>Choose Your Gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+          </select>
 
-          <select class="mdb-select md-form" searchable="Search here.." name="sport">
+          <select id="sport" class="mdb-select md-form" searchable="Search here.." name="sport" onchange="display()">
             <option value="" disabled selected>Choose Your Sport</option>
             <option value="basketball">Basketball</option>
             <option value="football">Football</option>
           </select>
 
-          <select class="mdb-select md-form" searchable="Search here.." name="gender">
-            <option value="" disabled selected>Choose Your Gender</option>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
+          <select id ="team" class="mdb-select md-form" searchable="Search here.."name="team" >
+            <option value="" disabled selected>Choose Your Team</option>
           </select>
 
           <div class="file-field">
@@ -145,7 +228,7 @@
 
 
       {% if processed %}
-     
+
 
     <div id="checkL" class="row checkList">
       <form id="clForm" action='/postCheckList' method="POST" enctype="multipart/form-data">
@@ -162,7 +245,7 @@
             </thead>
             <tbody>
               <tr>
-  
+
                 <th scope="row"> <input  style="border: none;"class ="inputPost" type="text" name=teamName value="{{team_name}}" readonly="readonly"></th>
                 <td> <input  style="border: none;" class ="inputPost" type="text" name=teamYear value="{{team_year}}" readonly="readonly">
                 </td>
@@ -172,8 +255,8 @@
               </tr>
             </tbody>
         </table>
-         
-         
+
+
         </div>
         <ul id="cList" style="list-style: none;">
           <!-- For loop logic of jinja template -->
@@ -185,7 +268,13 @@
         </br>
           {%endfor%}
         </ul>
-          <input type="submit" value="Submit" style="margin-bottom: 30px; margin-left: 50px;">
+
+
+
+         <div class="justify-content-center row" align='center'>
+            <input type="submit" class="btn btn-primary" value="Submit">
+         </div>
+          <!-- <input type="submit" value="Submit" style="margin-bottom: 30px; margin-left: 50px;"> -->
       </form>
     </div>
 
