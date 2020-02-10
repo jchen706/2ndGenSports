@@ -1,5 +1,19 @@
+body {
+    background: rgb(236,240,241);
+}
 
 
 .btn {
   margin: 10px;
+}
+.checkList {
+  text-align-last: left;
+}
+
+.inputPost {
+  border-top-style: hidden;
+  border-right-style: hidden;
+  border-left-style: hidden;
+  border-bottom-style: groove;
+  background-color: #eee;
 }

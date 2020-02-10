@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>2nd Generation Sports Success</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+
+
+<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='processList.css') }}">
+</head>
+
+
+<body>
+
+  <div class="container-fluid" style="margin-top: 10vh;">
+    <div class="justify-content-center row" align='center'>
+      <h1 class="display-4" style="color: #b5e7a0;">Success</h1>
+      <h4>Item Submitted:</h4>
+      <table id="postedTable" class="table">
+        <thead>
+          <tr>
+            <th scope="col">Team</th>
+            <th scope="col">Year</th>
+            <th scope="col">Sport</th>
+            <th scope="col">Count</th>
+          </tr>
+        </thead>
+        <tbody> 
+          {%for item in items%}
+          <tr> 
+            <th scope="row">{{item['TeamName'].upper()}} </th>
+            <td>{{item['Year']}} </td>
+            <td>{{item['Sport']}} </td>
+            <td>{{item['Count']}}</td>
+          </tr> 
+          {%endfor%}
+        </tbody>
+    </table>
+    <form action='/' method="GET" enctype="multipart/form-data">
+      <button type="submit" class="userBtn btn btn-dark">Home</button>
+    </form> 
+
+
+    <form action= '/getAll' method='GET' enctype="multipart/form-data"> 
+      <button type='submit' class="userBtn btn btn-dark">Get All Data</button> 
+    </form> 
+
+
+
+    <button id="btnExportToCsv" type="button" class="button">Export to CSV</button>
+    <script type="text/javascript" src="../static/TableCSVExporter.js" ></script>
+    <script>
+        const dataTable = document.getElementById("postedTable");
+        const btnExportToCsv = document.getElementById("btnExportToCsv");
+
+        btnExportToCsv.addEventListener("click", () => {
+            const exporter = new TableCSVExporter(dataTable);
+            const csvOutput = exporter.convertToCSV();
+            const csvBlob = new Blob([csvOutput], { type: "text/csv" });
+            const blobUrl = URL.createObjectURL(csvBlob);
+            const anchorElement = document.createElement("a");
+
+            anchorElement.href = blobUrl;
+            anchorElement.download = "table-export.csv";
+            anchorElement.click();
+
+            setTimeout(() => {
+                URL.revokeObjectURL(blobUrl);
+            }, 500);
+        });
+    </script>
+    </div>
+  </div>
+</body>
+</html>

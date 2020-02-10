@@ -16,12 +16,13 @@ import json
 import tika
 tika.initVM()
 from tika import parser
-import mysql.connector
-from mysql.connector import Error
+# import mysql.connector
+# from mysql.connector import Error
 
 import re
 
 from nltk.tokenize import sent_tokenize
+from dynamo import * 
 
 
 
@@ -58,9 +59,9 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 #         self.arg = arg
 
 
-@app.errorhandler(400)
-def bad_request(e):
-     return render_template('400.html'), 400
+# @app.errorhandler(400)
+# def bad_request(e):
+#      return render_template('400.html'), 400
 
 
 
@@ -86,10 +87,10 @@ def newIndex():
 
             file1 = request.files["pdffile"]
 
-            if (file.filename == ''):
+            if (file1.filename == ''):
                 flash('No file selected')
 
-            if(file and allowed_file(file.filename)):
+            if(file1 and allowed_file(file1.filename)):
                 file1.save(os.path.join(app.config['UPLOAD_FOLDER'], file1.filename))
                 print('file save')
 
@@ -221,7 +222,7 @@ def index():
                 pageObj = pdfReader.getPage(0)
 
                 # extracting text from page
-                print(pageObj.extractText())
+                #print(pageObj.extractText())
                 #text = textract.process(os.path.join(app.config['UPLOAD_FOLDER'], file1.filename), extension='pdf')
 
                 parsed = parser.from_file(os.path.join(file_path, file1.filename))
@@ -232,56 +233,69 @@ def index():
                 tokenizer_words = TweetTokenizer()
                 tokens_sentences = [tokenizer_words.tokenize(t) for t in nltk.sent_tokenize(input_text)]
                 #print(tokens_sentences)
-                wantedList=['parent','Parents', 'Father', 'Mother', 'father', 'mother', 'dad', 'Dad', 'Mom', 'mom']
+                wantedList=['parent','Parents', 'Father', 'Mother', 'father', 'mother', 'dad', 'Dad', 'Mom', 'mom', 'son', 'Son', 'daughter', 'Daughter']
                 count = 0
 
-                diction1 = {}
+                wantedListDictionary = {}
                 count1 = 0
-                list10 = []
+                wantedListSentences = []
                 for eachSentence in tokens_sentences:
-                    diction1[count1] = []
+                    wantedListDictionary[count1] = []
                     for each in wantedList:
                         if each in eachSentence:
                             #print(eachSentence)
                             #print(" ")
                             #print(" ")
                             aSentence =' '.join(eachSentence)
-                            diction1[count1].append(aSentence)
+                            #print(aSentence)
+                            wantedListDictionary[count1].append(aSentence)
                             count1+=1
-                            list10.append(aSentence)
+                            wantedListSentences.append(aSentence)
                             break
-                dictiona = {}
-                for j in range(len(list10)):
-                     dictiona[j] = []
-                     list00 = list10[j].split(' ')
-                     for i in range(len(list00)):
+                #print(wantedListSentences)
+                cuttedWantedListDictionary = {}
+                for j in range(len(wantedListSentences)):
+                     cuttedWantedListDictionary[j] = []
+                     shortenedSentences = wantedListSentences[j].split(' ')
+                     print(shortenedSentences)
+                     for i in range(len(shortenedSentences)):
                          for eachword in wantedList:
-                                if (eachword == list00[i]):
-                                   list00[i] = eachword
-                                   if (len(list00) < 20):
-                                       dictiona[j].append(list00)
+                                if (eachword == shortenedSentences[i]):
+                                   #hortenedSentences[i] = eachword
+                                   if (len(shortenedSentences) < 36):
+                                       print(11111)
+                                       print(eachword)
+                                       cuttedWantedListDictionary[j].append(shortenedSentences)
                                        break
                                    else:
                                      try:
                                          #print(list33[i-15:i+20])
-                                         a = list00[i-15:i+20]
-                                         dictiona[j].append(a)
+                                         print(22222)
+                                         print(eachword)
+                                         print(i)
+                                         print(len(shortenedSentences))
+                                         a = shortenedSentences[i-15:i+20]
+                                         print(a)
+                                         cuttedWantedListDictionary[j].append(a)
                                      except:
-                                        #print('pass')
-                                        a = list00[i:]
-                                        dictiona[j].append(a)
+                                        print(333333)
+                                        print(eachword)
+                                        a = shortenedSentences[i:]
+                                        print(a)
+                                        cuttedWantedListDictionary[j].append(a)
                                         #dic[count].append(a)
 
-                print('hereeeee')
+                #print('hereeeee')
 
-
+                #print(cuttedWantedListDictionary)
                 list33 = []
-                print(len(dictiona))
-                for key in dictiona:
-                    for ij in range(len(dictiona[key])):
-                         if(len(dictiona[key][0]) > 0):
-                             aSentence =' '.join(dictiona[key][0])
-                             list33.append(aSentence)
+                #print(len(cuttedWantedListDictionary))
+                for key in cuttedWantedListDictionary:
+                    for ij in range(len(cuttedWantedListDictionary[key])):
+                         if(len(cuttedWantedListDictionary[key][0]) > 0):
+                             aSentence =' '.join(cuttedWantedListDictionary[key][0])
+                             #print(aSentence)
+                             list33.append(aSentence.strip())
                              break
 
 
@@ -289,42 +303,36 @@ def index():
 
 
 
-                dic = {}
-                list3 = []
-                for key in diction1:
-                    count = 0
-                    if(len(diction1[key]) >=1):
-                        string = diction1[key][0]
-                        list2 = diction1[key][0].split(' ')
-                        dic[count] = []
-                        for i in range(len(list2)):
-                            for eachword in wantedList:
-                                if (eachword == list2[i]):
-                                   if (len(list2) < 20):
-                                       dic[count].append(list2)
-                                       break
-                                       list3.append(a)
-                                   else:
-                                     try:
-                                         print(list2[i-15:i+20])
-                                         a = list2[i-15:i+20]
-                                         dic[count].append(a)
-                                         list3.append(a)
-                                     except:
-                                        print('pass')
-                                        a = list2[i:]
-                                        list3.append(a)
-                                        dic[count].append(a)
-                    count+=1
+                # dic = {}
+                # list3 = []
+                # for key in wantedListDictionary:
+                #     count = 0
+                #     if(len(wantedListDictionary[key]) >=1):
+                #         string = wantedListDictionary[key][0]
+                #         list2 = wantedListDictionary[key][0].split(' ')
+                #         dic[count] = []
+                #         for i in range(len(list2)):
+                #             for eachword in wantedList:
+                #                 if (eachword == list2[i]):
+                #                    if (len(list2) < 20):
+                #                        dic[count].append(list2)
+                #                        break
+                #                        list3.append(a)
+                #                    else:
+                #                      try:
+                #                          print(list2[i-15:i+20])
+                #                          a = list2[i-15:i+20]
+                #                          dic[count].append(a)
+                #                          list3.append(a)
+                #                      except:
+                #                         print('pass')
+                #                         a = list2[i:]
+                #                         list3.append(a)
+                #                         dic[count].append(a)
+                #     count+=1
 
 
-                print(' ')
-                print(' ')
-                print(' here')
-                print(dic)
-                print(len(dic))
 
-                print(list3)
 
 
 
@@ -340,7 +348,7 @@ def index():
                         # r = re.compile(r'\b%s\b' % word, re.I)
                         # m = r.search(string)
                         # index = m.start()
-                    #    a = re.search(r'\b(father)\b', diction1[key][0])
+                    #    a = re.search(r'\b(father)\b', wantedListDictionary[key][0])
                 #        count12 = 0
                 #        for eachsegment in b:
                 #           container = []
@@ -362,7 +370,6 @@ def index():
 
                 # list3 = []
                 # for i in range(len(list1)):
-                #     b = list1[i].split('•')
                 #     list3.append(b)
 
                 # diction = {}
@@ -377,7 +384,7 @@ def index():
 
                 # closing the pdf file object
                 pdfFileObj.close()
-                print('file save')
+                #print('file save')
 
                 return render_template('home.html', processed = processed, team_name =team , team_year=year, team_gender=gender, team_sport=sport, list1 = list33, len1 = len(list33))
         else:
@@ -396,6 +403,52 @@ def index():
 @app.route('/processing')
 def successful():
     return render_template('process.html')
+
+@app.route('/postCheckList',methods = ['POST'])
+def postCheckList():
+
+
+    if(request.method == "POST"):
+        year = None
+        team = None
+        gender = None
+        sport = None
+        team = request.form['teamName']
+        year = request.form['teamYear']
+        sport = request.form['teamSport']
+        list1 = request.form.getlist('checkboxVal')
+        count = len(list1)
+        teamid = sport+team+str(year)
+
+        print(sport)
+        print(team)
+        print(year)
+        print(count)
+        added = False
+        putItem(sport,team,year,count)
+
+        added = True
+        item1 = getItem(sport,team, year) 
+        item1 = [item1]
+
+
+        return render_template('postedList.html', added1 = added , items = item1)
+    else:
+        return render_template('postedList.html', teamId="nothing is processed")
+
+
+    return render_template('postedList.html', teamId="nothing is processed")
+
+
+@app.route('/getAll', methods = ['GET']) 
+def getAllData():
+
+
+    if(request.method == "GET"): 
+        items = getAllItems() 
+        added = False
+
+        return render_template('postedList.html', added1 = added, items = items)
 
 if __name__ == '__main__':
     app.run(debug=True)
