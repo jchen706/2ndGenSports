@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>2nd Generation Sports Success</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='homestyle.css') }}">
+
+<script type="text/javascript">
+        function loading(){
+
+        //  $("#loadingGif").style;
+        document.getElementById("loaderid").style.visibility = "visible";
+        document.getElementById("f").style.visibility = "hidden";
+
+
+
+
+
+        }
+</script>
+<script type="text/javascript">
+  var created = 0;
+  var gcreated = 0;
+  function gdisplay(){
+    var temp="";
+      $("#sport").val(temp);
+  }
+  function display(){
+    if(created == 1){
+      removeDrop();
+    }
+    var sport = document.getElementById('sport');
+    var gender = document.getElementById('gender');
+
+    var whereToPut = document.getElementById('team');
+
+    if(sport.value == 'basketball'){
+
+      var listb = ["A&M-Corpus Christi",
+            "Abilene Christian",
+            "Air Force",
+            "Akron",
+            "Alabama",
+            "Alabama A&M",
+            "Alabama St.",
+            "Albany (NY)",
+            "Alcorn",
+            "American",
+            "Appalachian St.",
+            "Arizona",
+            "Arizona St.",
+            "Ark.-Pine Bluff",
+            "Arkansas",
+            "Arkansas St.",
+            "Army West Point",
+            "Auburn",
+            "Austin Peay",
+            "Ball St.",
+            "Baylor",
+            "Belmont",
+            "Bethune-Cookman",
+            "Binghamton",
+            "Boise St.",
+            "Boston College",
+            "Boston U.",
+            "Bowling Green",
+            "Bradley",
+            "Brown",
+            "Bryant",
+            "Bucknell",
+            "Buffalo",
+            "Butler",
+            "BYU",
+            "Cal Poly",
+            "Cal St. Fullerton",
+            "California",
+            "California Baptist",
+            "Campbell",
+            "Canisius",
+            "Central Ark.",
+            "Central Conn. St.",
+            "Central Mich.",
+            "Charleston So.",
+            "Charlotte",
+            "Chattanooga",
+            "Chicago St.",
+            "Cincinnati",
+            "Clemson",
+            "Cleveland St.",
+            "Coastal Carolina",
+            "Col. of Charleston",
+            "Colgate",
+            "Colorado",
+            "Colorado St.",
+            "Columbia",
+            "Coppin St.",
+            "Cornell",
+            "Creighton",
+            "CSU Bakersfield",
+            "CSUN",
+            "Dartmouth",
+            "Davidson",
+            "Dayton",
+            "Delaware",
+            "Delaware St.",
+            "Denver",
+            "DePaul",
+            "Detroit Mercy",
+            "Drake",
+            "Drexel",
+            "Duke",
+            "Duquesne",
+            "East Carolina",
+            "Eastern Ill.",
+            "Eastern Ky.",
+            "Eastern Mich.",
+            "Eastern Wash.",
+            "Elon",
+            "ETSU",
+            "Evansville",
+            "Fairfield",
+            "Fairleigh Dickinson",
+            "FGCU",
+            "FIU",
+            "Fla. Atlantic",
+            "Florida",
+            "Florida A&M",
+            "Florida St.",
+            "Fordham",
+            "Fresno St.",
+            "Furman",
+            "Ga. Southern",
+            "Gardner-Webb",
+            "George Mason",
+            "George Washington",
+            "Georgetown",
+            "Georgia",
+            "Georgia St.",
+            "Georgia Tech",
+            "Gonzaga",
+            "Grambling",
+            "Grand Canyon",
+            "Green Bay",
+            "Hampton",
+            "Hartford",
+            "Harvard",
+            "Hawaii",
+            "High Point",
+            "Hofstra",
+            "Holy Cross",
+            "Houston",
+            "Houston Baptist",
+            "Howard",
+            "Idaho",
+            "Idaho St.",
+            "Illinois",
+            "Illinois St.",
+            "Indiana",
+            "Indiana St.",
+            "Iona",
+            "Iowa",
+            "Iowa St.",
+            "IUPUI",
+            "Jackson St.",
+            "Jacksonville",
+            "Jacksonville St.",
+            "James Madison",
+            "Kansas",
+            "Kansas City",
+            "Kansas St.",
+            "Kennesaw St.",
+            "Kent St.",
+            "Kentucky",
+            "La Salle",
+            "La.-Monroe",
+            "Lafayette",
+            "Lamar University",
+            "Lehigh",
+            "Liberty",
+            "Lipscomb",
+            "Little Rock",
+            "LIU",
+            "LMU (CA)",
+            "Long Beach St.",
+            "Longwood",
+            "Louisiana",
+            "Louisiana Tech",
+            "Louisville",
+            "Loyola Chicago",
+            "Loyola Maryland",
+            "LSU",
+            "Maine",
+            "Manhattan",
+            "Marist",
+            "Marquette",
+            "Marshall",
+            "Maryland",
+            "Massachusetts",
+            "McNeese",
+            "Memphis",
+            "Mercer",
+            "Merrimack",
+            "Miami (FL)",
+            "Miami (OH)",
+            "Michigan",
+            "Michigan St.",
+            "Middle Tenn.",
+            "Milwaukee",
+            "Minnesota",
+            "Mississippi St.",
+            "Mississippi Val.",
+            "Missouri",
+            "Missouri St.",
+            "Monmouth",
+            "Montana",
+            "Montana St.",
+            "Morehead St.",
+            "Morgan St.",
+            "Mount St. Mary's",
+            "Murray St.",
+            "N.C. A&T",
+            "N.C. Central",
+            "Navy",
+            "NC State",
+            "Nebraska",
+            "Nevada",
+            "New Hampshire",
+            "New Mexico",
+            "New Mexico St.",
+            "New Orleans",
+            "Niagara",
+            "Nicholls St.",
+            "NJIT",
+            "Norfolk St.",
+            "North Ala.",
+            "North Carolina",
+            "North Dakota",
+            "North Dakota St.",
+            "North Florida",
+            "North Texas",
+            "Northeastern",
+            "Northern Ariz.",
+            "Northern Colo.",
+            "Northern Ill.",
+            "Northern Ky.",
+            "Northwestern",
+            "Northwestern St.",
+            "Notre Dame",
+            "Oakland",
+            "Ohio",
+            "Ohio St.",
+            "Oklahoma",
+            "Oklahoma St.",
+            "Old Dominion",
+            "Ole Miss",
+            "Omaha",
+            "Oral Roberts",
+            "Oregon",
+            "Oregon St.",
+            "Pacific",
+            "Penn",
+            "Penn St.",
+            "Pepperdine",
+            "Pittsburgh",
+            "Portland",
+            "Portland St.",
+            "Prairie View",
+            "Presbyterian",
+            "Princeton",
+            "Providence",
+            "Purdue",
+            "Purdue Fort Wayne",
+            "Quinnipiac",
+            "Radford",
+            "Rhode Island",
+            "Rice",
+            "Richmond",
+            "Rider",
+            "Robert Morris",
+            "Rutgers",
+            "Sacramento St.",
+            "Sacred Heart",
+            "Saint Francis (PA)",
+            "Saint Joseph's",
+            "Saint Louis",
+            "Saint Mary's (CA)",
+            "Saint Peter's",
+            "Sam Houston St.",
+            "Samford",
+            "San Diego",
+            "San Diego St.",
+            "San Francisco",
+            "San Jose St.",
+            "Santa Clara",
+            "Seattle U",
+            "Seton Hall",
+            "SFA",
+            "Siena",
+            "SIUE",
+            "SMU",
+            "South Alabama",
+            "South Carolina",
+            "South Carolina St.",
+            "South Dakota",
+            "South Dakota St.",
+            "South Fla.",
+            "Southeast Mo. St.",
+            "Southeastern La.",
+            "Southern California",
+            "Southern Ill.",
+            "Southern Miss.",
+            "Southern U.",
+            "Southern Utah",
+            "St. Bonaventure",
+            "St. Francis Brooklyn",
+            "St. John's (NY)",
+            "Stanford",
+            "Stetson",
+            "Stony Brook",
+            "Syracuse",
+            "TCU",
+            "Temple",
+            "Tennessee",
+            "Tennessee St.",
+            "Tennessee Tech",
+            "Texas",
+            "Texas A&M",
+            "Texas Southern",
+            "Texas St.",
+            "Texas Tech",
+            "The Citadel",
+            "Toledo",
+            "Towson",
+            "Troy",
+            "Tulane",
+            "Tulsa",
+            "UAB",
+            "UC Davis",
+            "UC Irvine",
+            "UC Riverside",
+            "UC Santa Barbara",
+            "UCF",
+            "UCLA",
+            "UConn",
+            "UIC",
+            "UIW",
+            "UMass Lowell",
+            "UMBC",
+            "UMES",
+            "UNC Asheville",
+            "UNC Greensboro",
+            "UNCW",
+            "UNI",
+            "UNLV",
+            "USC Upstate",
+            "UT Arlington",
+            "UT Martin",
+            "Utah",
+            "Utah St.",
+            "Utah Valley",
+            "UTEP",
+            "UTRGV",
+            "UTSA",
+            "Valparaiso",
+            "Vanderbilt",
+            "VCU",
+            "Vermont",
+            "Villanova",
+            "Virginia",
+            "Virginia Tech",
+            "VMI",
+            "Wagner",
+            "Wake Forest",
+            "Washington",
+            "Washington St.",
+            "Weber St.",
+            "West Virginia",
+            "Western Caro.",
+            "Western Ill.",
+            "Western Ky.",
+            "Western Mich.",
+            "Wichita St.",
+            "William & Mary",
+            "Winthrop",
+            "Wisconsin",
+            "Wofford",
+            "Wright St.",
+            "Wyoming",
+            "Xavier",
+            "Yale",
+            "Youngstown St."];
+      for(var i = 0; i < listb.length; i++){
+        var option=document.createElement("option");
+        option.text=listb[i];
+        whereToPut.add(option,whereToPut.options[null]);
+      }
+      var temp="";
+      $("#team").val(temp);
+    }else if(sport.value == 'football' && gender.value == 'male'){
+      var listf = [
+          "Air Force",
+          "Akron",
+          "Alabama",
+          "Arizona",
+          "Arizona State",
+          "Arkansas",
+          "Arkansas State",
+          "Army",
+          "Auburn",
+          "Ball State",
+          "Baylor",
+          "Boise State",
+          "Boston College",
+          "Bowling Green",
+          "Brigham Young",
+          "Buffalo",
+          "California",
+          "Central Michigan",
+          "Cincinnati",
+          "Clemson",
+          "Colorado",
+          "Colorado State",
+          "Connecticut",
+          "Duke",
+          "East Carolina",
+          "Eastern Michigan",
+          "Florida",
+          "Florida Atlantic",
+          "Florida International",
+          "Florida State",
+          "Fresno State",
+          "Georgia",
+          "Georgia Tech",
+          "Hawaii",
+          "Houston",
+          "Idaho",
+          "Illinois",
+          "Indiana",
+          "Iowa",
+          "Iowa State",
+          "Kansas",
+          "Kansas State",
+          "Kent State",
+          "Kentucky",
+          "Louisiana Tech",
+          "Louisiana-Lafayette",
+          "Louisiana-Monroe",
+          "Louisville",
+          "LSU",
+          "Marshall",
+          "Maryland",
+          "Memphis",
+          "Miami (FL)",
+          "Miami (OH)",
+          "Michigan",
+          "Michigan State",
+          "Middle Tennessee",
+          "Minnesota",
+          "Mississippi State",
+          "Missouri",
+          "Navy",
+          "Nebraska",
+          "Nevada",
+          "New Mexico",
+          "New Mexico State",
+          "North Carolina",
+          "North Carolina State",
+          "North Texas",
+          "Northern Illinois",
+          "Northwestern",
+          "Notre Dame",
+          "Ohio",
+          "Ohio State",
+          "Oklahoma",
+          "Oklahoma State",
+          "Ole Miss",
+          "Oregon",
+          "Oregon State",
+          "Penn State",
+          "Pittsburgh",
+          "Purdue",
+          "Rice",
+          "Rutgers",
+          "San Diego State",
+          "San Jose State",
+          "South Carolina",
+          "South Florida",
+          "Southern California",
+          "Southern Methodist",
+          "Southern Miss",
+          "Stanford",
+          "Syracuse",
+          "Texas Christian",
+          "Temple",
+          "Tennessee",
+          "Texas",
+          "Texas A&M",
+          "Texas Tech",
+          "Toledo",
+          "Troy",
+          "Tulane",
+          "Tulsa",
+          "UAB",
+          "UCF",
+          "UCLA",
+          "UNLV",
+          "Utah",
+          "Utah State",
+          "UTEP",
+          "Vanderbilt",
+          "Virginia",
+          "Virginia Tech",
+          "Wake Forest",
+          "Washington",
+          "Washington State",
+          "West Virginia",
+          "Western Kentucky",
+          "Western Michigan",
+          "Wisconsin",
+          "Wyoming"];
+      for(var i = 0; i < listf.length; i++){
+        var option=document.createElement("option");
+        option.text=listf[i];
+        whereToPut.add(option,whereToPut.options[null]);
+      }
+      var temp="";
+      $("#team").val(temp);
+
+    }else{
+      var option=document.createElement("option");
+        option.text="No Teams";
+        option.disabled = true;
+        whereToPut.add(option,whereToPut.options[null]);
+    }
+    created = 1;
+  }
+  function removeDrop() {
+            $('#team').empty();
+        }
+  function gremoveDrop() {
+            $('#sport').empty();
+        }
+</script>
+<style type="text/css">
+  div #loadingGif{
+    width: 500px;
+    height: 500px;
+    display: none;
+    background: url(/process.html);
+    cursor: wait;
+    margin-left: 100px;
+  }
+
+
+</style>
+
+
+
+
+
+<style>
+.loader {
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #3498db;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+  visibility: hidden;
+}
+
+
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+</style>
+
+
+
+
+
+</head>
+
+<body style="background-color: rgb(236,240,241);">
+
+  <div class="container-fluid">
+    <div class="justify-content-center row" align='center'>
+      <h1 class="display-4">2nd Generation Sports Success</h1>
+      <p></p>
+    </div>
+
+    <div class="justify-content-center row" align='center'>
+      <button type="button" class="userBtn btn btn-dark" data-toggle="modal" data-target="#aboutModal">About</button>
+        <!-- About Modal -->
+          <div class="modal fade" id="aboutModal" role="dialog">
+            <div class="modal-dialog">
+
+              <!-- About Modal content-->
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title">About</h4>
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                  <p>2nd Generation Sports Success helps automate the retrieval of 2nd generation athletes for a team. It does this by using a team’s media guide PDF that is uploaded to the website. To ensure the accuracy of the gathered data, we provide a quality assurance checkbox system. The data can be outputted to an Excel file for your convenience. URL input is still being developed.</p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+      <button type="button" class="userBtn btn btn-dark" data-toggle="modal" data-target="#userGuideModal">User Guide</button>
+        <!-- User Guide Modal -->
+          <div class="modal fade" id="userGuideModal" role="dialog">
+            <div class="modal-dialog">
+
+              <!-- User Guide Modal content-->
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title">User Guide</h4>
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                  <ol class="float-left">
+                      <li class="float-left">Select year, gender, sport and team.</li>
+                      <li class="float-left">Upload the corresponding team's media guide PDF.</li>
+                      <li class="float-left">Click submit.</li>
+                      <li class="float-left">Wait for the program to find potential 2nd gen athletes.</li>
+                      <li class="float-left">Use checkboxes to confirm found 2nd gen athletes.</li>
+                      <li class="float-left">Finally, export your data set to Excel.</li>
+                  </ol>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+    </div>
+
+
+    <div class="justify-content-center row" align='center'>
+
+      <form action='/' method="POST" enctype="multipart/form-data">
+
+        <div class="form-group">
+          <label class="year-label " for="year">Year:</label>
+          <select id="year" class="mdb-select md-form" searchable="Search here.." name="year" >
+            <option value="" disabled selected>Choose Your Year</option>
+            <option value="2003">2003</option>
+            <option value="2004">2004</option>
+            <option value="2005">2005</option>
+            <option value="2006">2006</option>
+            <option value="2007">2007</option>
+            <option value="2008">2008</option>
+            <option value="2009">2009</option>
+            <option value="2010">2010</option>
+            <option value="2011">2011</option>
+            <option value="2012">2012</option>
+            <option value="2013">2013</option>
+            <option value="2014">2014</option>
+            <option value="2015">2015</option>
+            <option value="2016">2016</option>
+            <option value="2017">2017</option>
+            <option value="2018">2018</option>
+          </select>
+
+          <select id="gender" class="mdb-select md-form" searchable="Search here.." name="gender" onchange="gdisplay()">
+            <option value="" disabled selected>Choose Your Gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+          </select>
+
+          <select id="sport" class="mdb-select md-form" searchable="Search here.." name="sport" onchange="display()">
+            <option value="" disabled selected>Choose Your Sport</option>
+            <option value="basketball">Basketball</option>
+            <option value="football">Football</option>
+          </select>
+
+          <select id ="team" class="mdb-select md-form" searchable="Search here.."name="team" >
+            <option value="" disabled selected>Choose Your Team</option>
+          </select>
+
+          <div class="file-field">
+            <input type="file" name="pdffile">
+          </div>
+
+
+        </div>
+        <button type="submit" class="btn btn-primary" onclick="loading()">Submit</button>
+      </form>
+    </div>
+
+
+
+
+
+    <div align="center">
+      <div id ="loaderid" class="loader"></div>
+    </div>
+
+
+
+     <div id="loadingGif" style="margin-left: 400px;">
+        <img src="https://media.giphy.com/media/jAYUbVXgESSti/giphy.gif" alt="loading" width="460" height="345">
+
+    </div>
+
+<!--
+    <div id="include">
+
+    </div>
+-->
+
+    <div class="justify-content-center row" align='center'>
+
+
+      {% if processed %}
+
+
+    <div id="checkL" class="row checkList">
+      <form id="clForm" action='/postCheckList' method="POST" enctype="multipart/form-data">
+        <div style="margin-left: 70px">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Team</th>
+                <th scope="col">Year</th>
+                <th scope="col">Sport</th>
+                <th scope="col">Gender</th>
+                <th scope="col">Count</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+
+                <th scope="row"> <input  style="border: none;"class ="inputPost" type="text" name=teamName value="{{team_name}}" readonly="readonly"></th>
+                <td> <input  style="border: none;" class ="inputPost" type="text" name=teamYear value="{{team_year}}" readonly="readonly">
+                </td>
+                <td> <input  style="border: none;" class = "inputPost" type="text" name=teamSport value="{{team_sport}}"readonly="readonly"></td>
+                <td>{{team_gender}}</td>
+                <td>{{len1}}</td>
+              </tr>
+            </tbody>
+        </table>
+
+
+        </div>
+        <ul id="cList" style="list-style: none;">
+          <!-- For loop logic of jinja template -->
+          {%for i in range(0, len1)%}
+          <br class="row float-left">
+            <li class="col"><input style="margin-top: 8px;" class = "float-left" type="checkbox" name="checkboxVal" value="{{list1[i]}}"><div style="text-align: justify; margin-left: 25px;">
+              {{list1[i].strip()}}
+            </div></li>
+        </br>
+          {%endfor%}
+        </ul>
+
+
+
+         <div class="justify-content-center row" align='center'>
+            <input type="submit" class="btn btn-primary" value="Submit">
+         </div>
+          <!-- <input type="submit" value="Submit" style="margin-bottom: 30px; margin-left: 50px;"> -->
+      </form>
+    </div>
+
+    <script type="text/javascript" src="../static/hilitor.js"></script>
+    <script type="text/javascript">
+
+    var myHilitor;
+    document.getElementById("cList").addEventListener("mouseover", function() {
+      myHilitor = new Hilitor();
+      myHilitor.apply("father mother child son daughter parent parents Father Mother dad Dad Mom mom Son Daughter");
+      console.log("highlighting later ")
+     }, false);
+    console.log("highlighter applied later");
+
+    </script>
+
+      {% else %}
+
+      <p id = "f">
+        No file has been processed.
+      </p>
+
+      {% endif %}
+
+
+
+
+
+
+
+    </div>
+  </div>
+
+
+
+
+
+</body>
+
+</html>
