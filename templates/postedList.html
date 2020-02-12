@@ -17,9 +17,13 @@
 
 <body>
 
+  <header><h1 class="display-4" align='center' style="color: #b5e7a0;">Success</h1></header>
+
   <div class="container-fluid" style="margin-top: 10vh;">
     <div class="justify-content-center row" align='center'>
-      <h1 class="display-4" style="color: #b5e7a0;">Success</h1>
+      
+      
+      <hr>
       <h4>Item Submitted:</h4>
       <table id="postedTable" class="table">
         <thead>
@@ -30,7 +34,8 @@
             <th scope="col">Count</th>
           </tr>
         </thead>
-        <tbody> 
+        <tbody>  
+
           {%for item in items%}
           <tr> 
             <th scope="row">{{item['TeamName'].upper()}} </th>
@@ -48,7 +53,8 @@
 
     <form action= '/getAll' method='GET' enctype="multipart/form-data"> 
       <button type='submit' class="userBtn btn btn-dark">Get All Data</button> 
-    </form> 
+    </form>  
+  
 
 
 
