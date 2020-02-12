@@ -14,7 +14,13 @@
 <script type="text/javascript">
         function loading(){
 
-          $("#loadingGif").show();
+        //  $("#loadingGif").style;
+        document.getElementById("loaderid").style.visibility = "visible";
+        document.getElementById("f").style.visibility = "hidden";
+
+
+
+
 
         }
 </script>
@@ -553,6 +559,41 @@
 
 
 </style>
+
+
+
+
+
+<style>
+.loader {
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #3498db;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+  visibility: hidden;
+}
+
+
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+</style>
+
+
+
+
+
 </head>
 
 <body style="background-color: rgb(236,240,241);">
@@ -599,7 +640,7 @@
                 </div>
                 <div class="modal-body">
                   <ol class="float-left">
-                      <li class="float-left">Select year, team, sport, and gender.</li>
+                      <li class="float-left">Select year, gender, sport and team.</li>
                       <li class="float-left">Upload the corresponding team's media guide PDF.</li>
                       <li class="float-left">Click submit.</li>
                       <li class="float-left">Wait for the program to find potential 2nd gen athletes.</li>
@@ -665,9 +706,18 @@
 
 
         </div>
-        <button type="submit" class="btn btn-primary" onclick="loading();">Submit</button>
+        <button type="submit" class="btn btn-primary" onclick="loading()">Submit</button>
       </form>
     </div>
+
+
+
+
+
+    <div align="center">
+      <div id ="loaderid" class="loader"></div>
+    </div>
+
 
 
      <div id="loadingGif" style="margin-left: 400px;">
@@ -750,7 +800,7 @@
 
       {% else %}
 
-      <p>
+      <p id = "f">
         No file has been processed.
       </p>
 
