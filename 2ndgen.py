@@ -233,16 +233,27 @@ def index():
                 tokenizer_words = TweetTokenizer()
                 tokens_sentences = [tokenizer_words.tokenize(t) for t in nltk.sent_tokenize(input_text)]
                 #print(tokens_sentences)
-                wantedList=['parent','Parents', 'Father', 'Mother', 'father', 'mother', 'dad', 'Dad', 'Mom', 'mom', 'son of', 'Son of', 'daughter of', 'Daughter of']
+               
                 count = 0
+
+                wantedList=['parent','Parents', 'Father', 'Mother', 'father', 'mother', 'dad', 'Dad', 'Mom', 'mom', 'son of', 'Son of', 'daughter of', 'Daughter of']
 
                 wantedListDictionary = {}
                 count1 = 0
-                wantedListSentences = []
+                wantedListSentences = [] 
+
+                #keeps track of the count of each keyword. Key: "keyword", Value: "count". Note that similar keywords like parent and Parents fall under the same key.
+                keyWordCountDict = {} 
+
                 for eachSentence in tokens_sentences:
-                    wantedListDictionary[count1] = []
+                    wantedListDictionary[count1] = [] 
+
+                    # foundKeyWord = False
                     for each in wantedList:
-                        if each in eachSentence:
+                        if each in eachSentence: 
+
+                        # if not foundKeyWord: 
+
                             #print(eachSentence)
                             #print(" ")
                             #print(" ")
@@ -250,7 +261,15 @@ def index():
                             #print(aSentence)
                             wantedListDictionary[count1].append(aSentence)
                             count1+=1
-                            wantedListSentences.append(aSentence)
+                            wantedListSentences.append(aSentence)  
+                            # foundKeyWord = True
+
+                        # if (each.lower() in keyWordCountDict):
+                        #     keyWordCountDict[each.lower()] += 1 
+                        # else:
+                        #     keyWordCountDict[each.lower()] = 1
+
+
                             break
                 #print(wantedListSentences)
                 cuttedWantedListDictionary = {}
@@ -289,14 +308,26 @@ def index():
 
                 #print(cuttedWantedListDictionary)
                 list33 = []
-                #print(len(cuttedWantedListDictionary))
+                #print(len(cuttedWantedListDictionary)) 
+
+                keyWordList=['parent','Parents', 'Father', 'Mother', 'father', 'mother', 'dad', 'Dad', 'Mom', 'mom', 'son', 'Son', 'daughter', 'Daughter']
                 for key in cuttedWantedListDictionary:
                     for ij in range(len(cuttedWantedListDictionary[key])):
                          if(len(cuttedWantedListDictionary[key][0]) > 0):
-                             aSentence =' '.join(cuttedWantedListDictionary[key][0])
-                             #print(aSentence)
-                             list33.append(aSentence.strip())
-                             break
+                            aSentence =' '.join(cuttedWantedListDictionary[key][0])
+                             #print(aSentence) 
+
+
+                            list33.append(aSentence.strip()) 
+
+                            for each in keyWordList:
+                                if each in aSentence.split():
+
+                                    if (each.lower() in keyWordCountDict):
+                                        keyWordCountDict[each.lower()] += 1 
+                                    else:
+                                        keyWordCountDict[each.lower()] = 1
+                            break
 
 
 
@@ -386,7 +417,7 @@ def index():
                 pdfFileObj.close()
                 #print('file save')
 
-                return render_template('home.html', processed = processed, team_name =team , team_year=year, team_gender=gender, team_sport=sport, list1 = list33, len1 = len(list33))
+                return render_template('home.html', processed = processed, team_name =team , team_year=year, team_gender=gender, team_sport=sport, list1 = list33, len1 = len(list33), keyWordCountKeys = keyWordCountDict.keys(), keyWordCountDict = keyWordCountDict)
         else:
             abort(400, description="No file submitted.")
 
@@ -416,23 +447,42 @@ def postCheckList():
         team = request.form['teamName']
         year = request.form['teamYear']
         sport = request.form['teamSport']
-        list1 = request.form.getlist('checkboxVal')
+        list1 = request.form.getlist('checkboxVal') 
         count = len(list1)
         teamid = sport+team+str(year)
 
         print(sport)
         print(team)
         print(year)
-        print(count)
+        print(count) 
+
+
+        keyWordList = ['parent','Parents', 'Father', 'Mother', 'father', 'mother', 'dad', 'Dad', 'Mom', 'mom', 'son', 'Son', 'daughter', 'Daughter']
+
+        keyWordCountDict = {}
+        for aSentence in list1:  
+
+            for each in keyWordList: 
+
+                if each in aSentence.split():
+
+                    if (each.lower() in keyWordCountDict):
+                        keyWordCountDict[each.lower()] += 1 
+                    else:
+                        keyWordCountDict[each.lower()] = 1 
+
+
         added = False
         putItem(sport,team,year,count)
 
         added = True
         item1 = getItem(sport,team, year) 
-        item1 = [item1]
+        item1 = [item1]  
+
+        
 
 
-        return render_template('postedList.html', added1 = added , items = item1)
+        return render_template('postedList.html', added1 = added , items = item1, keyWordCountKeys = keyWordCountDict.keys(), keyWordCountDict = keyWordCountDict)
     else:
         return render_template('postedList.html', teamId="nothing is processed")
 
