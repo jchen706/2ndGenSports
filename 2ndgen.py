@@ -473,7 +473,7 @@ def postCheckList():
 
 
         added = False
-        putItem(sport,team,year,count)
+        putItem(sport,team,year,count, keyWordCountDict)
 
         added = True
         item1 = getItem(sport,team, year) 
