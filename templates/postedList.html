@@ -31,8 +31,8 @@
             <th scope="col">Team</th>
             <th scope="col">Year</th>
             <th scope="col">Sport</th>
-            <th scope="col">Count</th> 
-            {%for keyWord in keyWordCountKeys%}  
+            <th scope="col">Total Count</th> 
+            {%for keyWord in keyWordList%}  
             <th scope="col">"{{keyWord}}" Count</th>
             {%endfor%}
           </tr>
@@ -45,8 +45,8 @@
             <td>{{item['Year']}} </td>
             <td>{{item['Sport']}} </td>
             <td>{{item['Count']}}</td> 
-            {%for keyWord in keyWordCountKeys%}  
-            <td>{{keyWordCountDict[keyWord]}}</td>
+            {%for keyWord in keyWordList%}  
+            <td>{{keyWordCountDict.get(keyWord, 0)}}</td>
             {%endfor%}
           </tr> 
           {%endfor%}

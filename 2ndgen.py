@@ -310,7 +310,7 @@ def index():
                 list33 = []
                 #print(len(cuttedWantedListDictionary)) 
 
-                keyWordList=['parent','Parents', 'Father', 'Mother', 'father', 'mother', 'dad', 'Dad', 'Mom', 'mom', 'son', 'Son', 'daughter', 'Daughter']
+                keyWordList=['parent','parents', 'father', 'mother', 'dad', 'mom', 'son', 'daughter']
                 for key in cuttedWantedListDictionary:
                     for ij in range(len(cuttedWantedListDictionary[key])):
                          if(len(cuttedWantedListDictionary[key][0]) > 0):
@@ -321,12 +321,12 @@ def index():
                             list33.append(aSentence.strip()) 
 
                             for each in keyWordList:
-                                if each in aSentence.split():
+                                if each in aSentence.lower().split():
 
-                                    if (each.lower() in keyWordCountDict):
-                                        keyWordCountDict[each.lower()] += 1 
+                                    if (each in keyWordCountDict):
+                                        keyWordCountDict[each] += 1 
                                     else:
-                                        keyWordCountDict[each.lower()] = 1
+                                        keyWordCountDict[each] = 1
                             break
 
 
@@ -417,7 +417,7 @@ def index():
                 pdfFileObj.close()
                 #print('file save')
 
-                return render_template('home.html', processed = processed, team_name =team , team_year=year, team_gender=gender, team_sport=sport, list1 = list33, len1 = len(list33), keyWordCountKeys = keyWordCountDict.keys(), keyWordCountDict = keyWordCountDict)
+                return render_template('home.html', processed = processed, team_name =team , team_year=year, team_gender=gender, team_sport=sport, list1 = list33, len1 = len(list33), keyWordList = keyWordList, keyWordCountKeys = keyWordCountDict.keys(), keyWordCountDict = keyWordCountDict)
         else:
             abort(400, description="No file submitted.")
 
@@ -457,19 +457,19 @@ def postCheckList():
         print(count) 
 
 
-        keyWordList = ['parent','Parents', 'Father', 'Mother', 'father', 'mother', 'dad', 'Dad', 'Mom', 'mom', 'son', 'Son', 'daughter', 'Daughter']
+        keyWordList = ['parent','parents', 'father', 'mother', 'dad', 'mom', 'son', 'daughter']
 
         keyWordCountDict = {}
         for aSentence in list1:  
 
             for each in keyWordList: 
 
-                if each in aSentence.split():
+                if each in aSentence.lower().split():
 
-                    if (each.lower() in keyWordCountDict):
-                        keyWordCountDict[each.lower()] += 1 
+                    if (each in keyWordCountDict):
+                        keyWordCountDict[each] += 1 
                     else:
-                        keyWordCountDict[each.lower()] = 1 
+                        keyWordCountDict[each] = 1 
 
 
         added = False
@@ -482,7 +482,7 @@ def postCheckList():
         
 
 
-        return render_template('postedList.html', added1 = added , items = item1, keyWordCountKeys = keyWordCountDict.keys(), keyWordCountDict = keyWordCountDict)
+        return render_template('postedList.html', added1 = added , items = item1, keyWordList = keyWordList, keyWordCountKeys = keyWordCountDict.keys(), keyWordCountDict = keyWordCountDict)
     else:
         return render_template('postedList.html', teamId="nothing is processed")
 
