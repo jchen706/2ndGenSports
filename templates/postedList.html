@@ -46,7 +46,7 @@
             <td>{{item['Sport']}} </td>
             <td>{{item['Count']}}</td> 
             {%for keyWord in keyWordList%}  
-            <td>{{keyWordCountDict.get(keyWord, 0)}}</td>
+            <td>{{item[keyWord]}}</td>
             {%endfor%}
           </tr> 
           {%endfor%}

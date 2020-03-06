@@ -64,7 +64,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 #      return render_template('400.html'), 400
 
 
-
+keyWordList = ['parent','parents', 'father', 'mother', 'dad', 'mom', 'son', 'daughter']
 
 
 def allowed_file(filename):
@@ -310,7 +310,6 @@ def index():
                 list33 = []
                 #print(len(cuttedWantedListDictionary)) 
 
-                keyWordList=['parent','parents', 'father', 'mother', 'dad', 'mom', 'son', 'daughter']
                 for key in cuttedWantedListDictionary:
                     for ij in range(len(cuttedWantedListDictionary[key])):
                          if(len(cuttedWantedListDictionary[key][0]) > 0):
@@ -435,6 +434,8 @@ def index():
 def successful():
     return render_template('process.html')
 
+
+
 @app.route('/postCheckList',methods = ['POST'])
 def postCheckList():
 
@@ -457,7 +458,7 @@ def postCheckList():
         print(count) 
 
 
-        keyWordList = ['parent','parents', 'father', 'mother', 'dad', 'mom', 'son', 'daughter']
+       
 
         keyWordCountDict = {}
         for aSentence in list1:  
@@ -498,7 +499,7 @@ def getAllData():
         items = getAllItems() 
         added = False
 
-        return render_template('postedList.html', added1 = added, items = items)
+        return render_template('postedList.html', added1 = added, items = items, keyWordList = keyWordList)
 
 if __name__ == '__main__':
     app.run(debug=True)
