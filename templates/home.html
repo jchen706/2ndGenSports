@@ -666,22 +666,6 @@
           <label class="year-label " for="year">Year:</label>
           <select id="year" class="mdb-select md-form" searchable="Search here.." name="year" >
             <option value="" disabled selected>Choose Your Year</option>
-            <option value="2003">2003</option>
-            <option value="2004">2004</option>
-            <option value="2005">2005</option>
-            <option value="2006">2006</option>
-            <option value="2007">2007</option>
-            <option value="2008">2008</option>
-            <option value="2009">2009</option>
-            <option value="2010">2010</option>
-            <option value="2011">2011</option>
-            <option value="2012">2012</option>
-            <option value="2013">2013</option>
-            <option value="2014">2014</option>
-            <option value="2015">2015</option>
-            <option value="2016">2016</option>
-            <option value="2017">2017</option>
-            <option value="2018">2018</option>
           </select>
 
           <select id="gender" class="mdb-select md-form" searchable="Search here.." name="gender" onchange="gdisplay()">
@@ -709,6 +693,15 @@
         <button type="submit" class="btn btn-primary" onclick="loading()">Submit</button>
       </form>
     </div>
+    <script>
+        var drop = document.getElementById("year");
+        var thisYear = new Date().getFullYear();
+        for (i = 2000; i <= thisYear; i++) {
+            var option = document.createElement("option");
+            option.text = i;
+            drop.add(option);
+        }
+    </script>
 
 
 
@@ -747,8 +740,8 @@
                 <th scope="col">Year</th>
                 <th scope="col">Sport</th>
                 <th scope="col">Gender</th>
-                <th scope="col">Total Count</th> 
-                {%for keyWord in keyWordCountKeys%}  
+                <th scope="col">Total Count</th>
+                {%for keyWord in keyWordCountKeys%}
                 <th scope="col">"{{keyWord}}" Count</th>
                 {%endfor%}
               </tr>
@@ -761,8 +754,8 @@
                 </td>
                 <td> <input  style="border: none;" class = "inputPost" type="text" name=teamSport value="{{team_sport}}"readonly="readonly"></td>
                 <td>{{team_gender}}</td>
-                <td>{{len1}}</td>  
-                {%for keyWord in keyWordCountKeys%}  
+                <td>{{len1}}</td>
+                {%for keyWord in keyWordCountKeys%}
                 <td> {{keyWordCountDict[keyWord]}}</td>
                 {%endfor%}
 
@@ -791,7 +784,6 @@
           <!-- <input type="submit" value="Submit" style="margin-bottom: 30px; margin-left: 50px;"> -->
       </form>
     </div>
-
     <script type="text/javascript" src="../static/hilitor.js"></script>
     <script type="text/javascript">
 
