@@ -8,7 +8,7 @@ URL = "https://goduke.com/sports/mens-basketball/roster"
 r = requests.get(URL)
 
 #scrape the entire web page
-soup = BeautifulSoup(r.content, 'html5lib')
+soup = BeautifulSoup(r.content, 'html.parser')
 
 
 links= []
@@ -22,9 +22,9 @@ result = a1.find_all('div', class_ = 'sidearm-list-card-details relative')
 
 
 """
-['/sports/mens-basketball/roster/wendell-moore-jr-/11776', 
-'/sports/mens-basketball/roster/vernon-carey-jr-/11771',
- '/sports/mens-basketball/roster/cassius-stanley/11780', 
+[ '/sports/mens-basketball/roster/wendell-moore-jr-/11776', 
+ '/sports/mens-basketball/roster/vernon-carey-jr-/11771',
+  '/sports/mens-basketball/roster/cassius-stanley/11780', 
  '/sports/mens-basketball/roster/tre-jones/11775', 
  '/sports/mens-basketball/roster/javin-delaurier/11772',
   '/sports/mens-basketball/roster/joey-baker/11769', 
@@ -55,6 +55,32 @@ for each in result:
     #print(each)
     #print(" ")
     #print(" ")
+
+
+print(links)
+#iterate through each player page
+team_array = []
+for eachPlayerLink in links:
+    player_array=[]
+    newURL = "https://goduke.com"+ eachPlayerLink
+    #print(newURL)
+    new_r = requests.get(newURL)
+    #print(new_r.text)
+    new_soup = BeautifulSoup(new_r.content, 'html.parser')
+    list_contents = new_soup.find_all("li")
+    for each in list_contents:
+        player_array.append(each.text.strip())
+
+    #print(player_array)
+    team_array.append(player_array)
+
+print(len(team_array))
+
+
+
+
+
+
 
 
 
