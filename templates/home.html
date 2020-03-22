@@ -759,7 +759,7 @@ input:checked + .slider:before {
     <script>
         var drop = document.getElementById("year");
         var thisYear = new Date().getFullYear();
-        for (i = 2000; i <= thisYear; i++) {
+        for (i = thisYear; i >= 2000; i--) {
             var option = document.createElement("option");
             option.text = i;
             drop.add(option);
@@ -780,15 +780,15 @@ input:checked + .slider:before {
     </div>
 -->
 
-    <div class="justify-content-center row" align='center'>
+
+      {% if processed %}
+      <div class="justify-content-center row" align='center'>
 
     <label id ="a" class="switch" onchange="OnOff()"align="left">
-      <input id = "check"type="checkbox">
+      <input id = "check"type="checkbox" align="left">
       <span class="slider round"></span>
     </label>
     <div id = "TF"></div>
-
-      {% if processed %}
 
 
     <div id="checkL" class="row checkList">
@@ -853,27 +853,21 @@ input:checked + .slider:before {
         var unhilitor;
         var x = document.getElementById("check").checked;
         if(x){
-          document.getElementById("TF").innerHTML = "True";
+          document.getElementById("TF").innerHTML = "Highlighter On";
           myHilitor = new Hilitor();
           myHilitor.apply("father mother child son daughter parent parents Father Mother dad Dad Mom mom Son Daughter");
         }else{
-          document.getElementById("TF").innerHTML = "False";
+          document.getElementById("TF").innerHTML = "Highlighter Off";
           unHilitor = new UnHilitor();
           unHilitor.apply("father mother child son daughter parent parents Father Mother dad Dad Mom mom Son Daughter");
 
         }
-        // document.getElementById("a").addEventListener("click", function() {
-        //   myHilitor = new Hilitor();
-        //   myHilitor.apply("father mother child son daughter parent parents Father Mother dad Dad Mom mom Son Daughter");
-        //   console.log("highlighting later ")
-        //  }, false);
-        // console.log("highlighter applied later");
       }
     </script>
 
       {% else %}
 
-      <p id = "f">
+      <p id = "f" align="center">
         No file has been processed.
       </p>
 
