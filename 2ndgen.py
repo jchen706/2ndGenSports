@@ -27,7 +27,7 @@ from dynamo import *
 
 
 
-
+from scraper import *
 
 #from flask_sqlalchemy import SQLAlchemy
 #import SQLAlchemy
@@ -500,6 +500,18 @@ def getAllData():
         added = False
 
         return render_template('postedList.html', added1 = added, items = items, keyWordList = keyWordList)
+
+@app.route('/getScraper', methods= ['GET'])
+def getScraper():
+    url = None
+    url = request.form['input_url']
+    print(url)
+
+    if(request.method == 'GET'):
+        
+        
+
+        return render_template('scraper.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
