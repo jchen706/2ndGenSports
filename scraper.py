@@ -353,7 +353,7 @@ def base_scraper():
     print(team_links)
     print(len(team_links))
 
-    team_dict = find_items(team_links, 'https://mgoblue.com')
+    team_dict = find_items_michigan(team_links, 'https://mgoblue.com')
 
     print(team_dict)
 
@@ -373,104 +373,43 @@ def base_scraper():
         returning_dict[key] = phrases_list
     print(returning_dict)
 
-base_scraper()
+#base_scraper()
 
 
 
-def michigan_scraper():
-      URL = "https://goduke.com/sports/mens-basketball/roster"
-
-    #request the url
-    r = requests.get(URL)
-
-    #scrape the entire web page
-    soup = BeautifulSoup(r.content, 'html.parser')
-
-    team_links = {}
-    links= []
-
-    #scrap the html id main-content
-    a1 = soup.find(id="main-content")
-
-    #list of words to scrap for
-    wantedList=['parent','Parents', 'Father', 'Mother', 'father', 'mother', 'dad', 'Dad', 'Mom', 'mom', 'son of', 'Son of', 'daughter of', 'Daughter of']
-
-    #find all the divs that include the class name
-    result = a1.find_all('div', class_ = 'sidearm-list-card-details relative')
-
-    #go throught the results
-    for each in result:
-        #print(len(result))
-        link1 = each.find_all('a', href=True)
-        for each1 in link1: 
-            a = each1['href'].split('/')  
-            #print(a)
-            if 'coaches' not in a:
-                player_name = a[4]
-                team_links[player_name] = each1['href']
-                links.append(each1['href'])
-        
-        #print(link1['href'])
-        #links.append(link1['href'])
-        #print(each)
-        #print(" ")
-        #print(" ")
-
-
-    #print(links)
-    #iterate through each player page
+def find_items_michigan():
     team_dict = {}
     for key, value in team_links.items():
         player_dic = {}
         player_array=[]
-        newURL = "https://goduke.com"+ value
+        bullet_array=[]
+        if value[:5] == 'https':
+            newURL = value
+        else:
+            newURL = base_url + value        
         #print(newURL)
         new_r = requests.get(newURL)
         #print(new_r.text)
         new_soup = BeautifulSoup(new_r.content, 'html.parser')
-        list_contents = new_soup.find_all("li")
+
+        list_contents = new_soup.find_all("p")
+
+        #list_contents = new_soup.find_all("li")
+
+
+
         for each in list_contents:
+            a = each.text.strip()
+            #a = [x.replace("\r\n", " ") for x in a]
+            print(a)
             player_array.append(each.text.strip())
+        
+   
+        
         team_dict[key] = player_array
+    return team_dict
 
-        #print(player_array)
-        #team_array.append(player_dic)
-
-    print(len(team_dict))
-
-    returning_dict ={}
-
-    for key, value in team_dict.items():
-        phrases_list = []
-
-        for sentence_item in team_dict[key]:
-            res = bool([ele for ele in wantedList if(ele in sentence_item)])
-            if res:
-                phrases_list.append(sentence_item) 
-
-        returning_dict[key] = phrases_list
-
-
-    print(returning_dict)
-
-
-def roster_links(result):
-    team_links = {}
-    links= []
-    
-    for each in result:
-        #print(len(result))
-        link1 = each.find_all('a', href=True)
-        for each1 in link1: 
-            a = each1['href'].split('/')  
-            #print(a)
-            if 'coaches' not in a:
-                if 'staff' not in a:
-                    player_name = a[len(a)-2]
-                    team_links[player_name] = each1['href']
-                    links.append(each1['href'])
-
-    return (team_links)
+   
 
 
 

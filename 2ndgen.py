@@ -14,7 +14,7 @@ import json
 #import textract
 
 import tika
-tika.initVM()
+#tika.initVM()
 from tika import parser
 # import mysql.connector
 # from mysql.connector import Error
@@ -28,6 +28,7 @@ from dynamo import *
 
 
 from scraper import *
+from s3 import *
 
 #from flask_sqlalchemy import SQLAlchemy
 #import SQLAlchemy
@@ -196,34 +197,13 @@ def index():
 
             print(allowed_file(file1.filename))
             if(allowed_file(file1.filename)):
-                file1.save(os.path.join(file_path, file1.filename))
-                file = open(os.path.join(file_path, file1.filename), 'r')
 
+                upload_file(file1.filename,file1)
+                s3_obj = dowload_file(file1.filename, os.path.join(file_path, file1.filename))
 
-
-
-
-                # read_file = file.read()
-                # text = nltk.Text(nltk.word_tokenize(read_file))
-
-                # match = text.concordance('parent')
-                # print(match)
-                # creating a pdf file object
-                #
-                pdfFileObj = open(os.path.join(file_path, file1.filename), 'rb')
-
-                # creating a pdf reader object
-                pdfReader = PyPDF2.PdfFileReader(pdfFileObj)
-
-                # printing number of pages in pdf file
-                print(pdfReader.numPages)
-
-                # creating a page object
-                pageObj = pdfReader.getPage(0)
-
-                # extracting text from page
-                #print(pageObj.extractText())
-                #text = textract.process(os.path.join(app.config['UPLOAD_FOLDER'], file1.filename), extension='pdf')
+                #file1.save(os.path.join(file_path, file1.filename))
+                #file = open(os.path.join(file_path, file1.filename), 'r')
+                #parsed = parser.from_file(s3_obj['Body'].read().decode(encoding="utf-8",errors="ignore"))
 
                 parsed = parser.from_file(os.path.join(file_path, file1.filename))
                 #print(parsed["metadata"])
@@ -245,8 +225,9 @@ def index():
                 #keeps track of the count of each keyword. Key: "keyword", Value: "count". Note that similar keywords like parent and Parents fall under the same key.
                 keyWordCountDict = {} 
 
-                for eachSentence in tokens_sentences:
-                    wantedListDictionary[count1] = [] 
+                for i in range(len(tokens_sentences)):
+                    wantedListDictionary[count1] = []
+                    eachSentence = tokens_sentences[i] 
 
                     # foundKeyWord = False
                     for each in wantedList:
@@ -257,6 +238,13 @@ def index():
                             #print(eachSentence)
                             #print(" ")
                             #print(" ")
+                            if eachSentence[len(eachSentence)-2] == "No":
+                                #print(tokens_sentences[i+1])
+                                #print(eachSentence)
+                                eachSentence.extend(tokens_sentences[i+1])
+                                #print(eachSentence)
+
+                            
                             aSentence =' '.join(eachSentence)
                             #print(aSentence)
                             wantedListDictionary[count1].append(aSentence)
@@ -276,14 +264,14 @@ def index():
                 for j in range(len(wantedListSentences)):
                      cuttedWantedListDictionary[j] = []
                      shortenedSentences = wantedListSentences[j].split(' ')
-                     print(shortenedSentences)
+                     #print(shortenedSentences)
                      for i in range(len(shortenedSentences)):
                          for eachword in wantedList:
                                 if (eachword == shortenedSentences[i]):
                                    #hortenedSentences[i] = eachword
                                    if (len(shortenedSentences) < 36):
-                                       print(11111)
-                                       print(eachword)
+                                       #print(11111)
+                                       #print(eachword)
                                        cuttedWantedListDictionary[j].append(shortenedSentences)
                                        break
                                    else:
@@ -297,10 +285,10 @@ def index():
                                          print(a)
                                          cuttedWantedListDictionary[j].append(a)
                                      except:
-                                        print(333333)
-                                        print(eachword)
+                                        #print(333333)
+                                        #print(eachword)
                                         a = shortenedSentences[i:]
-                                        print(a)
+                                        #print(a)
                                         cuttedWantedListDictionary[j].append(a)
                                         #dic[count].append(a)
 
@@ -327,94 +315,6 @@ def index():
                                     else:
                                         keyWordCountDict[each] = 1
                             break
-
-
-
-
-
-
-                # dic = {}
-                # list3 = []
-                # for key in wantedListDictionary:
-                #     count = 0
-                #     if(len(wantedListDictionary[key]) >=1):
-                #         string = wantedListDictionary[key][0]
-                #         list2 = wantedListDictionary[key][0].split(' ')
-                #         dic[count] = []
-                #         for i in range(len(list2)):
-                #             for eachword in wantedList:
-                #                 if (eachword == list2[i]):
-                #                    if (len(list2) < 20):
-                #                        dic[count].append(list2)
-                #                        break
-                #                        list3.append(a)
-                #                    else:
-                #                      try:
-                #                          print(list2[i-15:i+20])
-                #                          a = list2[i-15:i+20]
-                #                          dic[count].append(a)
-                #                          list3.append(a)
-                #                      except:
-                #                         print('pass')
-                #                         a = list2[i:]
-                #                         list3.append(a)
-                #                         dic[count].append(a)
-                #     count+=1
-
-
-
-
-
-
-                        # list1
-                        # for eachword in wantedList:
-                        #    try:
-                        #        index = string.index(eachword)
-
-
-
-                        #    except:
-
-                        # r = re.compile(r'\b%s\b' % word, re.I)
-                        # m = r.search(string)
-                        # index = m.start()
-                    #    a = re.search(r'\b(father)\b', wantedListDictionary[key][0])
-                #        count12 = 0
-                #        for eachsegment in b:
-                #           container = []
-                #           for eachword in wantedList:
-                #             if eachword in eachsegment:
-                #                 container.append(eachsegment)
-                #        dic[count12] = container
-                #        count12+=1
-
-                # print(dic)
-
-
-
-
-                #print(count)
-                # for i in range(count):
-                #     print(list[i])
-                #     print('')
-
-                # list3 = []
-                # for i in range(len(list1)):
-                #     list3.append(b)
-
-                # diction = {}
-                # for j in range(len(list3)):
-                #     diction[j] = []
-                #     count = 0
-                #     for eachSen in list3[j]:
-                #         for each in wantedList:
-                #             if each in eachSen:
-                #                 diction[j].append(eachSen)
-
-
-                # closing the pdf file object
-                pdfFileObj.close()
-                #print('file save')
 
                 return render_template('home.html', processed = processed, team_name =team , team_year=year, team_gender=gender, team_sport=sport, list1 = list33, len1 = len(list33), keyWordList = keyWordList, keyWordCountKeys = keyWordCountDict.keys(), keyWordCountDict = keyWordCountDict)
         else:
