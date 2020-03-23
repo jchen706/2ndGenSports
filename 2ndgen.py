@@ -168,16 +168,6 @@ def index():
         except:
             error_year = True
 
-
-
-
-
-
-
-
-
-
-
         #count
         #pdf
 
@@ -198,8 +188,8 @@ def index():
             print(allowed_file(file1.filename))
             if(allowed_file(file1.filename)):
 
-                upload_file(file1.filename,file1)
-                s3_obj = dowload_file(file1.filename, os.path.join(file_path, file1.filename))
+                #upload_file(file1.filename,file1)
+                #s3_obj = dowload_file(file1.filename, os.path.join(file_path, file1.filename))
 
                 #file1.save(os.path.join(file_path, file1.filename))
                 #file = open(os.path.join(file_path, file1.filename), 'r')
@@ -216,7 +206,7 @@ def index():
                
                 count = 0
 
-                wantedList=['parent','Parents', 'Father', 'Mother', 'father', 'mother', 'dad', 'Dad', 'Mom', 'mom', 'son of', 'Son of', 'daughter of', 'Daughter of']
+                wantedList=['parent','Parents', 'Father', 'Mother', 'father', 'mother', 'dad', 'Dad', 'Mom', 'mom', 'son', 'Son', 'daughter', 'Daughter']
 
                 wantedListDictionary = {}
                 count1 = 0
@@ -224,18 +214,33 @@ def index():
 
                 #keeps track of the count of each keyword. Key: "keyword", Value: "count". Note that similar keywords like parent and Parents fall under the same key.
                 keyWordCountDict = {} 
+                
+                import csv
+                with open('employee_file.csv', mode='w', encoding='utf-8', newline='') as employee_file:
+                        employee_writer = csv.writer(employee_file, delimiter='|', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+                        employee_writer.writerow(tokens_sentences)
 
                 for i in range(len(tokens_sentences)):
                     wantedListDictionary[count1] = []
                     eachSentence = tokens_sentences[i] 
-
+                    #punctuations = '''!()-[]{};:'"\,<>./?@#$%^&*_~'''
+                    import string
+                    #file3 = open('newfile.txt', "w")
+                    #file3.writelines(", ".join(str(x) for x in eachSentence))
+   
                     # foundKeyWord = False
+                    hits=[]
                     for each in wantedList:
                         if each in eachSentence: 
+                            print(eachSentence)
+                            hits.append(eachSentence)
+                            with open('sentence.csv', mode='w', encoding='utf-8', newline='') as sen_file:
+                                employee_writer = csv.writer(sen_file, delimiter='|', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+                                employee_writer.writerow(hits)
 
                         # if not foundKeyWord: 
 
-                            #print(eachSentence)
+                          
                             #print(" ")
                             #print(" ")
                             if eachSentence[len(eachSentence)-2] == "No":
@@ -260,7 +265,14 @@ def index():
 
                             break
                 #print(wantedListSentences)
+
+                with open('sentence2.csv', mode='w', encoding='utf-8', newline='') as sen1_file:
+                                employee_writer = csv.writer(sen1_file, delimiter='|', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+                                employee_writer.writerow(wantedListSentences)
+
+
                 cuttedWantedListDictionary = {}
+                sente = []
                 for j in range(len(wantedListSentences)):
                      cuttedWantedListDictionary[j] = []
                      shortenedSentences = wantedListSentences[j].split(' ')
@@ -268,31 +280,46 @@ def index():
                      for i in range(len(shortenedSentences)):
                          for eachword in wantedList:
                                 if (eachword == shortenedSentences[i]):
+                                   if (eachword.lower()=='son') or (eachword.lower()=='daughter'):
+                                       if(shortenedSentences[i+1] != 'of'):
+                                           continue
+
                                    #hortenedSentences[i] = eachword
                                    if (len(shortenedSentences) < 36):
                                        #print(11111)
                                        #print(eachword)
                                        cuttedWantedListDictionary[j].append(shortenedSentences)
+                                       sente.append(shortenedSentences+[1,1,1,1])
                                        break
                                    else:
                                      try:
                                          #print(list33[i-15:i+20])
-                                         print(22222)
-                                         print(eachword)
-                                         print(i)
-                                         print(len(shortenedSentences))
-                                         a = shortenedSentences[i-15:i+20]
-                                         print(a)
+                                         #print(22222)
+                                         #print(eachword)
+                                         #print(i)
+                                         #print(len(shortenedSentences))
+                                         a = shortenedSentences[i:50]
+                                         if i > 17:
+                                            a = shortenedSentences[i-15:i+20]
+                                         #print(a)
                                          cuttedWantedListDictionary[j].append(a)
+                                         sente.append(a+[2,2,2,2])
+
                                      except:
                                         #print(333333)
                                         #print(eachword)
                                         a = shortenedSentences[i:]
                                         #print(a)
                                         cuttedWantedListDictionary[j].append(a)
+                                        sente.append(a+[3,3,3,3])
+
                                         #dic[count].append(a)
 
                 #print('hereeeee')
+
+                with open('sentence3.csv', mode='w', encoding='utf-8', newline='') as sen3_file:
+                                employee_writer = csv.writer(sen3_file, delimiter='|', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+                                employee_writer.writerow(sente)
 
                 #print(cuttedWantedListDictionary)
                 list33 = []
