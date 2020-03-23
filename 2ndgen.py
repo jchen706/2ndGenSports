@@ -188,8 +188,8 @@ def index():
             print(allowed_file(file1.filename))
             if(allowed_file(file1.filename)):
 
-                #upload_file(file1.filename,file1)
-                #s3_obj = dowload_file(file1.filename, os.path.join(file_path, file1.filename))
+                upload_file(file1.filename,file1)
+                s3_obj = dowload_file(file1.filename, os.path.join(file_path, file1.filename))
 
                 #file1.save(os.path.join(file_path, file1.filename))
                 #file = open(os.path.join(file_path, file1.filename), 'r')
