@@ -753,7 +753,10 @@ input:checked + .slider:before {
 
 
         </div>
-        <button type="submit" class="btn btn-primary" onclick="loading()">Submit</button>
+        <button type="submit" class="btn btn-primary" onclick="loading()" name = "action" value="submit">Submit</button>  
+        <button type="submit" class="btn btn-primary" name = "action" value="getPreviousResults">Get Previous Results</button> 
+
+
       </form>
     </div>
     <script>
@@ -826,16 +829,45 @@ input:checked + .slider:before {
 
 
         </div>
+        
+        {% if isGetPreviousResults%} 
+        <ul id="cList" style="list-style: none;">
+          <!-- For loop logic of jinja template -->
+          {%for i in range(0, len1)%} 
+            {%if list1[i].strip() in checkedList%} 
+            <br class="row float-left">
+              <li class="col"><input style="margin-top: 8px;" class = "float-left" type="checkbox" name="checkboxVal" value="{{list1[i]}}" checked><div style="text-align: justify; margin-left: 25px;">
+                {{list1[i].strip()}}
+              </div></li>  
+              <li class="col"><input style="display:none;" name="result" value="{{list1[i].strip()}}"></li>
+            </br> 
+
+            {%else%}            
+            <br class="row float-left">
+              <li class="col"><input style="margin-top: 8px;" class = "float-left" type="checkbox" name="checkboxVal" value="{{list1[i]}}"><div style="text-align: justify; margin-left: 25px;">
+                {{list1[i].strip()}}
+              </div></li>  
+              <li class="col"><input style="display:none;" name="result" value="{{list1[i].strip()}}"></li>
+            </br> 
+            {%endif%}
+          {%endfor%}
+        </ul> 
+
+
+
+        {% else %}
         <ul id="cList" style="list-style: none;">
           <!-- For loop logic of jinja template -->
           {%for i in range(0, len1)%}
           <br class="row float-left">
             <li class="col"><input style="margin-top: 8px;" class = "float-left" type="checkbox" name="checkboxVal" value="{{list1[i]}}"><div style="text-align: justify; margin-left: 25px;">
               {{list1[i].strip()}}
-            </div></li>
+            </div></li>  
+            <li class="col"><input style="display:none;" name="result" value="{{list1[i].strip()}}"></li>
         </br>
           {%endfor%}
-        </ul>
+        </ul> 
+        {% endif %}
 
 
 
