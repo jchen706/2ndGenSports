@@ -475,6 +475,8 @@ def postCheckList():
 @app.route('/getAll', methods = ['GET']) 
 def getAllData():
 
+  
+
 
     if(request.method == "GET"): 
         items = getAllItems() 
@@ -485,14 +487,93 @@ def getAllData():
 @app.route('/getScraper', methods= ['GET'])
 def getScraper():
     url = None
-    url = request.form['input_url']
-    print(url)
+    #url = request.form['input_url']
+    #print(url)
 
     if(request.method == 'GET'):
-        
-        
+        return render_template('scraperx.html')
 
-        return render_template('scraper.html')
+@app.route('/postscraper',methods = ['POST'])
+def processScraper():
+    #URL = 'https://mgoblue.com/sports/mens-basketball/roster'
+
+    base_url = None
+    url = None
+    processed = False
+
+
+    if(request.method == "POST"):
+        roster_url = request.form['roster_input_url']
+        base_url = request.form['base_url']
+        format_type = request.form['format']
+        year = request.form['year']
+        gender = request.form['gender']
+        sport = request.form['sport']
+        team = request.form['team']
+      
+
+        processed = True
+
+        roster_url = str(roster_url)
+        base_url = str(base_url)
+        format_type = str(format_type)
+
+        print(roster_url)
+        print(base_url)
+        print(format_type)
+
+        return_dict = None
+        error_scraper = False
+
+        try:
+            return_dict = base_scraper(roster_url, base_url)
+        except:
+            error_year = True
+
+
+        if return_dict == None:
+            return render_template('scraperx.html', teamId="nothing is processed", processed=processed)
+
+
+
+        if error_scraper:
+            return render_template('scraperx.html', teamId="nothing is processed", processed=processed)
+        else:
+            keyWordCountDict = {}
+            for key, value in return_dict.items():  
+
+                for each in keyWordList: 
+
+                    if each in value:
+
+                        if (each in keyWordCountDict):
+                            keyWordCountDict[each] += 1 
+                        else:
+                            keyWordCountDict[each] = 1 
+
+
+            return render_template('scraperx.html', returnTeam=return_dict, processed=processed,
+            team_name =team , team_year=year, team_gender=gender, team_sport=sport, keyWordList = keyWordList, 
+            keyWordCountKeys = keyWordCountDict.keys(), keyWordCountDict = keyWordCountDict, length_dict = len(return_dict))
+
+            
+
+
+
+
+
+
+
+    else:
+        return render_template('scraperx.html', teamId="nothing is processed", processed=processed)
+
+
+        
+    return render_template('scraperx.html', teamId="nothing is processed", processed=processed)
+
+
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
