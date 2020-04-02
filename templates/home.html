@@ -22,8 +22,73 @@
 
 
 
+
         }
 </script>
+<style type="text/css">
+  /* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+</style>
 <script type="text/javascript">
   var created = 0;
   var gcreated = 0;
@@ -547,18 +612,7 @@
             $('#sport').empty();
         }
 </script>
-<style type="text/css">
-  div #loadingGif{
-    width: 500px;
-    height: 500px;
-    display: none;
-    background: url(/process.html);
-    cursor: wait;
-    margin-left: 100px;
-  }
 
-
-</style>
 
 
 
@@ -596,7 +650,7 @@
 
 </head>
 
-<body style="background-color: rgb(236,240,241);">
+<body>
 
   <div class="container-fluid">
     <div class="justify-content-center row" align='center'>
@@ -655,6 +709,15 @@
 
             </div>
           </div>
+
+          <form action= '/getAll' method='GET' enctype="multipart/form-data">
+              <button type='submit' class="userBtn btn btn-dark">Get All Data</button>
+          </form>
+
+          <form action= '/getScraper' method='GET' enctype="multipart/form-data">
+            <button type='submit' class="userBtn btn btn-dark">Scraper</button>
+        </form>
+
     </div>
 
 
@@ -690,13 +753,16 @@
 
 
         </div>
-        <button type="submit" class="btn btn-primary" onclick="loading()">Submit</button>
+        <button type="submit" class="btn btn-primary" onclick="loading()" name = "action" value="submit">Submit</button>
+        <button type="submit" class="btn btn-primary" name = "action" value="getPreviousResults">Get Previous Results</button>
+
+
       </form>
     </div>
     <script>
         var drop = document.getElementById("year");
         var thisYear = new Date().getFullYear();
-        for (i = 2000; i <= thisYear; i++) {
+        for (i = thisYear; i >= 2000; i--) {
             var option = document.createElement("option");
             option.text = i;
             drop.add(option);
@@ -711,25 +777,21 @@
       <div id ="loaderid" class="loader"></div>
     </div>
 
-
-
-     <div id="loadingGif" style="margin-left: 400px;">
-        <img src="https://media.giphy.com/media/jAYUbVXgESSti/giphy.gif" alt="loading" width="460" height="345">
-
-    </div>
-
 <!--
     <div id="include">
 
     </div>
 -->
 
-    <div class="justify-content-center row" align='center'>
-
 
       {% if processed %}
+        <label id ="a" class="switch" onchange="OnOff()"align="left">
+          <input id = "check"type="checkbox" align="left">
+          <span class="slider round"></span>
+        </label>
+        <div id = "TF"></div>
 
-
+  <div class="justify-content-center row" align='center'>
     <div id="checkL" class="row checkList">
       <form id="clForm" action='/postCheckList' method="POST" enctype="multipart/form-data">
         <div style="margin-left: 70px">
@@ -762,9 +824,34 @@
               </tr>
             </tbody>
         </table>
+      </div>
+
+        {% if isGetPreviousResults%}
+        <ul id="cList" style="list-style: none;">
+          <!-- For loop logic of jinja template -->
+          {%for i in range(0, len1)%}
+            {%if list1[i].strip() in checkedList%}
+            <br class="row float-left">
+              <li class="col"><input style="margin-top: 8px;" class = "float-left" type="checkbox" name="checkboxVal" value="{{list1[i]}}" checked><div style="text-align: justify; margin-left: 25px;">
+                {{list1[i].strip()}}
+              </div></li>
+              <li class="col"><input style="display:none;" name="result" value="{{list1[i].strip()}}"></li>
+            </br>
+
+            {%else%}
+            <br class="row float-left">
+              <li class="col"><input style="margin-top: 8px;" class = "float-left" type="checkbox" name="checkboxVal" value="{{list1[i]}}"><div style="text-align: justify; margin-left: 25px;">
+                {{list1[i].strip()}}
+              </div></li>
+              <li class="col"><input style="display:none;" name="result" value="{{list1[i].strip()}}"></li>
+            </br>
+            {%endif%}
+          {%endfor%}
+        </ul>
 
 
-        </div>
+
+        {% else %}
         <ul id="cList" style="list-style: none;">
           <!-- For loop logic of jinja template -->
           {%for i in range(0, len1)%}
@@ -772,9 +859,11 @@
             <li class="col"><input style="margin-top: 8px;" class = "float-left" type="checkbox" name="checkboxVal" value="{{list1[i]}}"><div style="text-align: justify; margin-left: 25px;">
               {{list1[i].strip()}}
             </div></li>
+            <li class="col"><input style="display:none;" name="result" value="{{list1[i].strip()}}"></li>
         </br>
           {%endfor%}
         </ul>
+        {% endif %}
 
 
 
@@ -785,21 +874,28 @@
       </form>
     </div>
     <script type="text/javascript" src="../static/hilitor.js"></script>
+    <script type="text/javascript" src="../static/unhilitor.js"></script>
     <script type="text/javascript">
+      function OnOff() {
+        var myHilitor;
+        var unhilitor;
+        var x = document.getElementById("check").checked;
+        if(x){
+          document.getElementById("TF").innerHTML = "Highlighter On";
+          myHilitor = new Hilitor();
+          myHilitor.apply("father mother child son daughter parent parents Father Mother dad Dad Mom mom Son Daughter");
+        }else{
+          document.getElementById("TF").innerHTML = "Highlighter Off";
+          unHilitor = new UnHilitor();
+          unHilitor.apply("father mother child son daughter parent parents Father Mother dad Dad Mom mom Son Daughter");
 
-    var myHilitor;
-    document.getElementById("cList").addEventListener("mouseover", function() {
-      myHilitor = new Hilitor();
-      myHilitor.apply("father mother child son daughter parent parents Father Mother dad Dad Mom mom Son Daughter");
-      console.log("highlighting later ")
-     }, false);
-    console.log("highlighter applied later");
-
+        }
+      }
     </script>
 
       {% else %}
 
-      <p id = "f">
+      <p id = "f" align="center">
         No file has been processed.
       </p>
 

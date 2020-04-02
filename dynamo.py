@@ -13,7 +13,7 @@ table = DB.Table(__TableName__)
 DEBUG = False
 
 # method used to add an item into the database
-def putItem(sport, teamName, year, count, keyWordCountDict):
+def putItem(sport, teamName, year, count, keyWordCountDict, checkedList, resultsList):
 
 	#checking if sport variable is a string
 	if not (type(sport) == str):
@@ -74,8 +74,13 @@ def putItem(sport, teamName, year, count, keyWordCountDict):
 			, 
 			"son": keyWordCountDict.get("son", 0)  
 			, 
-			"daughter": keyWordCountDict.get("daughter", 0) 
+			"daughter": keyWordCountDict.get("daughter", 0)  
+			, 
+			"checkedList": checkedList 
+			, 
+			"resultsList": resultsList
 		}
+
 	)
 
 	if (DEBUG):

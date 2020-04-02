@@ -21,8 +21,8 @@
 
   <div class="container-fluid" style="margin-top: 10vh;">
     <div class="justify-content-center row" align='center'>
-      
-      
+
+
       <hr>
       <h4>Item Submitted:</h4>
       <table id="postedTable" class="table">
@@ -31,36 +31,36 @@
             <th scope="col">Team</th>
             <th scope="col">Year</th>
             <th scope="col">Sport</th>
-            <th scope="col">Total Count</th> 
-            {%for keyWord in keyWordList%}  
+            <th scope="col">Total Count</th>
+            {%for keyWord in keyWordList%}
             <th scope="col">"{{keyWord}}" Count</th>
             {%endfor%}
           </tr>
         </thead>
-        <tbody>  
+        <tbody>
 
           {%for item in items%}
-          <tr> 
+          <tr>
             <th scope="row">{{item['TeamName'].upper()}} </th>
             <td>{{item['Year']}} </td>
             <td>{{item['Sport']}} </td>
-            <td>{{item['Count']}}</td> 
-            {%for keyWord in keyWordList%}  
+            <td>{{item['Count']}}</td>
+            {%for keyWord in keyWordList%}
             <td>{{item[keyWord]}}</td>
             {%endfor%}
-          </tr> 
+          </tr>
           {%endfor%}
         </tbody>
     </table>
     <form action='/' method="GET" enctype="multipart/form-data">
       <button type="submit" class="userBtn btn btn-dark">Home</button>
-    </form> 
+    </form>
 
 
-    <form action= '/getAll' method='GET' enctype="multipart/form-data"> 
-      <button type='submit' class="userBtn btn btn-dark">Get All Data</button> 
-    </form>  
-  
+    <form action= '/getAll' method='GET' enctype="multipart/form-data">
+      <button type='submit' class="userBtn btn btn-dark">Get All Data</button>
+    </form>
+
 
 
 
