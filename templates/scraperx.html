@@ -718,56 +718,61 @@ input:checked + .slider:before {
     </div>
 
 
-    <div class="justify-content-center row" align='center'>
+      <div class="justify-content-center row" align='center'>
 
-        <form class="d-flex justify-content-center form-inline active-purple-3 active-purple-4" action='/postscraper' method="POST" enctype="multipart/form-data">
+          <form class="d-flex justify-content-center form-inline active-purple-3 active-purple-4" action='/postscraper' method="POST" enctype="multipart/form-data">
 
-        <div class="form-group">
-          <label class="year-label " for="year">Year:</label>
-          <select id="year" class="mdb-select md-form" searchable="Search here.." name="year" >
-            <option value="" disabled selected>Choose Your Year</option>
-          </select>
+            <div class="form-group" align="center">
+              <label class="year-label " for="year">Year:</label>
+              <select id="year" class="mdb-select md-form" searchable="Search here.." name="year" >
+                <option value="" disabled selected>Choose Your Year</option>
+              </select>
 
-          <select id="gender" class="mdb-select md-form" searchable="Search here.." name="gender" onchange="gdisplay()">
-            <option value="" disabled selected>Choose Your Gender</option>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-          </select>
+              <select id="gender" class="mdb-select md-form" searchable="Search here.." name="gender" onchange="gdisplay()">
+                <option value="" disabled selected>Choose Your Gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+              </select>
 
-          <select id="sport" class="mdb-select md-form" searchable="Search here.." name="sport" onchange="display()">
-            <option value="" disabled selected>Choose Your Sport</option>
-            <option value="basketball">Basketball</option>
-            <option value="football">Football</option>
-          </select>
+              <select id="sport" class="mdb-select md-form" searchable="Search here.." name="sport" onchange="display()">
+                <option value="" disabled selected>Choose Your Sport</option>
+                <option value="basketball">Basketball</option>
+                <option value="football">Football</option>
+              </select>
 
-         
 
-          <select id="format" class="mdb-select md-form" searchable="Search here.." name="format" onchange="display()">
-            <option value="" disabled selected>Choose Player Page Format</option>
-            <option value="bullets">Bullet Points</option>
-            <option value="paragraphs">Paragraphs</option>
-            <option value="mixedformat">Mixed Format</option>
-          </select>
 
-          <select id ="team" class="mdb-select md-form" searchable="Search here.."name="team" >
-            <option value="" disabled selected>Choose Your Team</option>
-          </select>
+              <select id="format" class="mdb-select md-form" searchable="Search here.." name="format" onchange="display()">
+                <option value="" disabled selected>Choose Player Page Format</option>
+                <option value="bullets">Bullet Points</option>
+                <option value="paragraphs">Paragraphs</option>
+                <option value="mixedformat">Mixed Format</option>
+              </select>
 
-          <i class="fas fa-search" aria-hidden="true"></i>
-          <input class="form-control form-control-sm ml-3 w-50" type="text" placeholder="Roster Input URL"
-          aria-label="Search" name="roster_input_url">
-  
-          <i class="fas fa-search" aria-hidden="true"></i>
-          <input class="form-control form-control-sm ml-3 w-50" type="text" placeholder="Base URL"
-          aria-label="Search" name="base_url">
-  
-         
+              <select id ="team" class="mdb-select md-form" searchable="Search here.."name="team" >
+                <option value="" disabled selected>Choose Your Team</option>
+              </select>
+            </div>
 
+            <div align="center">
+              <i class="fas fa-search" aria-hidden="true" ></i>
+              <input class="form-control form-control-sm ml-3 w-50" type="text" placeholder="Roster Input URL"
+              aria-label="Search" name="roster_input_url">
+
+              <i class="fas fa-search" aria-hidden="true"></i>
+              <input class="form-control form-control-sm ml-3 w-50" type="text" placeholder="Base URL"
+              aria-label="Search" name="base_url">
+            </div>
 
         </div>
-        <button type="submit" class="btn btn-primary" onclick="loading()">Submit</button>
+
+        <div align="center">
+        <button type="submit" class="btn btn-primary" onclick="loading()" >Submit</button>
+        </div>
+
+
       </form>
-    </div>
+
     <script>
         var drop = document.getElementById("year");
         var thisYear = new Date().getFullYear();
@@ -827,7 +832,7 @@ input:checked + .slider:before {
                 </td>
                 <td> <input  style="border: none;" class = "inputPost" type="text" name=teamSport value="{{team_sport}}"readonly="readonly"></td>
                 <td>{{team_gender}}</td>
-                
+
                 <td>{{length_dict}}</td>
                 {%for keyWord in keyWordCountKeys%}
                 <td> {{keyWordCountDict[keyWord]}}</td>

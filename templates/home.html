@@ -753,8 +753,8 @@ input:checked + .slider:before {
 
 
         </div>
-        <button type="submit" class="btn btn-primary" onclick="loading()" name = "action" value="submit">Submit</button>  
-        <button type="submit" class="btn btn-primary" name = "action" value="getPreviousResults">Get Previous Results</button> 
+        <button type="submit" class="btn btn-primary" onclick="loading()" name = "action" value="submit">Submit</button>
+        <button type="submit" class="btn btn-primary" name = "action" value="getPreviousResults">Get Previous Results</button>
 
 
       </form>
@@ -785,15 +785,13 @@ input:checked + .slider:before {
 
 
       {% if processed %}
-      <div class="justify-content-center row" align='center'>
+        <label id ="a" class="switch" onchange="OnOff()"align="left">
+          <input id = "check"type="checkbox" align="left">
+          <span class="slider round"></span>
+        </label>
+        <div id = "TF"></div>
 
-    <label id ="a" class="switch" onchange="OnOff()"align="left">
-      <input id = "check"type="checkbox" align="left">
-      <span class="slider round"></span>
-    </label>
-    <div id = "TF"></div>
-
-
+  <div class="justify-content-center row" align='center'>
     <div id="checkL" class="row checkList">
       <form id="clForm" action='/postCheckList' method="POST" enctype="multipart/form-data">
         <div style="margin-left: 70px">
@@ -826,32 +824,30 @@ input:checked + .slider:before {
               </tr>
             </tbody>
         </table>
+      </div>
 
-
-        </div>
-        
-        {% if isGetPreviousResults%} 
+        {% if isGetPreviousResults%}
         <ul id="cList" style="list-style: none;">
           <!-- For loop logic of jinja template -->
-          {%for i in range(0, len1)%} 
-            {%if list1[i].strip() in checkedList%} 
+          {%for i in range(0, len1)%}
+            {%if list1[i].strip() in checkedList%}
             <br class="row float-left">
               <li class="col"><input style="margin-top: 8px;" class = "float-left" type="checkbox" name="checkboxVal" value="{{list1[i]}}" checked><div style="text-align: justify; margin-left: 25px;">
                 {{list1[i].strip()}}
-              </div></li>  
+              </div></li>
               <li class="col"><input style="display:none;" name="result" value="{{list1[i].strip()}}"></li>
-            </br> 
+            </br>
 
-            {%else%}            
+            {%else%}
             <br class="row float-left">
               <li class="col"><input style="margin-top: 8px;" class = "float-left" type="checkbox" name="checkboxVal" value="{{list1[i]}}"><div style="text-align: justify; margin-left: 25px;">
                 {{list1[i].strip()}}
-              </div></li>  
+              </div></li>
               <li class="col"><input style="display:none;" name="result" value="{{list1[i].strip()}}"></li>
-            </br> 
+            </br>
             {%endif%}
           {%endfor%}
-        </ul> 
+        </ul>
 
 
 
@@ -862,11 +858,11 @@ input:checked + .slider:before {
           <br class="row float-left">
             <li class="col"><input style="margin-top: 8px;" class = "float-left" type="checkbox" name="checkboxVal" value="{{list1[i]}}"><div style="text-align: justify; margin-left: 25px;">
               {{list1[i].strip()}}
-            </div></li>  
+            </div></li>
             <li class="col"><input style="display:none;" name="result" value="{{list1[i].strip()}}"></li>
         </br>
           {%endfor%}
-        </ul> 
+        </ul>
         {% endif %}
 
 
