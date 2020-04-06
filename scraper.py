@@ -49,7 +49,11 @@ def find_items(team_links, base_url):
                                     tokens = word_tokenize(all_textlist[i])
                                     if each in tokens:
                                         item_append = ' '.join(tokens)
+                                        
+                                        if item_append in true_list:
+                                            continue
                                         true_list.append(item_append)
+                                       
        
         #new_soup.get_text())
         #print(new_soup.select('div'))

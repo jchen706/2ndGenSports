@@ -29,6 +29,7 @@ from dynamo import *
 
 from scraper import *
 from s3 import *
+from scraperdynamo import *
 
 #from flask_sqlalchemy import SQLAlchemy
 #import SQLAlchemy
@@ -536,9 +537,19 @@ def processScraper():
 
 
 
+
         if error_scraper:
             return render_template('scraperx.html', teamId="nothing is processed", processed=processed)
         else:
+            
+            true_dict = return_dict.copy()
+            for key1, value in true_dict.items():
+                if len(value) == 0:
+                    return_dict.pop(key1, None)
+
+
+           
+
             keyWordCountDict = {}
             for key, value in return_dict.items():  
 
@@ -550,6 +561,8 @@ def processScraper():
                             keyWordCountDict[each] += 1 
                         else:
                             keyWordCountDict[each] = 1 
+            
+            
 
 
             return render_template('scraperx.html', returnTeam=return_dict, processed=processed,
@@ -572,6 +585,77 @@ def processScraper():
     return render_template('scraperx.html', teamId="nothing is processed", processed=processed)
 
 
+
+@app.route('/postScraperCheck',methods = ['POST'])
+def postCheckListScraper():
+
+
+    if(request.method == "POST"):
+        year = None
+        team = None
+        gender = None
+        sport = None
+        team = request.form['teamName']
+        year = request.form['teamYear']
+        sport = request.form['teamSport']
+        list1 = request.form.getlist("checkboxVal") 
+        newDict = {}
+        import ast
+        for i in range(len(list1)):
+            #list1[i] = list1[i].replace("\'", "\"")
+            print(list1[i])
+            ab = ast.literal_eval(list1[i])
+            newDict.update(ab)
+
+        #diction = json.loads(list1)
+
+        resultsList = request.form.getlist('result')
+        count = len(list1)
+        teamid = sport+team+str(year)
+
+        print(sport)
+        print(team)
+        print(year)
+        print(count)
+        print("list $$$$")
+        print(list1)
+        print("result $$$$$$$")
+        #print(newDict)  
+
+
+
+       
+
+        # keyWordCountDict = {}
+        # for aSentence in list1:  
+
+        #     for each in keyWordList: 
+
+        #         if each in aSentence.lower().split():
+
+        #             if (each in keyWordCountDict):
+        #                 keyWordCountDict[each] += 1 
+        #             else:
+        #                 keyWordCountDict[each] = 1 
+
+
+        added = False
+        scraperputItem(sport,team,year,count, newDict)
+
+        added = True
+        item1 = scrapergetItem(sport,team, year) 
+        item1 = [item1]
+        print(item1)  
+
+        
+
+
+        return render_template('postedScraper.html',teamId="nothing is processed",added1=added, items = item1, teamDict=item1[0]['teamDict'])
+    else:
+        return render_template('postedScraper.html', teamId="nothing is processed")
+
+
+    return render_template('postedScraper.html', teamId="nothing is processed")
 
 
 

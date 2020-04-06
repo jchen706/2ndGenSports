@@ -809,7 +809,7 @@ input:checked + .slider:before {
 
 
     <div id="checkL" class="row checkList">
-      <form id="clForm" action='/postCheckList' method="POST" enctype="multipart/form-data">
+      <form id="clForm" action='/postScraperCheck' method="POST" enctype="multipart/form-data">
         <div style="margin-left: 70px">
           <table class="table">
             <thead>
@@ -846,9 +846,10 @@ input:checked + .slider:before {
         </div>
         <ul id="cList" style="list-style: none;">
             <!-- For loop logic of jinja template -->
+            
             {% for key, value in returnTeam.items(): %}
             <br class="row float-left">
-              <li class="col"><input style="margin-top: 8px;" class = "float-left" type="checkbox" name="checkboxVal" value="{{key}}">
+              <li class="col"><input style="margin-top: 8px;" class = "float-left" type="checkbox" name="checkboxVal" value="{{{key:value}}}">
                 <div style="text-align: justify; margin-left: 25px;">
                 {{key}}
                 <ul>
