@@ -674,8 +674,41 @@ def postCheckListScraper():
         return render_template('postedScraper.html', teamId="nothing is processed")
 
 
-    return render_template('postedScraper.html', teamId="nothing is processed")
+    return render_template('postedScraper.html', teamId="nothing is processed") 
 
+@app.route('/deleteAll', methods= ['POST'])
+def deleteAll():
+    
+
+    if(request.method == 'POST'): 
+
+
+        list1 = request.form.getlist("deleteCheck") 
+        for id in list1:
+            deleteItem(id)
+
+        items = getAllItems() 
+        added = False
+
+        return render_template('postedList.html', added1 = added, items = items, keyWordList = keyWordList)
+        
+
+@app.route('/deleteAllScraper', methods= ['POST'])
+def deleteAllScraper():
+    
+
+    if(request.method == 'POST'): 
+
+
+        list1 = request.form.getlist("deleteCheck") 
+        for id in list1:
+            scraperdeleteItem(id)
+
+        items = scrapergetAllItems() 
+        added = False
+
+        return render_template('postedScraper.html', added1 = added, items = items, keyWordList = keyWordList)
+        
 
 
 if __name__ == '__main__':

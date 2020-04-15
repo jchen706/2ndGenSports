@@ -24,10 +24,11 @@
 
 
       <hr>
-     
+      <form action= '/deleteAll' method='POST' enctype="multipart/form-data">
       <table id="postedTable" class="table">
         <thead>
-          <tr>
+          <tr> 
+            <th scope="col"></th>
             <th scope="col">Team</th>
             <th scope="col">Year</th>
             <th scope="col">Sport</th>
@@ -40,31 +41,45 @@
         <tbody>
 
           {%for item in items%}
-          <tr>
-            <th scope="row">{{item['TeamName'].upper()}} </th>
+          <tr>  
+            
+            <!-- <td><input type="checkbox" name="deleteCheck" />&nbsp;</td> --> 
+            <td><input type=checkbox name = deleteCheck value="{{item['ID']}}"></td>
+            <td>{{item['TeamName'].upper()}} </td>
             <td>{{item['Year']}} </td>
             <td>{{item['Sport']}} </td>
-            <td>{{item['Count']}}</td>
+            <td>{{item['Count']}}</td> 
             {%for keyWord in keyWordList%}
             <td>{{item[keyWord]}}</td>
-            {%endfor%}
+            {%endfor%}  
+             
           </tr>
           {%endfor%}
         </tbody>
-    </table>
+    </table>  
+   <!--  With selected:
+    <input type=submit value=Delete>
+ -->
+    <button type='submit' class="userBtn btn btn-dark">Delete Checked Rows</button> 
+    </form> 
+   
     <form action='/' method="GET" enctype="multipart/form-data">
-      <button type="submit" class="userBtn btn btn-dark">Home</button>
+      <button type="submit" id = "Home" class="userBtn btn btn-dark">Home</button>
     </form>
 
 
     <form action= '/getAll' method='GET' enctype="multipart/form-data">
-      <button type='submit' class="userBtn btn btn-dark">Get All Data</button>
-    </form>
+      <button type='submit' id = "GetAllData" class="userBtn btn btn-dark">Get All Data</button> 
+    </form> 
+
+
+       
+   
 
 
 
 
-    <button id="btnExportToCsv" type="button" class="button">Export to CSV</button>
+    <button id="btnExportToCsv" type="button" id = "Export" class="button">Export to CSV</button>
     <script type="text/javascript" src="../static/TableCSVExporter.js" ></script>
     <script>
         const dataTable = document.getElementById("postedTable");
@@ -85,7 +100,7 @@
                 URL.revokeObjectURL(blobUrl);
             }, 500);
         });
-    </script>
+    </script> 
     </div>
   </div>
 </body>

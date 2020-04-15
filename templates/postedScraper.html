@@ -25,10 +25,11 @@
 
       <hr>
       
-      
+      <form action= '/deleteAllScraper' method='POST' enctype="multipart/form-data">
       <table id="postedTable" class="table">
         <thead>
-          <tr>
+          <tr> 
+            <th scope="col"></th>
             <th scope="col">Team</th>
             <th scope="col">Year</th>
             <th scope="col">Sport</th>
@@ -42,8 +43,9 @@
           
           {%for item in items%}
          
-          <tr>
-            <th scope="row">{{item['TeamName'].upper()}} </th>
+          <tr> 
+            <td><input type=checkbox name = deleteCheck value="{{item['ID']}}"></td>
+            <td>{{item['TeamName'].upper()}} </td>
             <td>{{item['Year']}} </td>
             <td>{{item['Sport']}} </td>
             <td>{{item['Count']}}</td>  
@@ -53,7 +55,10 @@
           </tr>
           {%endfor%}
         </tbody>
-    </table>
+    </table> 
+
+    <button type='submit' class="userBtn btn btn-dark">Delete Checked Rows</button>  
+    </form>
 
 
 

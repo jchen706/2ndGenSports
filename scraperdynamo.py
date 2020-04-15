@@ -128,35 +128,35 @@ def scrapergetItem(sport, teamName, year):
 
 	return response["Item"] 
 
-def scraperdeleteItem(sport, teamName, year): 
+def scraperdeleteItem(ID): 
 
-	#checking if sport variable is a string
-	if not (type(sport) == str):
-		sport = str(sport)
+	# #checking if sport variable is a string
+	# if not (type(sport) == str):
+	# 	sport = str(sport)
 
-	#checking if teamName variable is a string
-	if not (type(teamName) == str):
-		teamName = str(teamName)
+	# #checking if teamName variable is a string
+	# if not (type(teamName) == str):
+	# 	teamName = str(teamName)
 
-	#checking if year variable is an int
-	if not (type(year) == int):
-		year = int(year)
-
-
-	#checking if sport and teamName are all lowercase and them of beginning and ending whitespace
-	if not (sport.islower()):
-		sport = sport.lower()
-
-	sport = sport.strip()
-
-	if not (teamName.islower()):
-		teamName = teamName.lower()
-
-	teamName = teamName.strip()
+	# #checking if year variable is an int
+	# if not (type(year) == int):
+	# 	year = int(year)
 
 
-	#creating ID which is used to uniquely identify the data in the database
-	ID = sport + teamName + str(year) 
+	# #checking if sport and teamName are all lowercase and them of beginning and ending whitespace
+	# if not (sport.islower()):
+	# 	sport = sport.lower()
+
+	# sport = sport.strip()
+
+	# if not (teamName.islower()):
+	# 	teamName = teamName.lower()
+
+	# teamName = teamName.strip()
+
+
+	# #creating ID which is used to uniquely identify the data in the database
+	# ID = sport + teamName + str(year) 
 
 	response = table.delete_item( 
 		Key = { 
