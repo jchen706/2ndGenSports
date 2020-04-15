@@ -22,7 +22,7 @@ from tika import parser
 import re
 
 from nltk.tokenize import sent_tokenize
-from dynamo import * 
+from dynamo import *
 
 
 
@@ -61,9 +61,9 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 #         self.arg = arg
 
 
-# @app.errorhandler(400)
-# def bad_request(e):
-#      return render_template('400.html'), 400
+@app.errorhandler(400)
+def bad_request(e):
+    return render_template('400.html'), 400
 
 
 keyWordList = ['parent','parents', 'father', 'mother', 'dad', 'mom', 'son', 'daughter']
@@ -147,9 +147,9 @@ def index():
 
 
     #action posted from frontend
-    if(request.method == "POST"): 
+    if(request.method == "POST"):
 
-        if request.form['action'] == "submit":  
+        if request.form['action'] == "submit":
 
 
             isGetPreviousResults = False
@@ -210,18 +210,18 @@ def index():
                     tokenizer_words = TweetTokenizer()
                     tokens_sentences = [tokenizer_words.tokenize(t) for t in nltk.sent_tokenize(input_text)]
                     #print(tokens_sentences)
-                   
+
                     count = 0
 
                     wantedList=['parent','Parents', 'Father', 'Mother', 'father', 'mother', 'dad', 'Dad', 'Mom', 'mom', 'son', 'Son', 'daughter', 'Daughter']
 
                     wantedListDictionary = {}
                     count1 = 0
-                    wantedListSentences = [] 
+                    wantedListSentences = []
 
                     #keeps track of the count of each keyword. Key: "keyword", Value: "count". Note that similar keywords like parent and Parents fall under the same key.
-                    keyWordCountDict = {} 
-                    
+                    keyWordCountDict = {}
+
                     import csv
                     with open('employee_file.csv', mode='w', encoding='utf-8', newline='') as employee_file:
                             employee_writer = csv.writer(employee_file, delimiter='|', quotechar='"', quoting=csv.QUOTE_MINIMAL)
@@ -229,25 +229,25 @@ def index():
 
                     for i in range(len(tokens_sentences)):
                         wantedListDictionary[count1] = []
-                        eachSentence = tokens_sentences[i] 
+                        eachSentence = tokens_sentences[i]
                         #punctuations = '''!()-[]{};:'"\,<>./?@#$%^&*_~'''
                         import string
                         #file3 = open('newfile.txt', "w")
                         #file3.writelines(", ".join(str(x) for x in eachSentence))
-       
+
                         # foundKeyWord = False
                         hits=[]
                         for each in wantedList:
-                            if each in eachSentence: 
+                            if each in eachSentence:
                                 print(eachSentence)
                                 hits.append(eachSentence)
                                 with open('sentence.csv', mode='w', encoding='utf-8', newline='') as sen_file:
                                     employee_writer = csv.writer(sen_file, delimiter='|', quotechar='"', quoting=csv.QUOTE_MINIMAL)
                                     employee_writer.writerow(hits)
 
-                            # if not foundKeyWord: 
+                            # if not foundKeyWord:
 
-                              
+
                                 #print(" ")
                                 #print(" ")
                                 if eachSentence[len(eachSentence)-2] == "No":
@@ -256,16 +256,16 @@ def index():
                                     eachSentence.extend(tokens_sentences[i+1])
                                     #print(eachSentence)
 
-                                
+
                                 aSentence =' '.join(eachSentence)
                                 #print(aSentence)
                                 wantedListDictionary[count1].append(aSentence)
                                 count1+=1
-                                wantedListSentences.append(aSentence)  
+                                wantedListSentences.append(aSentence)
                                 # foundKeyWord = True
 
                             # if (each.lower() in keyWordCountDict):
-                            #     keyWordCountDict[each.lower()] += 1 
+                            #     keyWordCountDict[each.lower()] += 1
                             # else:
                             #     keyWordCountDict[each.lower()] = 1
 
@@ -330,22 +330,22 @@ def index():
 
                     #print(cuttedWantedListDictionary)
                     list33 = []
-                    #print(len(cuttedWantedListDictionary)) 
+                    #print(len(cuttedWantedListDictionary))
 
                     for key in cuttedWantedListDictionary:
                         for ij in range(len(cuttedWantedListDictionary[key])):
                              if(len(cuttedWantedListDictionary[key][0]) > 0):
                                 aSentence =' '.join(cuttedWantedListDictionary[key][0])
-                                 #print(aSentence) 
+                                 #print(aSentence)
 
 
-                                list33.append(aSentence.strip()) 
+                                list33.append(aSentence.strip())
 
                                 for each in keyWordList:
                                     if each in aSentence.lower().split():
 
                                         if (each in keyWordCountDict):
-                                            keyWordCountDict[each] += 1 
+                                            keyWordCountDict[each] += 1
                                         else:
                                             keyWordCountDict[each] = 1
                                 break
@@ -353,10 +353,11 @@ def index():
 
                     return render_template('home.html', processed = processed, isGetPreviousResults = isGetPreviousResults, team_name =team , team_year=year, team_gender=gender, team_sport=sport, list1 = list33, len1 = len(list33), keyWordList = keyWordList, keyWordCountKeys = keyWordCountDict.keys(), keyWordCountDict = keyWordCountDict)
             else:
-                abort(400, description="No file submitted.") 
-        
-        elif request.form['action'] == "getPreviousResults": 
-            
+                abort(400, description="No file submitted.")
+
+        elif request.form['action'] == "getPreviousResults":
+
+
             isGetPreviousResults = True
 
             year = request.form['year']
@@ -377,27 +378,30 @@ def index():
             try:
                 year = int(year)
             except:
-                error_year = True 
+                error_year = True
 
 
-            keyWordCountDict = {}  
+            keyWordCountDict = {}
+            try:
+                item = getItem(sport, team, year)
+            except KeyError as e:
+                return render_template('402.html')
 
-            item = getItem(sport, team, year) 
 
-            checkedList = item["checkedList"] 
-            resultsList = item["resultsList"] 
+            checkedList = item["checkedList"]
+            resultsList = item["resultsList"]
 
-            for aSentence in resultsList: 
+            for aSentence in resultsList:
                 for each in keyWordList:
                     if each in aSentence.lower().split():
 
                         if (each in keyWordCountDict):
-                            keyWordCountDict[each] += 1 
+                            keyWordCountDict[each] += 1
                         else:
                             keyWordCountDict[each] = 1
 
-
             return render_template('home.html', processed = processed, isGetPreviousResults = isGetPreviousResults, team_name =team , team_year=year, team_gender=gender, team_sport=sport, list1 = resultsList, len1 = len(resultsList), checkedList = checkedList, keyWordList = keyWordList, keyWordCountKeys = keyWordCountDict.keys(), keyWordCountDict = keyWordCountDict)
+
 
 
 
@@ -428,7 +432,7 @@ def postCheckList():
         team = request.form['teamName']
         year = request.form['teamYear']
         sport = request.form['teamSport']
-        list1 = request.form.getlist('checkboxVal')  
+        list1 = request.form.getlist('checkboxVal')
         resultsList = request.form.getlist('result')
         count = len(list1)
         teamid = sport+team+str(year)
@@ -436,33 +440,33 @@ def postCheckList():
         print(sport)
         print(team)
         print(year)
-        print(count)  
+        print(count)
 
 
 
-       
+
 
         keyWordCountDict = {}
-        for aSentence in list1:  
+        for aSentence in list1:
 
-            for each in keyWordList: 
+            for each in keyWordList:
 
                 if each in aSentence.lower().split():
 
                     if (each in keyWordCountDict):
-                        keyWordCountDict[each] += 1 
+                        keyWordCountDict[each] += 1
                     else:
-                        keyWordCountDict[each] = 1 
+                        keyWordCountDict[each] = 1
 
 
         added = False
         putItem(sport,team,year,count, keyWordCountDict, list1, resultsList)
 
         added = True
-        item1 = getItem(sport,team, year) 
-        item1 = [item1]  
+        item1 = getItem(sport,team, year)
+        item1 = [item1]
 
-        
+
 
 
         return render_template('postedList.html', added1 = added , items = item1, keyWordList = keyWordList, keyWordCountKeys = keyWordCountDict.keys(), keyWordCountDict = keyWordCountDict)
@@ -473,30 +477,30 @@ def postCheckList():
     return render_template('postedList.html', teamId="nothing is processed")
 
 
-@app.route('/getAll', methods = ['GET']) 
+@app.route('/getAll', methods = ['GET'])
 def getAllData():
 
-  
 
 
-    if(request.method == "GET"): 
-        items = getAllItems() 
+
+    if(request.method == "GET"):
+        items = getAllItems()
         added = False
 
         return render_template('postedList.html', added1 = added, items = items, keyWordList = keyWordList)
- 
 
-@app.route('/getScraperData', methods = ['GET']) 
+
+@app.route('/getScraperData', methods = ['GET'])
 def getAllScraperData():
 
-  
 
 
-    if(request.method == "GET"): 
-        items = scrapergetAllItems() 
+
+    if(request.method == "GET"):
+        items = scrapergetAllItems()
         added = False
 
-        return render_template('postedScraper.html', added1 = added, items = items, keyWordList = keyWordList) 
+        return render_template('postedScraper.html', added1 = added, items = items, keyWordList = keyWordList)
 
 @app.route('/getScraper', methods= ['GET'])
 def getScraper():
@@ -524,7 +528,7 @@ def processScraper():
         gender = request.form['gender']
         sport = request.form['sport']
         team = request.form['team']
-      
+
 
         processed = True
 
@@ -542,53 +546,57 @@ def processScraper():
         try:
             return_dict = base_scraper(roster_url, base_url)
         except:
-            error_year = True
+            return render_template('404.html')
 
 
         if return_dict == None:
+
             return render_template('scraperx.html', teamId="nothing is processed", processed=processed)
+
 
 
 
 
         if error_scraper:
+
             return render_template('scraperx.html', teamId="nothing is processed", processed=processed)
+
         else:
-            
+
             true_dict = return_dict.copy()
             for key1, value in true_dict.items():
                 if len(value) == 0:
                     return_dict.pop(key1, None)
 
 
-           
+
 
             keyWordCountDict = {}
-            for key, value in return_dict.items():  
+            for key, value in return_dict.items():
 
-                for each in keyWordList: 
+                for each in keyWordList:
 
-                    for bullet in value: 
+                    for bullet in value:
 
                         if each in bullet.lower().split():
 
                             if (each in keyWordCountDict):
-                                keyWordCountDict[each] += 1   
+                                keyWordCountDict[each] += 1
                                 print("found " + each + " for " + key)
                                 break
                             else:
-                                keyWordCountDict[each] = 1   
+                                keyWordCountDict[each] = 1
                                 print("found " + each + " for " + key)
                                 break
-            
-            
+
+
 
 
             return render_template('scraperx.html', returnTeam=return_dict, processed=processed,
-            team_name =team , team_year=year, team_gender=gender, team_sport=sport, keyWordList = keyWordList, 
+            team_name =team , team_year=year, team_gender=gender, team_sport=sport, keyWordList = keyWordList,
             keyWordCountKeys = keyWordCountDict.keys(), keyWordCountDict = keyWordCountDict, length_dict = len(return_dict))
 
-            
+
 
 
 
@@ -600,7 +608,7 @@ def processScraper():
         return render_template('scraperx.html', teamId="nothing is processed", processed=processed)
 
 
-        
+
     return render_template('scraperx.html', teamId="nothing is processed", processed=processed)
 
 
@@ -617,7 +625,7 @@ def postCheckListScraper():
         team = request.form['teamName']
         year = request.form['teamYear']
         sport = request.form['teamSport']
-        list1 = request.form.getlist("checkboxVal") 
+        list1 = request.form.getlist("checkboxVal")
         newDict = {}
         import ast
         for i in range(len(list1)):
@@ -639,34 +647,34 @@ def postCheckListScraper():
         print("list $$$$")
         print(list1)
         print("result $$$$$$$")
-        #print(newDict)  
+        #print(newDict)
 
 
 
-       
+
 
         keyWordCountDict = {}
-        for aSentence in list1:  
+        for aSentence in list1:
 
-            for each in keyWordList: 
+            for each in keyWordList:
 
                 if each in aSentence.lower().split():
 
                     if (each in keyWordCountDict):
-                        keyWordCountDict[each] += 1 
+                        keyWordCountDict[each] += 1
                     else:
-                        keyWordCountDict[each] = 1 
+                        keyWordCountDict[each] = 1
 
 
         added = False
         scraperputItem(sport,team,year,count, newDict, keyWordCountDict)
 
         added = True
-        item1 = scrapergetItem(sport,team, year) 
+        item1 = scrapergetItem(sport,team, year)
         item1 = [item1]
-        print(item1)  
+        print(item1)
 
-        
+
 
 
         return render_template('postedScraper.html',teamId="nothing is processed",added1=added, items = item1, teamDict=item1[0]['teamDict'], keyWordList = keyWordList, keyWordCountKeys = keyWordCountDict.keys(), keyWordCountDict = keyWordCountDict)
@@ -674,41 +682,41 @@ def postCheckListScraper():
         return render_template('postedScraper.html', teamId="nothing is processed")
 
 
-    return render_template('postedScraper.html', teamId="nothing is processed") 
+    return render_template('postedScraper.html', teamId="nothing is processed")
 
 @app.route('/deleteAll', methods= ['POST'])
 def deleteAll():
-    
-
-    if(request.method == 'POST'): 
 
 
-        list1 = request.form.getlist("deleteCheck") 
+    if(request.method == 'POST'):
+
+
+        list1 = request.form.getlist("deleteCheck")
         for id in list1:
             deleteItem(id)
 
-        items = getAllItems() 
+        items = getAllItems()
         added = False
 
         return render_template('postedList.html', added1 = added, items = items, keyWordList = keyWordList)
-        
+
 
 @app.route('/deleteAllScraper', methods= ['POST'])
 def deleteAllScraper():
-    
-
-    if(request.method == 'POST'): 
 
 
-        list1 = request.form.getlist("deleteCheck") 
+    if(request.method == 'POST'):
+
+
+        list1 = request.form.getlist("deleteCheck")
         for id in list1:
             scraperdeleteItem(id)
 
-        items = scrapergetAllItems() 
+        items = scrapergetAllItems()
         added = False
 
         return render_template('postedScraper.html', added1 = added, items = items, keyWordList = keyWordList)
-        
+
 
 
 if __name__ == '__main__':
