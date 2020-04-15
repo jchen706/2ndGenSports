@@ -32,7 +32,10 @@
             <th scope="col">Team</th>
             <th scope="col">Year</th>
             <th scope="col">Sport</th>
-            <th scope="col">Total Count</th>
+            <th scope="col">Total Count</th> 
+            {%for keyWord in keyWordList%}
+            <th scope="col">"{{keyWord}}" Count</th>
+            {%endfor%}
           </tr>
         </thead>
         <tbody>
@@ -43,35 +46,23 @@
             <th scope="row">{{item['TeamName'].upper()}} </th>
             <td>{{item['Year']}} </td>
             <td>{{item['Sport']}} </td>
-            <td>{{item['Count']}}</td>   
+            <td>{{item['Count']}}</td>  
+            {%for keyWord in keyWordList%}
+            <td>{{item[keyWord]}}</td>
+            {%endfor%}  
           </tr>
           {%endfor%}
         </tbody>
     </table>
-    <div class="row">
-    <ul id="cList" style="list-style: none;">
-    {% for key, value in teamDict.items() %}
-    <br class="row float-left">
-      <li class="col">
-        <div style="text-align: justify; margin-left: 25px;">
-        {{key}}
-        <ul>
-          {%for each in value%}
-            <ul>{{each}}</ul>
-          {%endfor%}
-        </ul>
-        </div>
-     </li>
-  </br>
-    {%endfor%}
-    </ul>
-    </div>
+
+
+
     <form action='/' method="GET" enctype="multipart/form-data">
       <button type="submit" class="userBtn btn btn-dark">Home</button>
     </form>
 
 
-    <form action= '/getAll' method='GET' enctype="multipart/form-data">
+    <form action= '/getScraperData' method='GET' enctype="multipart/form-data">
       <button type='submit' class="userBtn btn btn-dark">Get All Data</button>
     </form>
 

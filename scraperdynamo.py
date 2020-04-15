@@ -16,7 +16,7 @@ print(boto3.client('dynamodb',region_name='us-east-1' ).list_tables())
 
 
 # method used to add an item into the database
-def scraperputItem(sport, teamName, year, count, newDict):
+def scraperputItem(sport, teamName, year, count, newDict, keyWordCountDict):
 
 
 	#checking if sport variable is a string
@@ -64,7 +64,23 @@ def scraperputItem(sport, teamName, year, count, newDict):
 			,
 			"Count": count 
 			, 
-			"teamDict": newDict 
+			"teamDict": newDict  
+			, 
+			"parent": keyWordCountDict.get("parent", 0) 
+			, 
+			"parents": keyWordCountDict.get("parents", 0) 
+			, 
+			"father": keyWordCountDict.get("father", 0)   
+			, 
+			"mother": keyWordCountDict.get("mother", 0)  
+			, 
+			"dad": keyWordCountDict.get("dad", 0)  
+			, 
+			"mom": keyWordCountDict.get("mom", 0)  
+			, 
+			"son": keyWordCountDict.get("son", 0)  
+			, 
+			"daughter": keyWordCountDict.get("daughter", 0) 
 			
 		}
 

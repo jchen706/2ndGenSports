@@ -484,6 +484,19 @@ def getAllData():
         added = False
 
         return render_template('postedList.html', added1 = added, items = items, keyWordList = keyWordList)
+ 
+
+@app.route('/getScraperData', methods = ['GET']) 
+def getAllScraperData():
+
+  
+
+
+    if(request.method == "GET"): 
+        items = scrapergetAllItems() 
+        added = False
+
+        return render_template('postedScraper.html', added1 = added, items = items, keyWordList = keyWordList) 
 
 @app.route('/getScraper', methods= ['GET'])
 def getScraper():
@@ -555,12 +568,18 @@ def processScraper():
 
                 for each in keyWordList: 
 
-                    if each in value:
+                    for bullet in value: 
 
-                        if (each in keyWordCountDict):
-                            keyWordCountDict[each] += 1 
-                        else:
-                            keyWordCountDict[each] = 1 
+                        if each in bullet.lower().split():
+
+                            if (each in keyWordCountDict):
+                                keyWordCountDict[each] += 1   
+                                print("found " + each + " for " + key)
+                                break
+                            else:
+                                keyWordCountDict[each] = 1   
+                                print("found " + each + " for " + key)
+                                break
             
             
 
@@ -626,21 +645,21 @@ def postCheckListScraper():
 
        
 
-        # keyWordCountDict = {}
-        # for aSentence in list1:  
+        keyWordCountDict = {}
+        for aSentence in list1:  
 
-        #     for each in keyWordList: 
+            for each in keyWordList: 
 
-        #         if each in aSentence.lower().split():
+                if each in aSentence.lower().split():
 
-        #             if (each in keyWordCountDict):
-        #                 keyWordCountDict[each] += 1 
-        #             else:
-        #                 keyWordCountDict[each] = 1 
+                    if (each in keyWordCountDict):
+                        keyWordCountDict[each] += 1 
+                    else:
+                        keyWordCountDict[each] = 1 
 
 
         added = False
-        scraperputItem(sport,team,year,count, newDict)
+        scraperputItem(sport,team,year,count, newDict, keyWordCountDict)
 
         added = True
         item1 = scrapergetItem(sport,team, year) 
@@ -650,7 +669,7 @@ def postCheckListScraper():
         
 
 
-        return render_template('postedScraper.html',teamId="nothing is processed",added1=added, items = item1, teamDict=item1[0]['teamDict'])
+        return render_template('postedScraper.html',teamId="nothing is processed",added1=added, items = item1, teamDict=item1[0]['teamDict'], keyWordList = keyWordList, keyWordCountKeys = keyWordCountDict.keys(), keyWordCountDict = keyWordCountDict)
     else:
         return render_template('postedScraper.html', teamId="nothing is processed")
 
