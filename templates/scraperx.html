@@ -658,7 +658,11 @@ input:checked + .slider:before {
       <p></p>
     </div>
 
-    <div class="justify-content-center row" align='center'>
+    <div class="justify-content-center row" align='center'> 
+
+       <form action= '/' method='GET' enctype="multipart/form-data">
+            <button type='submit' class="userBtn btn btn-dark">Home</button>
+        </form> 
       <button type="button" class="userBtn btn btn-dark" data-toggle="modal" data-target="#aboutModal">About</button>
         <!-- About Modal -->
           <div class="modal fade" id="aboutModal" role="dialog">
@@ -671,7 +675,7 @@ input:checked + .slider:before {
                   <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <div class="modal-body">
-                  <p>2nd Generation Sports Success helps automate the retrieval of 2nd generation athletes for a team. It does this by using a team’s media guide PDF that is uploaded to the website. To ensure the accuracy of the gathered data, we provide a quality assurance checkbox system. The data can be outputted to an Excel file for your convenience. URL input is still being developed.</p>
+                  <p>2nd Generation Sports Success helps automate the retrieval of 2nd generation athletes for a team. It does this by using a team’s media guide PDF that is uploaded to the website. To ensure the accuracy of the gathered data, we provide a quality assurance checkbox system. The data can be outputted to an Excel file for your convenience. Additionally, the user has the option to use our web scraper instead of a media guide PDF as a source of data.</p>
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -681,7 +685,7 @@ input:checked + .slider:before {
             </div>
           </div>
 
-      <button type="button" class="userBtn btn btn-dark" data-toggle="modal" data-target="#userGuideModal">Help Guide</button>
+      <button type="button" class="userBtn btn btn-dark" data-toggle="modal" data-target="#userGuideModal">User Guide</button>
         <!-- User Guide Modal -->
           <div class="modal fade" id="userGuideModal" role="dialog">
             <div class="modal-dialog">
@@ -694,8 +698,13 @@ input:checked + .slider:before {
                 </div>
                 <div class="modal-body">
                   <ol class="float-left">
-                      <li class="float-left">Select year, gender, sport and team.</li>
-                      <li class="float-left">Upload the corresponding team's media guide PDF.</li>
+                      <li class="float-left">Select year, gender, sport, page format, and team.</li>
+                      <li class="float-left">Specify the Roster Input URL and base URL. For example: </li>  
+                        <ul class="float-left">
+                          <li class="float-left">Roster Input URl:</li> 
+                          <li class="float-left">https://mgoblue.com/sports/mens-basketball/roster</li> 
+                          <li class="float-left">Base URL: https://mgoblue.com</li> 
+                        </ul> 
                       <li class="float-left">Click submit.</li>
                       <li class="float-left">Wait for the program to find potential 2nd gen athletes.</li>
                       <li class="float-left">Use checkboxes to confirm found 2nd gen athletes.</li>
@@ -711,9 +720,7 @@ input:checked + .slider:before {
           </div>
 
 
-          <form action= '/' method='GET' enctype="multipart/form-data">
-            <button type='submit' class="userBtn btn btn-dark">Home</button>
-        </form> 
+         
 
           <form action= '/getScraperData' method='GET' enctype="multipart/form-data">
             <button type='submit' class="userBtn btn btn-dark">Get All Data from Scraper</button>
