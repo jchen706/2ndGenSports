@@ -530,6 +530,8 @@ def processScraper():
         team = request.form['team']
 
 
+
+
         processed = True
 
         roster_url = str(roster_url)
