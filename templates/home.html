@@ -791,59 +791,77 @@ input:checked + .slider:before {
         </label>
         <div id = "TF"></div>
 
-  <div class="justify-content-center row" align='center'>
-    <div id="checkL" class="row checkList">
-      <form id="clForm" action='/postCheckList' method="POST" enctype="multipart/form-data">
-        <div style="margin-left: 70px">
-          <table class="table">
-            <thead>
-              <tr>
-                <th scope="col">Team</th>
-                <th scope="col">Year</th>
-                <th scope="col">Sport</th>
-                <th scope="col">Gender</th>
-                <th scope="col">Total Count</th>
-                {%for keyWord in keyWordCountKeys%}
-                <th scope="col">"{{keyWord}}" Count</th>
-                {%endfor%}
-              </tr>
-            </thead>
-            <tbody>
-              <tr >
+        <div class="justify-content-center row" align='center'>
+          <div id="checkL" class="row checkList">
+            <form id="clForm" action='/postCheckList' method="POST" enctype="multipart/form-data">
+              <div style="margin-left: 70px; overflow: auto;">
+                <table class="table">
+                  <thead >
+                    <tr>
+                      <th scope="col">Team</th>
+                      <th scope="col">Year</th>
+                      <th scope="col">Sport</th>
+                      <th scope="col">Gender</th>
+                      <th scope="col">Total Count</th>
+                      {%for keyWord in keyWordCountKeys%}
+                      <th scope="col">"{{keyWord}}" Count</th>
+                      {%endfor%}
+                    </tr>
+                  </thead >
+                  <tbody style="overflow: auto;">
+                    <tr style="overflow: auto;" >
 
-                <th scope="row"> <input  style="border: none;"class ="inputPost" type="text" name=teamName value="{{team_name}}" readonly="readonly"></th>
-                <td> <input  style="border: none;" class ="inputPost" type="text" name=teamYear value="{{team_year}}" readonly="readonly">
-                </td>
-                <td> <input  style="border: none;" class = "inputPost" type="text" name=teamSport value="{{team_sport}}"readonly="readonly"></td>
-                <td>{{team_gender}}</td>
-                <td>{{len1}}</td>
-                {%for keyWord in keyWordCountKeys%}
-                <td> {{keyWordCountDict[keyWord]}}</td>
-                {%endfor%}
+                      <th scope="row">
+                        <input  style="border: none;"class ="inputPost" type="text" name=teamName value="{{team_name}}" readonly="readonly">
+                      </th>
+                      <td>
+                        <input  style="border: none;" class ="inputPost" type="text" name=teamYear value="{{team_year}}" readonly="readonly">
+                      </td>
+                      <td>
+                        <input  style="border: none;" class = "inputPost" type="text" name=teamSport value="{{team_sport}}"readonly="readonly">
+                      </td>
+                      <td>{{team_gender}}</td>
+                      <td>{{len1}}</td>
+                      {%for keyWord in keyWordCountKeys%}
+                      <td> {{keyWordCountDict[keyWord]}}</td>
+                      {%endfor%}
 
-              </tr>
-            </tbody>
-        </table>
-      </div>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </form>
+          </div>
+        </div>
 
         {% if isGetPreviousResults%}
-        <ul id="cList" style="list-style: none;">
+        <ul id="cList" style="list-style: none; overflow: auto;">
           <!-- For loop logic of jinja template -->
           {%for i in range(0, len1)%}
             {%if list1[i].strip() in checkedList%}
-            <br class="row float-left">
-              <li class="col"><input style="margin-top: 8px;" class = "float-left" type="checkbox" name="checkboxVal" value="{{list1[i]}}" checked><div style="text-align: justify; margin-left: 25px;">
+            <br class="row float-left" style="overflow: auto;">
+              <li class="col" style="overflow: auto;">
+                <input style="margin-top: 8px;" class = "float-left" type="checkbox" name="checkboxVal" value="{{list1[i]}}" checked>
+                <div style="text-align: justify; margin-left: 25px; overflow: auto;">
                 {{list1[i].strip()}}
-              </div></li>
-              <li class="col"><input style="display:none;" name="result" value="{{list1[i].strip()}}"></li>
+                </div>
+              </li>
+              <li class="col" style="overflow: auto;">
+                <input style="display:none;" name="result" value="{{list1[i].strip()}}">
+              </li>
             </br>
 
             {%else%}
-            <br class="row float-left">
-              <li class="col"><input style="margin-top: 8px;" class = "float-left" type="checkbox" name="checkboxVal" value="{{list1[i]}}"><div style="text-align: justify; margin-left: 25px;">
+            <br class="row float-left" style="overflow: auto;">
+              <li class="col" style="overflow: auto;">
+                <input style="margin-top: 8px;" class = "float-left" type="checkbox" name="checkboxVal" value="{{list1[i]}}">
+                <div style="text-align: justify; margin-left: 25px; overflow: auto;">
                 {{list1[i].strip()}}
-              </div></li>
-              <li class="col"><input style="display:none;" name="result" value="{{list1[i].strip()}}"></li>
+                </div>
+              </li>
+              <li class="col" style="overflow: auto;">
+                <input style="display:none;" name="result" value="{{list1[i].strip()}}">
+              </li>
             </br>
             {%endif%}
           {%endfor%}
@@ -856,9 +874,12 @@ input:checked + .slider:before {
           <!-- For loop logic of jinja template -->
           {%for i in range(0, len1)%}
           <br class="row float-left">
-            <li class="col"><input style="margin-top: 8px;" class = "float-left" type="checkbox" name="checkboxVal" value="{{list1[i]}}"><div style="text-align: justify; margin-left: 25px;">
+            <li class="col">
+              <input style="margin-top: 8px;" class = "float-left" type="checkbox" name="checkboxVal" value="{{list1[i]}}">
+              <div style="text-align: justify; margin-left: 25px;">
               {{list1[i].strip()}}
-            </div></li>
+              </div>
+            </li>
             <li class="col"><input style="display:none;" name="result" value="{{list1[i].strip()}}"></li>
         </br>
           {%endfor%}

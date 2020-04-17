@@ -24,57 +24,55 @@
 
 
       <hr>
-      
+
       <form action= '/deleteAllScraper' method='POST' enctype="multipart/form-data">
       <table id="postedTable" class="table">
         <thead>
-          <tr> 
+          <tr>
             <th scope="col"></th>
             <th scope="col">Team</th>
             <th scope="col">Year</th>
             <th scope="col">Sport</th>
-            <th scope="col">Total Count</th> 
+            <th scope="col">Total Count</th>
             {%for keyWord in keyWordList%}
             <th scope="col">"{{keyWord}}" Count</th>
             {%endfor%}
           </tr>
         </thead>
         <tbody>
-          
+
           {%for item in items%}
-         
-          <tr> 
+
+          <tr>
             <td><input type=checkbox name = deleteCheck value="{{item['ID']}}"></td>
             <td>{{item['TeamName'].upper()}} </td>
             <td>{{item['Year']}} </td>
             <td>{{item['Sport']}} </td>
-            <td>{{item['Count']}}</td>  
+            <td>{{item['Count']}}</td>
             {%for keyWord in keyWordList%}
             <td>{{item[keyWord]}}</td>
-            {%endfor%}  
+            {%endfor%}
           </tr>
           {%endfor%}
         </tbody>
-    </table> 
+    </table>
 
-    <button type='submit' class="userBtn btn btn-dark">Delete Checked Rows</button>  
-    </form>
+        <form>
+          <button type='submit' class="userBtn btn btn-dark">Delete Checked Rows</button>
+        </form>
 
-
-
-    <form action='/' method="GET" enctype="multipart/form-data">
-      <button type="submit" class="userBtn btn btn-dark">Home</button>
-    </form>
-
-
-    <form action= '/getScraperData' method='GET' enctype="multipart/form-data">
-      <button type='submit' class="userBtn btn btn-dark">Get All Data</button>
-    </form>
+        <form action='/' method="GET" enctype="multipart/form-data">
+          <button type="submit" class="userBtn btn btn-dark">Home</button>
+        </form>
 
 
+        <form action= '/getScraperData' method='GET' enctype="multipart/form-data">
+          <button type='submit' class="userBtn btn btn-dark">Get All Data</button>
+        </form>
 
 
-    <button id="btnExportToCsv" type="button" class="button">Export to CSV</button>
+        <button id="btnExportToCsv" type="button" class="userBtn btn btn-dark">Export to CSV</button>
+
     <script type="text/javascript" src="../static/TableCSVExporter.js" ></script>
     <script>
         const dataTable = document.getElementById("postedTable");
