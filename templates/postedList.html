@@ -12,18 +12,50 @@
 
 
 <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='processList.css') }}">
+
+<style>
+  button {margin: 10px;}
+  </style>
 </head>
 
 
 <body>
 
-  <header><h1 class="display-4" align='center' style="color: #b5e7a0;">Submission</h1></header>
+
+  <header><h1 class="display-4" align='center' style="color: #b5e7a0;">Submission</h1>
+    <div class="text-center justify-content-center row" align='center'>
+
+        
+    
+    
+      <form action='/' method="GET" enctype="multipart/form-data">
+        <button type="submit" class="userBtn btn btn-dark">Home</button>
+      </form>
+    
+    
+    
+      <form action= '/getAll' method='GET' enctype="multipart/form-data">
+        <button type='submit' id = "GetAllData" class="userBtn btn btn-dark">Get All Data</button>
+      </form>
+  
+
+    
+   
+
+  </div>
+  
+  </header>
+
+ 
 
   <div class="container-fluid" style="margin-top: 10vh;">
-    <div class="justify-content-center row" align='center'>
+    <div class= "row d-flex justify-content-center" align='center'>
+
+  
 
 
-      <hr>
+      
+      {% if items |length != 0%}
       <form action= '/deleteAll' method='POST' enctype="multipart/form-data">
       <table id="postedTable" class="table">
         <thead>
@@ -60,27 +92,27 @@
    <!--  With selected:
     <input type=submit value=Delete>
  -->
-    <form>
-      <button type='submit' class="userBtn btn btn-dark">Delete Checked Rows</button>
-    </form>
+    
 
-    <form action='/' method="GET" enctype="multipart/form-data">
-      <button type="submit" id = "Home" class="userBtn btn btn-dark">Home</button>
-    </form>
+ <div>
+  <form>
+    <button type='submit' class="userBtn btn btn-dark">Delete Checked Rows</button>
+  </form>
+  <button id="btnExportToCsv" type="button" class="userBtn btn btn-dark">Export to CSV</button>
+</div>
 
-
-    <form action= '/getAll' method='GET' enctype="multipart/form-data">
-      <button type='submit' id = "GetAllData" class="userBtn btn btn-dark">Get All Data</button>
-    </form>
+{%else%}
 
 
+  <p>Nothing has been processed</p>
+
+
+  {% endif%}
+ 
 
 
 
-
-
-
-    <button id="btnExportToCsv" type="button" id = "Export" class="userBtn btn btn-dark">Export to CSV</button>
+ 
     <script type="text/javascript" src="../static/TableCSVExporter.js" ></script>
     <script>
         const dataTable = document.getElementById("postedTable");

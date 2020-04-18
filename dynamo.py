@@ -15,6 +15,9 @@ DEBUG = False
 # method used to add an item into the database
 def putItem(sport, teamName, year, count, keyWordCountDict, checkedList, resultsList):
 
+	print(sport)
+	print(teamName)
+
 	#checking if sport variable is a string
 	if not (type(sport) == str):
 		sport = str(sport)

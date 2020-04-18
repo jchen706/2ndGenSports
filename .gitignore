@@ -2,9 +2,20 @@
 __pycache__/
 *.py[cod]
 *$py.class
+./__pycache__
+./.vscode
+/static/pdfs/
+.vscode/
+__pycache__/dynamo.cpython-37.pyc
 
 # C extensions
 *.so
+*.pyc
+*.csv
+newfile.txt
+start.txt
+*.pdf
+
 
 # Distribution / packaging
 .Python

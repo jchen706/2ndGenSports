@@ -9,15 +9,13 @@ import nltk
 from nltk.corpus import PlaintextCorpusReader
 from nltk.tokenize import TweetTokenizer, sent_tokenize
 
-import PyPDF2
 import json
-#import textract
+
 
 import tika
 #tika.initVM()
 from tika import parser
-# import mysql.connector
-# from mysql.connector import Error
+
 
 import re
 
@@ -422,7 +420,7 @@ def successful():
 
 @app.route('/postCheckList',methods = ['POST'])
 def postCheckList():
-
+    print('here post check list')
 
     if(request.method == "POST"):
         year = None
@@ -511,7 +509,7 @@ def getScraper():
     if(request.method == 'GET'):
         return render_template('scraperx.html')
 
-@app.route('/postscraper',methods = ['POST'])
+@app.route('/postscraper',methods = ['GET','POST'])
 def processScraper():
     #URL = 'https://mgoblue.com/sports/mens-basketball/roster'
 
@@ -523,7 +521,7 @@ def processScraper():
     if(request.method == "POST"):
         roster_url = request.form['roster_input_url']
         base_url = request.form['base_url']
-        format_type = request.form['format']
+        #format_type = request.form['format']
         year = request.form['year']
         gender = request.form['gender']
         sport = request.form['sport']
@@ -536,11 +534,11 @@ def processScraper():
 
         roster_url = str(roster_url)
         base_url = str(base_url)
-        format_type = str(format_type)
+        #format_type = str(format_type)
 
         print(roster_url)
         print(base_url)
-        print(format_type)
+        #print(format_type)
 
         return_dict = None
         error_scraper = False

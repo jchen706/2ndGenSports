@@ -753,12 +753,12 @@ input:checked + .slider:before {
 
 
 
-              <select id="format" class="mdb-select md-form" searchable="Search here.." name="format" onchange="display()">
+              <!-- <select id="format" class="mdb-select md-form" searchable="Search here.." name="format" onchange="display()">
                 <option value="" disabled selected>Choose Player Page Format</option>
                 <option value="bullets">Bullet Points</option>
                 <option value="paragraphs">Paragraphs</option>
                 <option value="mixedformat">Mixed Format</option>
-              </select>
+              </select> -->
 
               <select id ="team" class="mdb-select md-form" searchable="Search here.."name="team" >
                 <option value="" disabled selected>Choose Your Team</option>
@@ -810,13 +810,20 @@ input:checked + .slider:before {
 
 
       {% if processed %}
+      <div class="row justify-content-center " align='center'>
+
+          
+        <label id ="a" class="switch" onchange="OnOff()"align="left">
+          <input id = "check"type="checkbox" align="left">
+          <span class="slider round"></span>
+        </label>
+    
+        <div id = "TF"></div>
+            </div>
       <div class="justify-content-center row" align='center'>
 
-    <label id ="a" class="switch" onchange="OnOff()"align="left">
-      <input id = "check"type="checkbox" align="left">
-      <span class="slider round"></span>
-    </label>
-    <div id = "TF"></div>
+       
+
 
 
     <div id="checkL" class="row checkList">

@@ -4,10 +4,66 @@ import nltk
 from nltk.corpus import PlaintextCorpusReader
 from nltk.tokenize import TweetTokenizer, sent_tokenize
 from nltk.tokenize import word_tokenize
+import urllib
+from requests_html import HTMLSession
+from threading import Thread
+from requests_html import AsyncHTMLSession
+import asyncio
+import pyppeteer
+from pyppeteer import launch
+from asynccall import get_url_async
 
 #find the items of paragraph or list in the player's page
 
-def find_items(team_links, base_url):
+# @asyncio.coroutine
+# def get_post(roster_url):
+#     print('loop running')
+#     new_loop=asyncio.new_event_loop()
+#     asyncio.set_event_loop(new_loop)
+#     session = AsyncHTMLSession()
+#     browser = yield from pyppeteer.launch({ 
+#         'ignoreHTTPSErrors':True, 
+#         'headless':True, 
+#         'handleSIGINT':False, 
+#         'handleSIGTERM':False, 
+#         'handleSIGHUP':False
+#     })
+#     session._browser = browser
+#     resp_page = yield from session.get(roster_url)
+#     yield from resp_page.html.arender()
+#     print('returning')
+#     return resp_page
+
+async def get_browser():
+    print("browser")
+    return await launch({"headless": False})
+
+async def get_page(url):
+    print('here get page')
+    browser = await get_browser()
+    print('here get page1')
+    page = await browser.newPage()
+    print('here get page2')
+    await page.goto(url)
+    print('here get page3')
+    content = await page.evaluate('document.body.textContent', force_expr=True)
+    print('here get page4')
+    await browser.close()
+    print('return')
+    return content
+
+# async def main():
+#     browser = await launch()
+#     page = await browser.newPage()
+#     await page.goto('http://results.neptron.se/#/lundaloppet2018/?sortOrder=Place&raceId=99&page=0&pageSize=25')
+#     #await page.waitForSelector('td.res-startNo')
+#     #table = await page.querySelectorEval('table', '(element) => element.outerHTML')
+#     await browser.close()
+#     return 
+
+#df = asyncio.get_event_loop().run_until_complete(main())
+
+def find_items(team_links, base_url, not_normal_name):
     team_dict = {}
     wantedList=['parent','Parents', 'Father', 'Mother', 'father', 'mother', 'dad', 'Dad', 'Mom', 'mom', 'son', 'Son', 'daughter', 'Daughter']
 
@@ -15,6 +71,7 @@ def find_items(team_links, base_url):
         player_dic = {}
         player_array=[]
         bullet_array=[]
+        player_name = key
 
         new_player = {}
         new_player_arr = []
@@ -22,8 +79,14 @@ def find_items(team_links, base_url):
             newURL = value
         else:
             newURL = base_url + value
-        #print(newURL)
-        new_r = requests.get(newURL)
+        print("inside find items")
+        print(newURL)
+        headers={}
+        headers['User-Agent'] = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36"
+        print('request')
+       
+        new_r = requests.get(newURL, headers=headers)
+        
         #print(new_r.text)
         new_soup = BeautifulSoup(new_r.content, 'html.parser')
         #print("before")
@@ -34,6 +97,25 @@ def find_items(team_links, base_url):
 
         
         all_textlist=new_soup.body.find_all(text=True)
+        print(not_normal_name)
+        #Illinois Illi
+        if not_normal_name:
+            print('here not normal name')
+            try:
+                player_name_wrapper = new_soup.find('div', class_= 'player_name_wrapper')
+                player_name_list = player_name_wrapper.text.strip().split('\n')
+                player_name = player_name_list[-2] +" "+ player_name_list[-1]
+            except Exception as e:
+                pass
+            #player_first_name = player_name_wrapper.find_all('div', class_= 'player_first_name')
+            # print('error')
+            # player_last_name = new_soup.find_all("div", class_= "player_last_name")
+            # print(player_last_name)
+            # print("error2")
+            # print(player_first_name)
+            # print('none')
+        
+        #print(all_textlist)
 
         true_list = []
 
@@ -44,15 +126,16 @@ def find_items(team_links, base_url):
                         if 'html' not in all_textlist[i]:
                             if 'https' not in all_textlist[i]:
                                 if 'script' not in all_textlist[i]:
+                                    if "/div" not in all_textlist[i]:
                                     #new_list = all_textlist[i].split(' ')
                                     #
-                                    tokens = word_tokenize(all_textlist[i])
-                                    if each in tokens:
-                                        item_append = ' '.join(tokens)
-                                        
-                                        if item_append in true_list:
-                                            continue
-                                        true_list.append(item_append)
+                                        tokens = word_tokenize(all_textlist[i])
+                                        if each in tokens:
+                                            item_append = ' '.join(tokens)
+                                            
+                                            if item_append in true_list:
+                                                continue
+                                            true_list.append(item_append)
                                        
        
         #new_soup.get_text())
@@ -110,14 +193,21 @@ def find_items(team_links, base_url):
             #player_array.append(each.text.strip())
 
         print(true_list)
-
-        team_dict[key] = true_list
-    with open('soup3.csv', mode='w', encoding='utf-8', newline='') as employee_file:
-                        employee_writer = csv.writer(employee_file)
-                        employee_writer.writerow([team_dict])
+        
+        team_dict[player_name] = true_list
+    # with open('soup3.csv', mode='w', encoding='utf-8', newline='') as employee_file:
+    #                     employee_writer = csv.writer(employee_file)
+    #                     employee_writer.writerow([team_dict])
     print(team_dict)
     return team_dict
 
+
+def render_html(roster_url, session):
+    try:
+        resp = session.get(roster_url)
+        resp.html.render()
+    except Exception as err:
+         print("render error: {0}".format(err))
 
 #the real scraper used for all
 def base_scraper(roster_url, site_url):
@@ -129,35 +219,83 @@ def base_scraper(roster_url, site_url):
     #URL = 'https://goaztecs.com/sports/mens-basketball/roster'
     #URL = 'https://gocards.com/sports/mens-basketball/roster'
     #URL = 'https://mgoblue.com/sports/mens-basketball/roster'
+    print('in base scraper')
+
+    #page = urllib.request.urlopen(roster_url)
+    #print(page.read())
+    #soup1 = BeautifulSoup(page.read(),'html.parser')
+
+    #print(soup1)
+    
+    print('render')
+   
+    # try:
+    #     result = asyncio.get_event_loop().run_until_complete(get_page(roster_url))
+    # except Exception as err1:
+    #     print(err1.message())
+    # print(result)
+    
+
+    result1 = get_url_async(roster_url)
+   
+   
+    print('here done')
+    
+
 
     base_url = roster_url
-    sport = base_url.split('/')[4]
-    #print(sport)
+    sport = None
+    try:
+        print('attempt')
+        sport = base_url.split('/')
+        print(sport)
+        if len(sport) > 4:
+            sport=sport[4]
+    except Exception as e:
+        print(e.message())
+        
+    print(sport)
 
     #request the url
-    r = requests.get(roster_url)
+
+    #use headers to request from identity of an browser
+    headers={}
+    headers['User-Agent'] = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36"
+    print('request')
+    r = requests.get(roster_url, headers=headers)
+    #except Exception as e:
+        #print(e.message())
+    print('request after')
+    
 
     #scrape the entire web page
     soup = BeautifulSoup(r.content, 'html.parser')
+    #print(soup)
 
     team_links = {}
     links= []
-
+    #a2 = soup.find_all("td")
+    #print(a2)
     #scrap the html id main-content
     a1 = soup.find_all("a", href=True)
-    #print(a1)
+    #a2 = soup1.find_all("a", href=True)
+    print('')
+    print('')
+    print('after here')
+    print(a1)
     result = a1
+    not_normal_format=False
 
 
     for link in result:
-        #print("")
-        #print("href: {}".format(link.get("href")))
+        print("")
+        print("href: {}".format(link.get("href")))
         a = link.get("href")
         link_split = a.split('/')
 
-        #print(link_split)
+        print(link_split)
         if 'roster' in link_split:
-            # print("here")
+            print("here")
             #print(str(sport))
             if str(sport) in link_split:
                 #print("sport")
@@ -182,10 +320,26 @@ def base_scraper(roster_url, site_url):
                             player_name = " ".join(player_name).strip()
                             team_links[player_name] = a
                             links.append(a)
+        else:
+            #check links split on 
+            #illinoise did not include name in the url
+            not_normal_format = True
+            link_split=a.split()
+            import re
+            print(link_split)
+            print(re.findall(r"[\w']+", a))
+            link_split = re.findall(r"[\w']+", a)
+            if "roster" in link_split:
+                if "aspx" in link_split:
+                    if "rp_id" in link_split:
+                        team_links[a] = a
+                        links.append(a)
+           
+            
     #print(team_links)
     #print(len(team_links))
-
-    team_dict = find_items(team_links, site_url)
+    print(team_links)
+    team_dict = find_items(team_links, site_url, not_normal_format)
 
     return team_dict
 
