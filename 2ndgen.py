@@ -550,7 +550,8 @@ def processScraper():
         error_scraper = False
 
         try:
-            return_dict = q.enqueue(base_scraper, roster_url, base_url)  
+            result = q.enqueue(base_scraper, roster_url, base_url) 
+            return_dict = q.dequeue()  
             # return_dict = base_scraper(roster_url, base_url)
         except:
             return render_template('404.html')
