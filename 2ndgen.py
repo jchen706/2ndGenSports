@@ -121,7 +121,7 @@ def index():
     file_path = BASE_DIR + app.config['UPLOAD_FOLDER']
     print(file_path)
 
-    #database server connection ...
+    #database server connection ... for MySQL
     # try:
     #     connection = mysql.connector.connect(host='localhost',
     #                                      database='sportgen',
@@ -430,6 +430,7 @@ def postCheckList():
         team = request.form['teamName']
         year = request.form['teamYear']
         sport = request.form['teamSport']
+        gender = request.form['gender']
         list1 = request.form.getlist('checkboxVal')
         resultsList = request.form.getlist('result')
         count = len(list1)
@@ -458,10 +459,10 @@ def postCheckList():
 
 
         added = False
-        putItem(sport,team,year,count, keyWordCountDict, list1, resultsList)
+        putItem(sport,team,year,count, keyWordCountDict, list1, resultsList, gender)
 
         added = True
-        item1 = getItem(sport,team, year)
+        item1 = getItem(sport,team, year, gender)
         item1 = [item1]
 
 
@@ -626,6 +627,7 @@ def postCheckListScraper():
         year = request.form['teamYear']
         sport = request.form['teamSport']
         list1 = request.form.getlist("checkboxVal")
+        gender = request.form['gender']
         newDict = {}
         import ast
         for i in range(len(list1)):
@@ -667,10 +669,10 @@ def postCheckListScraper():
 
 
         added = False
-        scraperputItem(sport,team,year,count, newDict, keyWordCountDict)
+        scraperputItem(sport,team,year,count, newDict, keyWordCountDict, gender)
 
         added = True
-        item1 = scrapergetItem(sport,team, year)
+        item1 = scrapergetItem(sport,team, year,gender)
         item1 = [item1]
         print(item1)
 
