@@ -1,1 +1,2 @@
-web: gunicorn 2ndgen:app
+web: gunicorn 2ndgen:app 
+worker: python worker.py

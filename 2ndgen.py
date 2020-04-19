@@ -26,11 +26,16 @@ from dynamo import *
 
 
 from scraper import *
-from s3 import *
+from s3 import * 
 from scraperdynamo import *
 
 #from flask_sqlalchemy import SQLAlchemy
-#import SQLAlchemy
+#import SQLAlchemy 
+
+from rq import Queue
+from worker import conn
+
+q = Queue(connection=conn)
 
 #absolute path of the file
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
@@ -545,7 +550,8 @@ def processScraper():
         error_scraper = False
 
         try:
-            return_dict = base_scraper(roster_url, base_url)
+            return_dict = q.enqueue(base_scraper, roster_url, base_url)  
+            # return_dict = base_scraper(roster_url, base_url)
         except:
             return render_template('404.html')
 
