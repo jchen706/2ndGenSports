@@ -7,6 +7,7 @@ __pycache__/
 /static/pdfs/
 .vscode/
 __pycache__/dynamo.cpython-37.pyc
+*.exe
 
 # C extensions
 *.so
