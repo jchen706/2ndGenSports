@@ -418,7 +418,7 @@ def successful():
 
 
 
-@app.route('/postCheckList',methods = ['POST'])
+@app.route('/postCheckList',methods = ['POST', 'GET'])
 def postCheckList():
     print('here post check list')
 
@@ -614,7 +614,7 @@ def processScraper():
 
 
 
-@app.route('/postScraperCheck',methods = ['POST'])
+@app.route('/postScraperCheck',methods = ['POST', 'GET'])
 def postCheckListScraper():
 
 
