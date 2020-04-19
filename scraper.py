@@ -5,13 +5,10 @@ from nltk.corpus import PlaintextCorpusReader
 from nltk.tokenize import TweetTokenizer, sent_tokenize
 from nltk.tokenize import word_tokenize
 import urllib
-#from requests_html import HTMLSession
-from threading import Thread
-#from requests_html import AsyncHTMLSession
-import asyncio
-import pyppeteer
-from pyppeteer import launch
-from asynccall import get_url_async
+
+
+
+
 #from seleniumtrail import selenium_option
 
 #find the items of paragraph or list in the player's page
