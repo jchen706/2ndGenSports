@@ -849,7 +849,8 @@ input:checked + .slider:before {
                 <td> <input  style="border: none;" class ="inputPost" type="text" name=teamYear value="{{team_year}}" readonly="readonly">
                 </td>
                 <td> <input  style="border: none;" class = "inputPost" type="text" name=teamSport value="{{team_sport}}"readonly="readonly"></td>
-                <td>{{team_gender}}</td>
+                <td><input style="border: none;" class="inputPost" type="text" name=gender value="{{team_gender}}"
+                  readonly="readonly"></td>
 
                 <td>{{length_dict}}</td>
                 {%for keyWord in keyWordCountKeys%}
