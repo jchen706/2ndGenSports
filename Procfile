@@ -1,1 +1,0 @@
-web: gunicorn 2ndgen:app
