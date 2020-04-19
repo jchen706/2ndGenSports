@@ -132,6 +132,7 @@ def run_all(team_links, chrome_options, base_url):
             Thread.sleep(3000)
             #.until(EC.text_to_be_present_in_element((By.XPATH, "#//div[@id= 'playerbio-profile']/div/ul/li"), "the"))
             element1 = driver.find_element_by_id("playerbio-profile")
+            
             if element is None:
                 print("no element")
                 #//div[@id= 'playerbio-profile']/div/ul

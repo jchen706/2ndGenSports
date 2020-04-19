@@ -5,63 +5,17 @@ from nltk.corpus import PlaintextCorpusReader
 from nltk.tokenize import TweetTokenizer, sent_tokenize
 from nltk.tokenize import word_tokenize
 import urllib
-from requests_html import HTMLSession
+#from requests_html import HTMLSession
 from threading import Thread
-from requests_html import AsyncHTMLSession
+#from requests_html import AsyncHTMLSession
 import asyncio
 import pyppeteer
 from pyppeteer import launch
 from asynccall import get_url_async
+#from seleniumtrail import selenium_option
 
 #find the items of paragraph or list in the player's page
 
-# @asyncio.coroutine
-# def get_post(roster_url):
-#     print('loop running')
-#     new_loop=asyncio.new_event_loop()
-#     asyncio.set_event_loop(new_loop)
-#     session = AsyncHTMLSession()
-#     browser = yield from pyppeteer.launch({ 
-#         'ignoreHTTPSErrors':True, 
-#         'headless':True, 
-#         'handleSIGINT':False, 
-#         'handleSIGTERM':False, 
-#         'handleSIGHUP':False
-#     })
-#     session._browser = browser
-#     resp_page = yield from session.get(roster_url)
-#     yield from resp_page.html.arender()
-#     print('returning')
-#     return resp_page
-
-async def get_browser():
-    print("browser")
-    return await launch({"headless": False})
-
-async def get_page(url):
-    print('here get page')
-    browser = await get_browser()
-    print('here get page1')
-    page = await browser.newPage()
-    print('here get page2')
-    await page.goto(url)
-    print('here get page3')
-    content = await page.evaluate('document.body.textContent', force_expr=True)
-    print('here get page4')
-    await browser.close()
-    print('return')
-    return content
-
-# async def main():
-#     browser = await launch()
-#     page = await browser.newPage()
-#     await page.goto('http://results.neptron.se/#/lundaloppet2018/?sortOrder=Place&raceId=99&page=0&pageSize=25')
-#     #await page.waitForSelector('td.res-startNo')
-#     #table = await page.querySelectorEval('table', '(element) => element.outerHTML')
-#     await browser.close()
-#     return 
-
-#df = asyncio.get_event_loop().run_until_complete(main())
 
 def find_items(team_links, base_url, not_normal_name):
     team_dict = {}
@@ -98,7 +52,7 @@ def find_items(team_links, base_url, not_normal_name):
         
         all_textlist=new_soup.body.find_all(text=True)
         print(not_normal_name)
-        #Illinois Illi
+        #Illinois Illi for illinois and
         if not_normal_name:
             print('here not normal name')
             try:
@@ -202,13 +156,6 @@ def find_items(team_links, base_url, not_normal_name):
     return team_dict
 
 
-def render_html(roster_url, session):
-    try:
-        resp = session.get(roster_url)
-        resp.html.render()
-    except Exception as err:
-         print("render error: {0}".format(err))
-
 #the real scraper used for all
 def base_scraper(roster_url, site_url):
     #URL = 'https://seminoles.com/sports/basketball/roster/'
@@ -236,7 +183,7 @@ def base_scraper(roster_url, site_url):
     # print(result)
     
 
-    result1 = get_url_async(roster_url)
+    # result1 = get_url_async(roster_url)
    
    
     print('here done')
@@ -282,11 +229,13 @@ def base_scraper(roster_url, site_url):
     print('')
     print('')
     print('after here')
-    print(a1)
+    if a1 is None:
+        print("a1 is None")
+    #print(a1)
     result = a1
     not_normal_format=False
 
-
+    print('before for loop')
     for link in result:
         print("")
         print("href: {}".format(link.get("href")))
@@ -296,7 +245,7 @@ def base_scraper(roster_url, site_url):
         print(link_split)
         if 'roster' in link_split:
             print("here")
-            #print(str(sport))
+            print(str(sport))
             if str(sport) in link_split:
                 #print("sport")
                 if 'coaches' not in link_split:
@@ -304,7 +253,31 @@ def base_scraper(roster_url, site_url):
                         if 'coach' not in link_split:
 
                             #print(link_split)
-                            #print(a)
+                            print(a)
+                            print('welcome')
+                            player_name = link_split[len(link_split) - 1].replace('-', ' ')
+                            if(link_split[-1] == "") or (str(link_split[-1]).isnumeric()):
+                                player_name = link_split[len(link_split) - 2].replace('-', ' ')
+
+
+
+                            player_name = player_name.strip().split(' ')
+                            if len(player_name) == 1 or player_name[0] == 'roster':
+                                continue
+                            for i in range(len(player_name)):
+                                print(player_name)
+                                player_name[i] = player_name[i][0].upper() + player_name[i][1:]
+                            player_name = " ".join(player_name).strip()
+                            team_links[player_name] = a
+                            links.append(a)
+            else:
+                  if 'coaches' not in link_split:
+                      if 'staff' not in link_split:
+                        if 'coach' not in link_split:
+
+                            #print(link_split)
+                            print(a)
+                            print('welcome')
                             player_name = link_split[len(link_split) - 1].replace('-', ' ')
                             if(link_split[-1] == "") or (str(link_split[-1]).isnumeric()):
                                 player_name = link_split[len(link_split) - 2].replace('-', ' ')
@@ -326,8 +299,8 @@ def base_scraper(roster_url, site_url):
             not_normal_format = True
             link_split=a.split()
             import re
-            print(link_split)
-            print(re.findall(r"[\w']+", a))
+            #print(link_split)
+            #print(re.findall(r"[\w']+", a))
             link_split = re.findall(r"[\w']+", a)
             if "roster" in link_split:
                 if "aspx" in link_split:
@@ -338,7 +311,13 @@ def base_scraper(roster_url, site_url):
             
     #print(team_links)
     #print(len(team_links))
-    print(team_links)
+    #print(team_links)
+    # if len(team_links) == 0:
+    #     try:
+    #         team_dict = selenium_option(roster_url, sport, base_url)
+    #     except Exception as error:
+    #         pass
+    # else:
     team_dict = find_items(team_links, site_url, not_normal_format)
 
     return team_dict
