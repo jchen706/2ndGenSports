@@ -16,12 +16,16 @@ print(boto3.client('dynamodb',region_name='us-east-1' ).list_tables())
 
 
 # method used to add an item into the database
-def scraperputItem(sport, teamName, year, count, newDict, keyWordCountDict):
+def scraperputItem(sport, teamName, year, count, newDict, keyWordCountDict, gender):
 
 
 	#checking if sport variable is a string
 	if not (type(sport) == str):
 		sport = str(sport)
+
+	#checking if sport variable is a string
+	if not (type(gender) == str):
+		gender = str(gender)
 
 	#checking if teamName variable is a string
 	if not (type(teamName) == str):
@@ -42,6 +46,12 @@ def scraperputItem(sport, teamName, year, count, newDict, keyWordCountDict):
 
 	sport = sport.strip()
 
+
+	if not (gender.islower()):
+		gender = gender.lower()
+
+	gender = gender.strip()
+
 	if not (teamName.islower()):
 		teamName = teamName.lower()
 
@@ -49,7 +59,7 @@ def scraperputItem(sport, teamName, year, count, newDict, keyWordCountDict):
 
 
 	#creating ID which is used to uniquely identify the data in the database
-	ID = sport + teamName + str(year)
+	ID = sport + teamName + str(year)+ gender
 
 	#calling put_item method on the table which takes a dictionary as its parameter. The dictionary maps table column name(str) to value.
 	response = table.put_item(
@@ -61,6 +71,8 @@ def scraperputItem(sport, teamName, year, count, newDict, keyWordCountDict):
 			"TeamName": teamName
 			,
 			"Year": year
+			,
+			"Gender": gender
 			,
 			"Count": count 
 			, 
@@ -90,11 +102,14 @@ def scraperputItem(sport, teamName, year, count, newDict, keyWordCountDict):
 		print(response) 
 
 
-def scrapergetItem(sport, teamName, year):
+def scrapergetItem(sport, teamName, year, gender):
 
 	#checking if sport variable is a string
 	if not (type(sport) == str):
 		sport = str(sport)
+
+	if not (type(gender) == str):
+		gender= str(gender)
 
 	#checking if teamName variable is a string
 	if not (type(teamName) == str):
@@ -108,8 +123,13 @@ def scrapergetItem(sport, teamName, year):
 	#checking if sport and teamName are all lowercase and them of beginning and ending whitespace
 	if not (sport.islower()):
 		sport = sport.lower()
-
+	
 	sport = sport.strip()
+
+	if not (gender.islower()):
+		gender = gender.lower()
+
+	gender = gender.strip()
 
 	if not (teamName.islower()):
 		teamName = teamName.lower()
@@ -118,7 +138,7 @@ def scrapergetItem(sport, teamName, year):
 
 
 	#creating ID which is used to uniquely identify the data in the database
-	ID = sport + teamName + str(year)
+	ID = sport + teamName + str(year) + gender
 
 	response = table.get_item(
 		Key = {
@@ -167,11 +187,14 @@ def scraperdeleteItem(ID):
 	if (DEBUG):
 		print(response) 
 
-def scraperupdateItem(sport, teamName, year, count): 
+def scraperupdateItem(sport, teamName, year, count, gender): 
 
 	#checking if sport variable is a string
 	if not (type(sport) == str):
 		sport = str(sport)
+
+	if not (type(gender) == str):
+		gender = str(gender)
 
 	#checking if teamName variable is a string
 	if not (type(teamName) == str):
@@ -197,9 +220,14 @@ def scraperupdateItem(sport, teamName, year, count):
 
 	teamName = teamName.strip()
 
+	if not (gender.islower()):
+		gender = gender.lower()
+
+	gender = gender.strip()
+
 
 	#creating ID which is used to uniquely identify the data in the database
-	ID = sport + teamName + str(year)  
+	ID = sport + teamName + str(year)  + gender
 
 	response = table.update_item(
 		Key = {

@@ -13,7 +13,7 @@ table = DB.Table(__TableName__)
 DEBUG = False
 
 # method used to add an item into the database
-def putItem(sport, teamName, year, count, keyWordCountDict, checkedList, resultsList):
+def putItem(sport, teamName, year, count, keyWordCountDict, checkedList, resultsList, gender):
 
 	print(sport)
 	print(teamName)
@@ -25,6 +25,9 @@ def putItem(sport, teamName, year, count, keyWordCountDict, checkedList, results
 	#checking if teamName variable is a string
 	if not (type(teamName) == str):
 		teamName = str(teamName)
+
+	if not (type(gender) == str):
+		gender = str(gender)
 
 	#checking if year variable is an int
 	if not (type(year) == int):
@@ -46,9 +49,15 @@ def putItem(sport, teamName, year, count, keyWordCountDict, checkedList, results
 
 	teamName = teamName.strip()
 
+	if not (gender.islower()):
+		gender = gender.lower()
+
+	gender = gender.strip()
+
+
 
 	#creating ID which is used to uniquely identify the data in the database
-	ID = sport + teamName + str(year)
+	ID = sport + teamName + str(year) + gender
 
 	#calling put_item method on the table which takes a dictionary as its parameter. The dictionary maps table column name(str) to value.
 	response = table.put_item(
@@ -60,6 +69,8 @@ def putItem(sport, teamName, year, count, keyWordCountDict, checkedList, results
 			"TeamName": teamName
 			,
 			"Year": year
+			,
+			"Gender": gender
 			,
 			"Count": count 
 			, 
@@ -90,7 +101,7 @@ def putItem(sport, teamName, year, count, keyWordCountDict, checkedList, results
 		print(response) 
 
 
-def getItem(sport, teamName, year):
+def getItem(sport, teamName, year, gender):
 
 	#checking if sport variable is a string
 	if not (type(sport) == str):
@@ -105,6 +116,10 @@ def getItem(sport, teamName, year):
 		year = int(year)
 
 
+	if not (type(gender) == str):
+		gender = str(gender)
+
+
 	#checking if sport and teamName are all lowercase and them of beginning and ending whitespace
 	if not (sport.islower()):
 		sport = sport.lower()
@@ -117,8 +132,14 @@ def getItem(sport, teamName, year):
 	teamName = teamName.strip()
 
 
+	if not (gender.islower()):
+		gender = gender.lower()
+
+	gender = gender.strip()
+
+
 	#creating ID which is used to uniquely identify the data in the database
-	ID = sport + teamName + str(year)
+	ID = sport + teamName + str(year) + gender
 
 	response = table.get_item(
 		Key = {
@@ -167,11 +188,14 @@ def deleteItem(ID):
 	if (DEBUG):
 		print(response) 
 
-def updateItem(sport, teamName, year, count): 
+def updateItem(sport, teamName, year, count, gender): 
 
 	#checking if sport variable is a string
 	if not (type(sport) == str):
 		sport = str(sport)
+
+	if not (type(gender) == str):
+		gender = str(gender)
 
 	#checking if teamName variable is a string
 	if not (type(teamName) == str):
@@ -198,8 +222,15 @@ def updateItem(sport, teamName, year, count):
 	teamName = teamName.strip()
 
 
+	if not (gender.islower()):
+		gender = gender.lower()
+
+	gender = gender.strip()
+
+
+
 	#creating ID which is used to uniquely identify the data in the database
-	ID = sport + teamName + str(year)  
+	ID = sport + teamName + str(year) + gender 
 
 	response = table.update_item(
 		Key = {
