@@ -34,7 +34,9 @@ from scraperdynamo import *
 
 import time
 from rq import Queue
-from worker import conn
+from worker import conn 
+
+import jinja2
 
 q = Queue(connection=conn)
 
@@ -619,13 +621,19 @@ def workerProcessScraper(year, gender, sport, team, roster_url, base_url):
                             break
 
 
-        with app.app_context():
-            
+       
+        env = jinja2.Environment(
+            loader=jinja2.PackageLoader('2ndGenSports','templates')
+        )
+        template = env.get_template('scraperx.html')
 
-            return render_template('scraperx.html', returnTeam=return_dict, processed=processed,
-                team_name =team , team_year=year, team_gender=gender, team_sport=sport, keyWordList = keyWordList,
-                keyWordCountKeys = keyWordCountDict.keys(), keyWordCountDict = keyWordCountDict, length_dict = len(return_dict))
+        # return render_template('scraperx.html', returnTeam=return_dict, processed=processed,
+        #     team_name =team , team_year=year, team_gender=gender, team_sport=sport, keyWordList = keyWordList,
+        #     keyWordCountKeys = keyWordCountDict.keys(), keyWordCountDict = keyWordCountDict, length_dict = len(return_dict))
 
+        return template.render(returnTeam=return_dict, processed=processed,
+            team_name =team , team_year=year, team_gender=gender, team_sport=sport, keyWordList = keyWordList,
+            keyWordCountKeys = keyWordCountDict.keys(), keyWordCountDict = keyWordCountDict, length_dict = len(return_dict))
 
 
 @app.route('/postScraperCheck',methods = ['POST', 'GET'])
