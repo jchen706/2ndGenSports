@@ -538,7 +538,8 @@ def processScraper():
         team = request.form['team']
 
 
-
+        error_scraper = False 
+        processed = True 
 
 
         roster_url = str(roster_url)
@@ -551,9 +552,76 @@ def processScraper():
 
         return_dict = None
 
-        job = q.enqueue(workerProcessScraper, year, gender, sport, team, roster_url, base_url)   
+        # job = q.enqueue(workerProcessScraper, year, gender, sport, team, roster_url, base_url)   
 
-        return ('', 204)
+        # return ('', 204) 
+
+        try: 
+            job = q.enqueue(base_scraper, roster_url, base_url)
+            # return_dict = base_scraper(roster_url, base_url)
+        except:
+            return render_template('404.html')
+
+
+        while job.results == None:
+            time.sleep(5) 
+
+        return_dict = job.results
+
+        if return_dict == None:
+
+            return render_template('scraperx.html', teamId="nothing is processed", processed=processed)
+
+
+
+
+
+        if error_scraper:
+
+            return render_template('scraperx.html', teamId="nothing is processed", processed=processed)
+
+        else:
+
+            true_dict = return_dict.copy()
+            for key1, value in true_dict.items():
+                if len(value) == 0:
+                    return_dict.pop(key1, None)
+
+
+
+
+            keyWordCountDict = {}
+            for key, value in return_dict.items():
+
+                for each in keyWordList:
+
+                    for bullet in value:
+
+                        if each in bullet.lower().split():
+
+                            if (each in keyWordCountDict):
+                                keyWordCountDict[each] += 1
+                                print("found " + each + " for " + key)
+                                break
+                            else:
+                                keyWordCountDict[each] = 1
+                                print("found " + each + " for " + key)
+                                break
+
+
+           
+            # env = jinja2.Environment(
+            #     loader=jinja2.FileSystemLoader("./templates")
+            # )
+            # template = env.get_template("scraperx.html")
+
+            return render_template('scraperx.html', returnTeam=return_dict, processed=processed,
+                team_name =team , team_year=year, team_gender=gender, team_sport=sport, keyWordList = keyWordList,
+                keyWordCountKeys = keyWordCountDict.keys(), keyWordCountDict = keyWordCountDict, length_dict = len(return_dict))
+
+            # return template.render(returnTeam=return_dict, processed=processed,
+            #     team_name =team , team_year=year, team_gender=gender, team_sport=sport, keyWordList = keyWordList,
+            #     keyWordCountKeys = keyWordCountDict.keys(), keyWordCountDict = keyWordCountDict, length_dict = len(return_dict))
 
 
 
