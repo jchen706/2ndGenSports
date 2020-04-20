@@ -624,7 +624,7 @@ def workerProcessScraper(year, gender, sport, team, roster_url, base_url):
 
        
         env = jinja2.Environment(
-            loader=jinja2.PackageLoader(os.path.dirname(__file__), 'templates')
+            loader=jinja2.FileSystemLoader('/templates')
         )
         template = env.get_template('scraperx.html')
 
