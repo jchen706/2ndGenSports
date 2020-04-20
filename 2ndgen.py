@@ -220,7 +220,9 @@ def index():
                     # APP_ROOT = os.path.dirname(os.path.abspath(__file__))  
                     # UPLOAD_FOLDER = os.path.join(APP_ROOT, 'static', 'pdfs')
 
-                    file1.save(os.path.join(file_path, file1.filename)) 
+                    print("saving locally")
+                    file1.save(os.path.join(file_path, filename)) 
+                    print("save completed") 
                     # file1.save(os.path.join(UPLOAD_FOLDER, filename))
 
                     # upload_file(file1.filename,file1)
@@ -231,7 +233,7 @@ def index():
                     #parsed = parser.from_file(s3_obj['Body'].read().decode(encoding="utf-8",errors="ignore"))
 
 
-                    job = q.enqueue(workerParser, os.path.join(file_path, file1.filename)) 
+                    job = q.enqueue(workerParser, os.path.join(file_path, filename)) 
 
 
                     return redirect(url_for('workerProcessPDF', jobId = job.id, year = year, gender = gender, sport = sport, team = team))
