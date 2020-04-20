@@ -641,7 +641,7 @@ def processScraper():
         #     time.sleep(5) 
 
         # return_dict = job.result 
-
+        time.sleep(1)
 
         return redirect(url_for('workerProcessScraper', jobId = job.id, year = year, gender = gender, sport = sport, team = team))
 
