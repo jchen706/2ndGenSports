@@ -217,11 +217,11 @@ def index():
                 if(allowed_file(file1.filename)):  
                     filename = secure_filename(file1.filename)
 
-                    APP_ROOT = os.path.dirname(os.path.abspath(__file__))  
-                    UPLOAD_FOLDER = os.path.join(APP_ROOT, 'static', 'pdfs')
+                    # APP_ROOT = os.path.dirname(os.path.abspath(__file__))  
+                    # UPLOAD_FOLDER = os.path.join(APP_ROOT, 'static', 'pdfs')
 
-                    # file1.save(os.path.join(file_path, file1.filename)) 
-                    file1.save(os.path.join(UPLOAD_FOLDER, filename))
+                    file1.save(os.path.join(file_path, file1.filename)) 
+                    # file1.save(os.path.join(UPLOAD_FOLDER, filename))
 
                     # upload_file(file1.filename,file1)
                     # s3_obj = dowload_file(file1.filename, os.path.join(file_path, file1.filename))
