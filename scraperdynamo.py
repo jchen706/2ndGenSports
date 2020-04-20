@@ -12,7 +12,7 @@ table = DB.Table(__TableName__)
 
 DEBUG = False
 
-print(boto3.client('dynamodb',region_name='us-east-1' ).list_tables())
+#print(boto3.client('dynamodb',region_name='us-east-1' ).list_tables())
 
 
 # method used to add an item into the database
