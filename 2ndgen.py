@@ -218,7 +218,7 @@ def index():
                     filename = secure_filename(file1.filename)
 
                     # file1.save(os.path.join(file_path, file1.filename)) 
-                    file1.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                    file1.save(os.path.join(app.root_path, app.config['UPLOAD_FOLDER'], filename))
 
                     # upload_file(file1.filename,file1)
                     # s3_obj = dowload_file(file1.filename, os.path.join(file_path, file1.filename))
