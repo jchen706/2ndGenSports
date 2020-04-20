@@ -111,6 +111,10 @@ def newIndex():
     return render_template("uploadpdf.html")
 
 
+def workerParser(filePath): 
+    return parser.from_file(os.path.join(file_path, file1.filename))
+
+
 @app.route('/',methods = ['GET','POST'])
 def index():
     processed = False
@@ -211,7 +215,17 @@ def index():
                     #file = open(os.path.join(file_path, file1.filename), 'r')
                     #parsed = parser.from_file(s3_obj['Body'].read().decode(encoding="utf-8",errors="ignore"))
 
-                    parsed = parser.from_file(os.path.join(file_path, file1.filename))
+
+                    job = q.enqueue(workerParser, os.path.join(file_path, file1.filename)) 
+
+
+                    return redirect(url_for('workerProcessPDF', jobId = job.id, year = year, gender = gender, sport = sport, team = team))
+
+
+                    # parsed = parser.from_file(os.path.join(file_path, file1.filename)) 
+
+
+
                     #print(parsed["metadata"])
                     #print(parsed["content"])
                     input_text = parsed['content']
@@ -421,6 +435,184 @@ def index():
 
 
     return render_template('home.html',processed = processed, team_name =team , team_year=year, team_gender=gender, team_sport=sport, list1 = list1,len1 = len(list1))
+
+@app.route('/workerProcessPDF') 
+def workerProcessPDF(): 
+
+    jobId = request.args.get("jobId") 
+    year = request.args.get("year") 
+    gender = request.args.get("gender")
+    sport = request.args.get("sport")
+    team = request.args.get("team")
+
+    # try:
+    #     return_dict = base_scraper(roster_url, base_url)
+    # except:
+    #     return render_template('404.html')
+
+
+    job = Job.fetch(jobId, connection=conn) 
+    status = job.get_status() 
+
+    if status != 'finished':
+        return get_template(refresh = True)  
+    else:
+
+        processed = True 
+        isGetPreviousResults = False  
+
+
+        parsed = job.result 
+        
+        input_text = parsed['content']
+
+        tokenizer_words = TweetTokenizer()
+        tokens_sentences = [tokenizer_words.tokenize(t) for t in nltk.sent_tokenize(input_text)]
+        #print(tokens_sentences)
+
+        count = 0
+
+        wantedList=['parent','Parents', 'Father', 'Mother', 'father', 'mother', 'dad', 'Dad', 'Mom', 'mom', 'son', 'Son', 'daughter', 'Daughter']
+
+        wantedListDictionary = {}
+        count1 = 0
+        wantedListSentences = []
+
+        #keeps track of the count of each keyword. Key: "keyword", Value: "count". Note that similar keywords like parent and Parents fall under the same key.
+        keyWordCountDict = {}
+
+        import csv
+        with open('employee_file.csv', mode='w', encoding='utf-8', newline='') as employee_file:
+                employee_writer = csv.writer(employee_file, delimiter='|', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+                employee_writer.writerow(tokens_sentences)
+
+        for i in range(len(tokens_sentences)):
+            wantedListDictionary[count1] = []
+            eachSentence = tokens_sentences[i]
+            #punctuations = '''!()-[]{};:'"\,<>./?@#$%^&*_~'''
+            import string
+            #file3 = open('newfile.txt', "w")
+            #file3.writelines(", ".join(str(x) for x in eachSentence))
+
+            # foundKeyWord = False
+            hits=[]
+            for each in wantedList:
+                if each in eachSentence:
+                    print(eachSentence)
+                    hits.append(eachSentence)
+                    with open('sentence.csv', mode='w', encoding='utf-8', newline='') as sen_file:
+                        employee_writer = csv.writer(sen_file, delimiter='|', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+                        employee_writer.writerow(hits)
+
+                # if not foundKeyWord:
+
+
+                    #print(" ")
+                    #print(" ")
+                    if eachSentence[len(eachSentence)-2] == "No":
+                        #print(tokens_sentences[i+1])
+                        #print(eachSentence)
+                        eachSentence.extend(tokens_sentences[i+1])
+                        #print(eachSentence)
+
+
+                    aSentence =' '.join(eachSentence)
+                    #print(aSentence)
+                    wantedListDictionary[count1].append(aSentence)
+                    count1+=1
+                    wantedListSentences.append(aSentence)
+                    # foundKeyWord = True
+
+                # if (each.lower() in keyWordCountDict):
+                #     keyWordCountDict[each.lower()] += 1
+                # else:
+                #     keyWordCountDict[each.lower()] = 1
+
+
+                    break
+        #print(wantedListSentences)
+
+        with open('sentence2.csv', mode='w', encoding='utf-8', newline='') as sen1_file:
+                        employee_writer = csv.writer(sen1_file, delimiter='|', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+                        employee_writer.writerow(wantedListSentences)
+
+
+        cuttedWantedListDictionary = {}
+        sente = []
+        for j in range(len(wantedListSentences)):
+             cuttedWantedListDictionary[j] = []
+             shortenedSentences = wantedListSentences[j].split(' ')
+             #print(shortenedSentences)
+             for i in range(len(shortenedSentences)):
+                 for eachword in wantedList:
+                        if (eachword == shortenedSentences[i]):
+                           if (eachword.lower()=='son') or (eachword.lower()=='daughter'):
+                               if(shortenedSentences[i+1] != 'of'):
+                                   continue
+
+                           #hortenedSentences[i] = eachword
+                           if (len(shortenedSentences) < 36):
+                               #print(11111)
+                               #print(eachword)
+                               cuttedWantedListDictionary[j].append(shortenedSentences)
+                               sente.append(shortenedSentences+[1,1,1,1])
+                               break
+                           else:
+                             try:
+                                 #print(list33[i-15:i+20])
+                                 #print(22222)
+                                 #print(eachword)
+                                 #print(i)
+                                 #print(len(shortenedSentences))
+                                 a = shortenedSentences[i:50]
+                                 if i > 17:
+                                    a = shortenedSentences[i-15:i+20]
+                                 #print(a)
+                                 cuttedWantedListDictionary[j].append(a)
+                                 sente.append(a+[2,2,2,2])
+
+                             except:
+                                #print(333333)
+                                #print(eachword)
+                                a = shortenedSentences[i:]
+                                #print(a)
+                                cuttedWantedListDictionary[j].append(a)
+                                sente.append(a+[3,3,3,3])
+
+                                #dic[count].append(a)
+
+        #print('hereeeee')
+
+        with open('sentence3.csv', mode='w', encoding='utf-8', newline='') as sen3_file:
+                        employee_writer = csv.writer(sen3_file, delimiter='|', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+                        employee_writer.writerow(sente)
+
+        #print(cuttedWantedListDictionary)
+        list33 = []
+        #print(len(cuttedWantedListDictionary))
+
+        for key in cuttedWantedListDictionary:
+            for ij in range(len(cuttedWantedListDictionary[key])):
+                 if(len(cuttedWantedListDictionary[key][0]) > 0):
+                    aSentence =' '.join(cuttedWantedListDictionary[key][0])
+                     #print(aSentence)
+
+
+                    list33.append(aSentence.strip())
+
+                    for each in keyWordList:
+                        if each in aSentence.lower().split():
+
+                            if (each in keyWordCountDict):
+                                keyWordCountDict[each] += 1
+                            else:
+                                keyWordCountDict[each] = 1
+                    break
+
+
+        return render_template('home.html', processed = processed, isGetPreviousResults = isGetPreviousResults, team_name =team , team_year=year, team_gender=gender, team_sport=sport, list1 = list33, len1 = len(list33), keyWordList = keyWordList, keyWordCountKeys = keyWordCountDict.keys(), keyWordCountDict = keyWordCountDict)
+
+
 
 
 @app.route('/processing')
