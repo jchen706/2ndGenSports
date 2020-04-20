@@ -111,12 +111,14 @@ def newIndex():
     return render_template("uploadpdf.html")
 
 
-def workerParser(filePath, file1):    
+def workerParser(filePath, filename):    
 
 
-    print("saving locally")
-    file1.save(filePath)  
-    print("save completed") 
+    # print("saving locally")
+    # file1.save(filePath)  
+    # print("save completed")  
+
+    s3_obj = dowload_file(filename, filePath)
 
     return parser.from_file(filePath)
 
@@ -232,7 +234,7 @@ def index():
 
                     # file1.save(os.path.join(UPLOAD_FOLDER, filename))
 
-                    # upload_file(file1.filename,file1)
+                    upload_file(filename,file1)
                     # s3_obj = dowload_file(file1.filename, os.path.join(file_path, file1.filename))
 
                     #file1.save(os.path.join(file_path, file1.filename))
@@ -249,7 +251,7 @@ def index():
 
 
 
-                    job = q.enqueue(workerParser, os.path.join(file_path, filename), file1) 
+                    job = q.enqueue(workerParser, os.path.join(file_path, filename), filename) 
 
 
                     return redirect(url_for('workerProcessPDF', jobId = job.id, year = year, gender = gender, sport = sport, team = team)) 
