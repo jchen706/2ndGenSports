@@ -643,7 +643,7 @@ def processScraper():
         # return_dict = job.result 
 
 
-        return redirect(url_for('workerProcessScraper', id = job.id, year = year, gender = gender, sport = sport, team = team))
+        return redirect(url_for('workerProcessScraper', jobId = job.id, year = year, gender = gender, sport = sport, team = team))
 
 
 
@@ -749,8 +749,8 @@ def get_template(refresh=False):
     </html>'''
     return render_template_string(template_str, refresh=refresh)
 
-@app.route('/workerProcessScraper/<string:id><string:year><string:gender><string:sport><string:team>')
-def workerProcessScraper(id, year, gender, sport, team):
+@app.route('/workerProcessScraper/<string:jobId><string:year><string:gender><string:sport><string:team>')
+def workerProcessScraper(jobId, year, gender, sport, team):
 
     error_scraper = False 
     processed = True 
@@ -761,7 +761,7 @@ def workerProcessScraper(id, year, gender, sport, team):
     #     return render_template('404.html')
 
 
-    job = Job.fetch(id, connection = conn) 
+    job = Job.fetch(jobId, connection=conn) 
     status = job.get_status() 
 
     if status != 'finished':
