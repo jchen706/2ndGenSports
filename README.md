@@ -26,7 +26,7 @@
 * Web scraper does not support the school Brigham Young University (BYU) due to their unique web formatting
 * The word “sea-son” may be acting like a hit on the keyword “son” in the Florida Gators 2019 Football Media Guide; “sea-son” appears when a paragraph of text gets read
 
-## Install Guide
+## Install Guide version 1.0
 ### Pre-requisites:
 * Miniconda Python 3.7: https://docs.conda.io/en/latest/miniconda.html
 * Use all default settings when installing Miniconda
