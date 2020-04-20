@@ -749,7 +749,7 @@ def get_template(refresh=False):
     </html>'''
     return render_template_string(template_str, refresh=refresh)
 
-@app.route('/workerProcessScraper/<string:id>')
+@app.route('/workerProcessScraper/<string:id><string:year><string:gender><string:sport><string:team>')
 def workerProcessScraper(id, year, gender, sport, team):
 
     error_scraper = False 
