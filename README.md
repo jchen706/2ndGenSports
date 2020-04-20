@@ -1,13 +1,5 @@
 # 2nd Generation Sports
 
-## Team & Contact Information
-
-1. Jun Chen  jchen706@gatech.edu 
-2. Phillip Hong phong9@gatech.edu 
-3. Justin Chiu jchiu33@gatech.edu 
-4. Eric Vizcaya-Eternod eve6@gatech.edu
-5. Jesus Gonzalez jgonzalez314@gatech.edu 
-
 ## Release Notes version 1.0
 * Web Scraper support
 * Added gender to table
@@ -23,7 +15,6 @@
 * Highlighter “on/off” toggle gets put to the left of the results table when processing a PDF with a small amount of hits
 
 ## Known Bugs
-* Error may occur if trying to process a pdf that is not in the 'static' folder 
 * Web scraper does not support the school Brigham Young University (BYU) due to their Angular render HTML
 * The word “sea-son” may be acting like a false positive hit on the keyword “son”
 
@@ -79,3 +70,11 @@ If you are unfamiliar with how to navigate a command prompt window, here is a [M
 ### Troubleshooting
 * Be sure to install all the dependencies on the Miniconda or Anaconda environment you created. You will know that you are in your miniconda environment if you see `myenv` in the Anaconda or Miniconda Prompt window
 * If you are having trouble running the application, make sure you have first activated the miniconda environment using `conda activate myenv`
+
+
+## Team & Contact Information
+1. Jun Chen  jchen706@gatech.edu 
+2. Phillip Hong phong9@gatech.edu 
+3. Justin Chiu jchiu33@gatech.edu 
+4. Eric Vizcaya-Eternod eve6@gatech.edu
+5. Jesus Gonzalez jgonzalez314@gatech.edu 
