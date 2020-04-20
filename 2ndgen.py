@@ -134,7 +134,8 @@ def index():
     #form = MediaForm()
     print(BASE_DIR)
 
-    file_path = BASE_DIR + app.config['UPLOAD_FOLDER']
+    # file_path = BASE_DIR + app.config['UPLOAD_FOLDER'] 
+    file_path = app.config['UPLOAD_FOLDER']
     print(file_path)
 
     #database server connection ... for MySQL
