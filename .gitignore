@@ -13,8 +13,8 @@ __pycache__/dynamo.cpython-37.pyc
 *.so
 *.pyc
 *.csv
-newfile.txt
-start.txt
+/newfile.txt
+/start.txt
 *.pdf
 
 
@@ -139,3 +139,8 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml

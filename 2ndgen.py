@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from flask import Flask, render_template, session, redirect, url_for, request, abort, flash, stream_with_context, Response, render_template_string
 from flask_wtf import FlaskForm
 from wtforms import StringField, SelectField, SubmitField
@@ -212,11 +213,13 @@ def index():
                     flash('No file selected')
                     abort(400, description="No file submitted.")
 
-                print(allowed_file(file1.filename))
-                if(allowed_file(file1.filename)):
+                print(allowed_file(file1.filename)) 
+                if(allowed_file(file1.filename)): 
 
-                    upload_file(file1.filename,file1)
-                    s3_obj = dowload_file(file1.filename, os.path.join(file_path, file1.filename))
+                    file1.save(os.path.join(file_path, file1.filename))
+
+                    # upload_file(file1.filename,file1)
+                    # s3_obj = dowload_file(file1.filename, os.path.join(file_path, file1.filename))
 
                     #file1.save(os.path.join(file_path, file1.filename))
                     #file = open(os.path.join(file_path, file1.filename), 'r')
@@ -321,8 +324,33 @@ def workerProcessPDF():
         input_text = parsed['content']
 
         tokenizer_words = TweetTokenizer()
-        tokens_sentences = [tokenizer_words.tokenize(t) for t in nltk.sent_tokenize(input_text)]
+        # tokens_sentences = [tokenizer_words.tokenize(t) for t in nltk.sent_tokenize(input_text)] 
+        #print(tokens_sentences) 
+
+
+        try:
+            tokens_sentences = [tokenizer_words.tokenize(t) for t in nltk.sent_tokenize(input_text)]
+        except Exception as err2:
+            if os.path.exists(os.path.join(file_path, file1.filename)):
+                os.remove(os.path.join(file_path, file1.filename))
+            else:
+                print("The file does not exist")
+            abort(400, description="File not supported.")
+        except:
+            if os.path.exists(os.path.join(file_path, file1.filename)):
+                os.remove(os.path.join(file_path, file1.filename))
+            else:
+                print("The file does not exist")
+            print('here')
+            print(type(input_text))
+            abort(400, description="File not supported.")
+
         #print(tokens_sentences)
+
+        if os.path.exists(os.path.join(file_path, file1.filename)):
+            os.remove(os.path.join(file_path, file1.filename))
+        else:
+            print("The file does not exist")
 
         count = 0
 
@@ -335,10 +363,10 @@ def workerProcessPDF():
         #keeps track of the count of each keyword. Key: "keyword", Value: "count". Note that similar keywords like parent and Parents fall under the same key.
         keyWordCountDict = {}
 
-        import csv
-        with open('employee_file.csv', mode='w', encoding='utf-8', newline='') as employee_file:
-                employee_writer = csv.writer(employee_file, delimiter='|', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-                employee_writer.writerow(tokens_sentences)
+        # import csv
+        # with open('employee_file.csv', mode='w', encoding='utf-8', newline='') as employee_file:
+        #         employee_writer = csv.writer(employee_file, delimiter='|', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+        #         employee_writer.writerow(tokens_sentences)
 
         for i in range(len(tokens_sentences)):
             wantedListDictionary[count1] = []
@@ -354,9 +382,9 @@ def workerProcessPDF():
                 if each in eachSentence:
                     print(eachSentence)
                     hits.append(eachSentence)
-                    with open('sentence.csv', mode='w', encoding='utf-8', newline='') as sen_file:
-                        employee_writer = csv.writer(sen_file, delimiter='|', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-                        employee_writer.writerow(hits)
+                    # with open('sentence.csv', mode='w', encoding='utf-8', newline='') as sen_file:
+                    #     employee_writer = csv.writer(sen_file, delimiter='|', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+                    #     employee_writer.writerow(hits)
 
                 # if not foundKeyWord:
 
@@ -386,9 +414,9 @@ def workerProcessPDF():
                     break
         #print(wantedListSentences)
 
-        with open('sentence2.csv', mode='w', encoding='utf-8', newline='') as sen1_file:
-                        employee_writer = csv.writer(sen1_file, delimiter='|', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-                        employee_writer.writerow(wantedListSentences)
+        # with open('sentence2.csv', mode='w', encoding='utf-8', newline='') as sen1_file:
+        #                 employee_writer = csv.writer(sen1_file, delimiter='|', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+        #                 employee_writer.writerow(wantedListSentences)
 
 
         cuttedWantedListDictionary = {}
@@ -437,9 +465,9 @@ def workerProcessPDF():
 
         #print('hereeeee')
 
-        with open('sentence3.csv', mode='w', encoding='utf-8', newline='') as sen3_file:
-                        employee_writer = csv.writer(sen3_file, delimiter='|', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-                        employee_writer.writerow(sente)
+        # with open('sentence3.csv', mode='w', encoding='utf-8', newline='') as sen3_file:
+        #                 employee_writer = csv.writer(sen3_file, delimiter='|', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+        #                 employee_writer.writerow(sente)
 
         #print(cuttedWantedListDictionary)
         list33 = []
