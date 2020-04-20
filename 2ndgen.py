@@ -111,7 +111,12 @@ def newIndex():
     return render_template("uploadpdf.html")
 
 
-def workerParser(filePath):   
+def workerParser(filePath, file1):    
+
+
+    print("saving locally")
+    file1.save(filePath)  
+    print("save completed") 
 
     return parser.from_file(filePath)
 
@@ -220,9 +225,11 @@ def index():
                     # APP_ROOT = os.path.dirname(os.path.abspath(__file__))  
                     # UPLOAD_FOLDER = os.path.join(APP_ROOT, 'static', 'pdfs')
 
-                    print("saving locally")
-                    file1.save(os.path.join("/tmp/", filename)) 
-                    print("save completed") 
+                    # print("saving locally")
+                    # file1.save(os.path.join(file_path, filename)) 
+                    # print("save completed") 
+
+
                     # file1.save(os.path.join(UPLOAD_FOLDER, filename))
 
                     # upload_file(file1.filename,file1)
@@ -242,7 +249,7 @@ def index():
 
 
 
-                    job = q.enqueue(workerParser, os.path.join("/tmp/", filename)) 
+                    job = q.enqueue(workerParser, os.path.join(file_path, filename), file1) 
 
 
                     return redirect(url_for('workerProcessPDF', jobId = job.id, year = year, gender = gender, sport = sport, team = team)) 
