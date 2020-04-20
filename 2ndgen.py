@@ -548,7 +548,6 @@ def processScraper():
         #print(format_type)
 
         return_dict = None
-        error_scraper = False
 
         job = q.enqueue(workerProcessScraper, year, gender, sport, team, roster_url, base_url)   
 
@@ -571,6 +570,8 @@ def processScraper():
 
 def workerProcessScraper(year, gender, sport, team, roster_url, base_url):
 
+    error_scraper = False 
+    
     try:
         return_dict = base_scraper(roster_url, base_url)
     except:
