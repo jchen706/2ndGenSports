@@ -767,7 +767,8 @@ def workerProcessScraper(id, year, gender, sport, team):
     if status != 'finished':
         return get_template(refresh = True) 
     else: 
-        
+
+        return_dict = job.result
 
         if return_dict == None:
 
