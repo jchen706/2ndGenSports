@@ -549,12 +549,15 @@ def processScraper():
         return_dict = None
         error_scraper = False
 
-        try:
-            result = q.enqueue(base_scraper, roster_url, base_url) 
-            return_dict = q.dequeue()  
-            # return_dict = base_scraper(roster_url, base_url)
-        except:
-            return render_template('404.html')
+        # try:
+        #     result = q.enqueue(base_scraper, roster_url, base_url) 
+        #     return_dict = q.dequeue()  
+        #     # return_dict = base_scraper(roster_url, base_url)
+        # except:
+        #     return render_template('404.html') 
+        
+        result = q.enqueue(base_scraper, roster_url, base_url) 
+        return_dict = q.dequeue()  
 
 
         if return_dict == None:
