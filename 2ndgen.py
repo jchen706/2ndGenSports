@@ -534,33 +534,33 @@ def workerProcessPDF():
         input_text = parsed['content']
 
         tokenizer_words = TweetTokenizer()
-        # tokens_sentences = [tokenizer_words.tokenize(t) for t in nltk.sent_tokenize(input_text)] 
+        tokens_sentences = [tokenizer_words.tokenize(t) for t in nltk.sent_tokenize(input_text)] 
         #print(tokens_sentences) 
 
 
-        try:
-            tokens_sentences = [tokenizer_words.tokenize(t) for t in nltk.sent_tokenize(input_text)]
-        except Exception as err2:
-            if os.path.exists(os.path.join(file_path, file1.filename)):
-                os.remove(os.path.join(file_path, file1.filename))
-            else:
-                print("The file does not exist")
-            abort(400, description="File not supported.")
-        except:
-            if os.path.exists(os.path.join(file_path, file1.filename)):
-                os.remove(os.path.join(file_path, file1.filename))
-            else:
-                print("The file does not exist")
-            print('here')
-            print(type(input_text))
-            abort(400, description="File not supported.")
+        # try:
+        #     tokens_sentences = [tokenizer_words.tokenize(t) for t in nltk.sent_tokenize(input_text)]
+        # except Exception as err2:
+        #     if os.path.exists(os.path.join(file_path, file1.filename)):
+        #         os.remove(os.path.join(file_path, file1.filename))
+        #     else:
+        #         print("The file does not exist")
+        #     abort(400, description="File not supported.")
+        # except:
+        #     if os.path.exists(os.path.join(file_path, file1.filename)):
+        #         os.remove(os.path.join(file_path, file1.filename))
+        #     else:
+        #         print("The file does not exist")
+        #     print('here')
+        #     print(type(input_text))
+        #     abort(400, description="File not supported.")
 
-        #print(tokens_sentences)
+        # #print(tokens_sentences)
 
-        if os.path.exists(os.path.join(file_path, file1.filename)):
-            os.remove(os.path.join(file_path, file1.filename))
-        else:
-            print("The file does not exist")
+        # if os.path.exists(os.path.join(file_path, file1.filename)):
+        #     os.remove(os.path.join(file_path, file1.filename))
+        # else:
+        #     print("The file does not exist")
 
         count = 0
 
