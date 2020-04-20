@@ -111,8 +111,14 @@ def newIndex():
     return render_template("uploadpdf.html")
 
 
-def workerParser(filePath): 
-    return parser.from_file(filePath)
+def workerParser(file_path, file):   
+
+
+    upload_file(file.filename,file)
+    s3_obj = dowload_file(file.filename, os.path.join(file_path, file.filename))
+
+
+    return parser.from_file(os.path.join(file_path, file.filename))
 
 
 @app.route('/',methods = ['GET','POST'])
@@ -208,15 +214,15 @@ def index():
                 print(allowed_file(file1.filename))
                 if(allowed_file(file1.filename)):
 
-                    upload_file(file1.filename,file1)
-                    s3_obj = dowload_file(file1.filename, os.path.join(file_path, file1.filename))
+                    # upload_file(file1.filename,file1)
+                    # s3_obj = dowload_file(file1.filename, os.path.join(file_path, file1.filename))
 
                     #file1.save(os.path.join(file_path, file1.filename))
                     #file = open(os.path.join(file_path, file1.filename), 'r')
                     #parsed = parser.from_file(s3_obj['Body'].read().decode(encoding="utf-8",errors="ignore"))
 
 
-                    job = q.enqueue(workerParser, os.path.join(file_path, file1.filename)) 
+                    job = q.enqueue(workerParser, file_path, file1) 
 
 
                     return redirect(url_for('workerProcessPDF', jobId = job.id, year = year, gender = gender, sport = sport, team = team))
