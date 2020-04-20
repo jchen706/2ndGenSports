@@ -20,11 +20,11 @@
 * Cutting off ends of long sentences
 * Keywords not being counted near punctuation
 * Many false positives
+* Highlighter “on/off” toggle gets put to the left of the results table when processing a PDF with a small amount of hits
 
 ## Known Bugs
 * Error may occur if trying to process a pdf that is not in the 'static' folder 
-* Highlighter “on/off” toggle gets put to the left of the results table when processing a PDF with a small amount of hits
-* Web scraper does not support the school Brigham Young University (BYU) due to their unique web formatting
+* Web scraper does not support the school Brigham Young University (BYU) due to their Angular render HTML
 * The word “sea-son” may be acting like a false positive hit on the keyword “son”
 
 ## Install Guide version 1.0
