@@ -20,23 +20,23 @@
 * Cutting off ends of long sentences
 * Keywords not being counted near punctuation
 * Many false positives
+* Highlighter “on/off” toggle gets put to the left of the results table when processing a PDF with a small amount of hits
 
 ## Known Bugs
 * Error may occur if trying to process a pdf that is not in the 'static' folder 
-* Highlighter “on/off” toggle gets put to the left of the results table when processing a PDF with a small amount of hits
-* Web scraper does not support the school Brigham Young University (BYU) due to their unique web formatting
+* Web scraper does not support the school Brigham Young University (BYU) due to their Angular render HTML
 * The word “sea-son” may be acting like a false positive hit on the keyword “son”
 
 ## Install Guide version 1.0
 ### Pre-requisites:
-* Miniconda Python 3.7: https://docs.conda.io/en/latest/miniconda.html
+* Miniconda Python 3.7: https://docs.conda.io/en/latest/miniconda.html or Anaconda Python https://www.anaconda.com/distribution/
 * Use all default settings when installing Miniconda
 * You must also have JRE 1.8 installed and configured before proceeding. See https://www.java.com/en/download/
 
 ### Dependencies:
 * All dependency downloads are handled in the “Installation” section of the guide below 
 * For names of specific packages used, read requirements.txt in the repository
-* Open an Anaconda Prompt window
+* Open an Anaconda or Miniconda Prompt window
 
 ### Download:
 * https://github.com/jchen706/2ndGenSports
@@ -47,7 +47,7 @@ No build necessary for this app.
 
 ### Installation
 * Download the repository to your local machine
-* Open an Anaconda Prompt window and navigate to the root directory of the repository. It should be called 2ndGenSports-master
+* Open an Anaconda or Miniconda Prompt window and navigate to the root directory of the repository. It should be called 2ndGenSports-master
 If you are unfamiliar with how to navigate a command prompt window, here is a [Mac tutorial](https://www.macworld.com/article/2042378/master-the-command-line-navigating-files-and-folders.html "Mac tutorial") and a [Windows tutorial](https://www.watchingthenet.com/how-to-navigate-through-folders-when-using-windows-command-prompt.html "Windows tutorial")
 * Create and activate the environment by executing the following commands in the Anaconda prompt window:
     * `conda create -n myenv python=3.6`
@@ -77,5 +77,5 @@ If you are unfamiliar with how to navigate a command prompt window, here is a [M
 * Hit enter and you should see the website displayed
 
 ### Troubleshooting
-* Be sure to install all the dependencies on the miniconda environment you created. You will know that you are in your miniconda environment if you see `myenv` in the Anaconda Prompt window
+* Be sure to install all the dependencies on the Miniconda or Anaconda environment you created. You will know that you are in your miniconda environment if you see `myenv` in the Anaconda or Miniconda Prompt window
 * If you are having trouble running the application, make sure you have first activated the miniconda environment using `conda activate myenv`
