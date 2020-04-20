@@ -749,11 +749,17 @@ def get_template(refresh=False):
     </html>'''
     return render_template_string(template_str, refresh=refresh)
 
-@app.route('/workerProcessScraper/<string:jobId><string:year><string:gender><string:sport><string:team>')
-def workerProcessScraper(jobId, year, gender, sport, team):
+@app.route('/workerProcessScraper')
+def workerProcessScraper():
 
     error_scraper = False 
-    processed = True 
+    processed = True  
+    
+    jobId = request.args.get("jobId") 
+    year = request.args.get("year") 
+    gender = request.args.get("gender")
+    sport = request.args.get("sport")
+    team = request.args.get("team")
 
     # try:
     #     return_dict = base_scraper(roster_url, base_url)
