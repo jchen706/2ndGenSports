@@ -673,6 +673,9 @@
       border-color: black;
       background-color: black;
     }
+
+    body { padding-bottom: 60px; }
+  
   </style>
 
 
@@ -681,9 +684,9 @@
 
 </head>
 
-<body>
+<body style="height: 100%;">
 
-  <div class="container-fluid" style="height: 90vh;">
+  <div class="container-fluid" style="height: 90%;">
     <div class="justify-content-center row" align='center'>
       <h1 class="display-4">2nd Generation Sports Success</h1>
       <p></p>
@@ -964,12 +967,25 @@
         }
       }
     </script>
+     <footer>
+      <div class="footer" style="margin-left: 10vw;">
+        <h7 type="button" class="userBtn footer-btn btn btn-white" data-toggle="modal" data-target="#aboutModal" >About</h7>
+      </div>
+    
+     </footer>
 
     {% else %}
 
     <p id="f" align="center">
       No file has been processed.
     </p>
+
+    <footer>
+      <div class="footer fixed-bottom" style="margin-left: 10vw;">
+        <h7 type="button" class="userBtn footer-btn btn btn-white" data-toggle="modal" data-target="#aboutModal" >About</h7>
+      </div>
+    
+     </footer>
 
     {% endif %}
 
@@ -982,10 +998,8 @@
   </div>
   </div>
 
-
-  <div class="footer-copyright" style="margin-left: 10vw;">
-    <h7 type="button" class="userBtn footer-btn btn btn-white" data-toggle="modal" data-target="#aboutModal" >About</h7>
-  </div>
+ 
+ 
 
 
 
