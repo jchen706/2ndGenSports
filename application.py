@@ -194,21 +194,49 @@ def index():
                 print(allowed_file(file1.filename))
                 if(allowed_file(file1.filename)):
 
-                    upload_file(file1.filename,file1)
-                    s3_obj = dowload_file(file1.filename, os.path.join(file_path, file1.filename))
-
-                    #file1.save(os.path.join(file_path, file1.filename))
+                    print("here upload")
+                    #too slow
+                    #upload_file(file1.filename,file1)
+                    #print('here before download')
+                    #s3_obj = dowload_file(file1.filename, os.path.join(file_path, file1.filename))
+                    
+                    #print(s3_obj)
+                    file1.save(os.path.join(file_path, file1.filename))
                     #file = open(os.path.join(file_path, file1.filename), 'r')
                     #parsed = parser.from_file(s3_obj['Body'].read().decode(encoding="utf-8",errors="ignore"))
 
+                    
                     parsed = parser.from_file(os.path.join(file_path, file1.filename))
                     #print(parsed["metadata"])
                     #print(parsed["content"])
                     input_text = parsed['content']
 
                     tokenizer_words = TweetTokenizer()
-                    tokens_sentences = [tokenizer_words.tokenize(t) for t in nltk.sent_tokenize(input_text)]
+                    tokens_sentences=None
+
+                    try:
+                        tokens_sentences = [tokenizer_words.tokenize(t) for t in nltk.sent_tokenize(input_text)]
+                    except Exception as err2:
+                        if os.path.exists(os.path.join(file_path, file1.filename)):
+                            os.remove(os.path.join(file_path, file1.filename))
+                        else:
+                            print("The file does not exist")
+                        abort(400, description="File not supported.")
+                    except:
+                        if os.path.exists(os.path.join(file_path, file1.filename)):
+                            os.remove(os.path.join(file_path, file1.filename))
+                        else:
+                            print("The file does not exist")
+                        print('here')
+                        print(type(input_text))
+                        abort(400, description="File not supported.")
+
                     #print(tokens_sentences)
+
+                    if os.path.exists(os.path.join(file_path, file1.filename)):
+                        os.remove(os.path.join(file_path, file1.filename))
+                    else:
+                        print("The file does not exist")
 
                     count = 0
 
@@ -222,9 +250,9 @@ def index():
                     keyWordCountDict = {}
 
                     import csv
-                    with open('employee_file.csv', mode='w', encoding='utf-8', newline='') as employee_file:
-                            employee_writer = csv.writer(employee_file, delimiter='|', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-                            employee_writer.writerow(tokens_sentences)
+                    # with open('employee_file.csv', mode='w', encoding='utf-8', newline='') as employee_file:
+                    #         employee_writer = csv.writer(employee_file, delimiter='|', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+                    #         employee_writer.writerow(tokens_sentences)
 
                     for i in range(len(tokens_sentences)):
                         wantedListDictionary[count1] = []
@@ -239,10 +267,10 @@ def index():
                         for each in wantedList:
                             if each in eachSentence:
                                 print(eachSentence)
-                                hits.applicationend(eachSentence)
-                                with open('sentence.csv', mode='w', encoding='utf-8', newline='') as sen_file:
-                                    employee_writer = csv.writer(sen_file, delimiter='|', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-                                    employee_writer.writerow(hits)
+                                hits.append(eachSentence)
+                                # with open('sentence.csv', mode='w', encoding='utf-8', newline='') as sen_file:
+                                #     employee_writer = csv.writer(sen_file, delimiter='|', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+                                #     employee_writer.writerow(hits)
 
                             # if not foundKeyWord:
 
@@ -258,9 +286,9 @@ def index():
 
                                 aSentence =' '.join(eachSentence)
                                 #print(aSentence)
-                                wantedListDictionary[count1].applicationend(aSentence)
+                                wantedListDictionary[count1].append(aSentence)
                                 count1+=1
-                                wantedListSentences.applicationend(aSentence)
+                                wantedListSentences.append(aSentence)
                                 # foundKeyWord = True
 
                             # if (each.lower() in keyWordCountDict):
@@ -272,9 +300,9 @@ def index():
                                 break
                     #print(wantedListSentences)
 
-                    with open('sentence2.csv', mode='w', encoding='utf-8', newline='') as sen1_file:
-                                    employee_writer = csv.writer(sen1_file, delimiter='|', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-                                    employee_writer.writerow(wantedListSentences)
+                    # with open('sentence2.csv', mode='w', encoding='utf-8', newline='') as sen1_file:
+                    #                 employee_writer = csv.writer(sen1_file, delimiter='|', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+                    #                 employee_writer.writerow(wantedListSentences)
 
 
                     cuttedWantedListDictionary = {}
@@ -294,8 +322,8 @@ def index():
                                        if (len(shortenedSentences) < 36):
                                            #print(11111)
                                            #print(eachword)
-                                           cuttedWantedListDictionary[j].applicationend(shortenedSentences)
-                                           sente.applicationend(shortenedSentences+[1,1,1,1])
+                                           cuttedWantedListDictionary[j].append(shortenedSentences)
+                                           sente.append(shortenedSentences+[1,1,1,1])
                                            break
                                        else:
                                          try:
@@ -308,24 +336,24 @@ def index():
                                              if i > 17:
                                                 a = shortenedSentences[i-15:i+20]
                                              #print(a)
-                                             cuttedWantedListDictionary[j].applicationend(a)
-                                             sente.applicationend(a+[2,2,2,2])
+                                             cuttedWantedListDictionary[j].append(a)
+                                             sente.append(a+[2,2,2,2])
 
                                          except:
                                             #print(333333)
                                             #print(eachword)
                                             a = shortenedSentences[i:]
                                             #print(a)
-                                            cuttedWantedListDictionary[j].applicationend(a)
-                                            sente.applicationend(a+[3,3,3,3])
+                                            cuttedWantedListDictionary[j].append(a)
+                                            sente.append(a+[3,3,3,3])
 
-                                            #dic[count].applicationend(a)
+                                            #dic[count].application(a)
 
                     #print('hereeeee')
 
-                    with open('sentence3.csv', mode='w', encoding='utf-8', newline='') as sen3_file:
-                                    employee_writer = csv.writer(sen3_file, delimiter='|', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-                                    employee_writer.writerow(sente)
+                    # with open('sentence3.csv', mode='w', encoding='utf-8', newline='') as sen3_file:
+                    #                 employee_writer = csv.writer(sen3_file, delimiter='|', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+                    #                 employee_writer.writerow(sente)
 
                     #print(cuttedWantedListDictionary)
                     list33 = []
@@ -338,7 +366,7 @@ def index():
                                  #print(aSentence)
 
 
-                                list33.applicationend(aSentence.strip())
+                                list33.append(aSentence.strip())
 
                                 for each in keyWordList:
                                     if each in aSentence.lower().split():
