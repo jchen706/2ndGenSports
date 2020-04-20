@@ -537,7 +537,6 @@ def processScraper():
 
 
 
-        processed = True
 
         roster_url = str(roster_url)
         base_url = str(base_url)
@@ -571,6 +570,7 @@ def processScraper():
 def workerProcessScraper(year, gender, sport, team, roster_url, base_url):
 
     error_scraper = False 
+    processed = True 
     
     try:
         return_dict = base_scraper(roster_url, base_url)
