@@ -112,7 +112,7 @@ def newIndex():
 
 
 def workerParser(filePath): 
-    return parser.from_file(os.path.join(file_path, file1.filename))
+    return parser.from_file(filePath
 
 
 @app.route('/',methods = ['GET','POST'])
@@ -463,7 +463,7 @@ def workerProcessPDF():
 
 
         parsed = job.result 
-        
+
         input_text = parsed['content']
 
         tokenizer_words = TweetTokenizer()
