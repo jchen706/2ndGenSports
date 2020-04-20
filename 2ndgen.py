@@ -563,10 +563,10 @@ def processScraper():
             return render_template('404.html')
 
 
-        while job.results == None:
+        while job.result == None:
             time.sleep(5) 
 
-        return_dict = job.results
+        return_dict = job.result
 
         if return_dict == None:
 
