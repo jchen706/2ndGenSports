@@ -571,7 +571,7 @@ def workerProcessScraper(year, gender, sport, team, roster_url, base_url):
 
     error_scraper = False 
     processed = True 
-    
+
     try:
         return_dict = base_scraper(roster_url, base_url)
     except:
@@ -619,11 +619,12 @@ def workerProcessScraper(year, gender, sport, team, roster_url, base_url):
                             break
 
 
+        with app.app_context():
+            
 
-
-        return render_template('scraperx.html', returnTeam=return_dict, processed=processed,
-            team_name =team , team_year=year, team_gender=gender, team_sport=sport, keyWordList = keyWordList,
-            keyWordCountKeys = keyWordCountDict.keys(), keyWordCountDict = keyWordCountDict, length_dict = len(return_dict))
+            return render_template('scraperx.html', returnTeam=return_dict, processed=processed,
+                team_name =team , team_year=year, team_gender=gender, team_sport=sport, keyWordList = keyWordList,
+                keyWordCountKeys = keyWordCountDict.keys(), keyWordCountDict = keyWordCountDict, length_dict = len(return_dict))
 
 
 
