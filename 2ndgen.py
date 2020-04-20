@@ -165,11 +165,14 @@ def index():
     #         print("MySQL connection is closed")
 
 
-    #action posted from frontend
-    if(request.method == "POST"):
+    #action posted from frontend 
 
+    print("right before post method check")
+    if(request.method == "POST"):
+        print("right after post medthod check")
         if request.form['action'] == "submit":
 
+            print("past submit action form check")
 
             isGetPreviousResults = False
 
@@ -180,7 +183,7 @@ def index():
             sport = request.form['sport']
             processed = True
 
-
+            print("past attribute retrieval from form")
 
 
 
@@ -202,10 +205,13 @@ def index():
             print(gender)
             print(sport)
 
-            if request.files:
+            if request.files:    
+                print("right before accessing pdffile")
 
                 file1 = request.files["pdffile"]
-                print(file1.filename == '')
+                print(file1.filename == '') 
+
+                print("right after pdffile")
 
                 if (file1.filename == ''):
                     flash('No file selected')
