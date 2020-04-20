@@ -36,7 +36,8 @@ import time
 from rq import Queue
 from worker import conn 
 
-import jinja2
+import jinja2 
+import sys
 
 q = Queue(connection=conn)
 
@@ -623,7 +624,7 @@ def workerProcessScraper(year, gender, sport, team, roster_url, base_url):
 
        
         env = jinja2.Environment(
-            loader=jinja2.PackageLoader('2ndGenSports','templates')
+            loader=jinja2.PackageLoader(sys.modules[__name__], 'templates')
         )
         template = env.get_template('scraperx.html')
 
