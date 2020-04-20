@@ -1,4 +1,4 @@
-from flask import Flask, render_template, session, redirect, url_for, request, abort, flash, stream_with_context, Response
+from flask import Flask, render_template, session, redirect, url_for, request, abort, flash, stream_with_context, Response, render_template_string
 from flask_wtf import FlaskForm
 from wtforms import StringField, SelectField, SubmitField
 from wtforms.validators import DataRequired
@@ -32,8 +32,10 @@ from scraperdynamo import *
 #from flask_sqlalchemy import SQLAlchemy
 #import SQLAlchemy 
 
-import time
-from rq import Queue
+import time 
+from rq import Queue 
+from rq.job import Job 
+from redis import Redis
 from worker import conn 
 
 import jinja2 
@@ -551,60 +553,60 @@ def processScraper():
         #print(format_type)
 
         return_dict = None 
-        def generate(year, gender, sport, team, roster_url, base_url):  
-            error_scraper = False 
-            processed = True 
+        # def generate(year, gender, sport, team, roster_url, base_url):  
+        #     error_scraper = False 
+        #     processed = True 
 
-            try: 
-                job = q.enqueue(base_scraper, roster_url, base_url)
-                # return_dict = base_scraper(roster_url, base_url)
-            except:
-                return render_template('404.html')
+        #     try: 
+        #         job = q.enqueue(base_scraper, roster_url, base_url)
+        #         # return_dict = base_scraper(roster_url, base_url)
+        #     except:
+        #         return render_template('404.html')
 
-            while job.result == None:
-                yield 'Processing' 
+        #     while job.result == None:
+        #         yield 'Processing' 
 
-            return_dict = job.result
+        #     return_dict = job.result
 
-            if return_dict == None:
+        #     if return_dict == None:
 
-                return render_template('scraperx.html', teamId="nothing is processed", processed=processed)
-
-
-
-
-
-            if error_scraper:
-
-                return render_template('scraperx.html', teamId="nothing is processed", processed=processed)
-
-            else:
-
-                true_dict = return_dict.copy()
-                for key1, value in true_dict.items():
-                    if len(value) == 0:
-                        return_dict.pop(key1, None)
+        #         return render_template('scraperx.html', teamId="nothing is processed", processed=processed)
 
 
 
 
-                keyWordCountDict = {}
-                for key, value in return_dict.items():
 
-                    for each in keyWordList:
+        #     if error_scraper:
 
-                        for bullet in value:
+        #         return render_template('scraperx.html', teamId="nothing is processed", processed=processed)
 
-                            if each in bullet.lower().split():
+        #     else:
 
-                                if (each in keyWordCountDict):
-                                    keyWordCountDict[each] += 1
-                                    print("found " + each + " for " + key)
-                                    break
-                                else:
-                                    keyWordCountDict[each] = 1
-                                    print("found " + each + " for " + key)
-                                    break
+        #         true_dict = return_dict.copy()
+        #         for key1, value in true_dict.items():
+        #             if len(value) == 0:
+        #                 return_dict.pop(key1, None)
+
+
+
+
+        #         keyWordCountDict = {}
+        #         for key, value in return_dict.items():
+
+        #             for each in keyWordList:
+
+        #                 for bullet in value:
+
+        #                     if each in bullet.lower().split():
+
+        #                         if (each in keyWordCountDict):
+        #                             keyWordCountDict[each] += 1
+        #                             print("found " + each + " for " + key)
+        #                             break
+        #                         else:
+        #                             keyWordCountDict[each] = 1
+        #                             print("found " + each + " for " + key)
+        #                             break
 
 
                
@@ -613,9 +615,9 @@ def processScraper():
                 # )
                 # template = env.get_template("scraperx.html")
 
-                return render_template('scraperx.html', returnTeam=return_dict, processed=processed,
-                    team_name =team , team_year=year, team_gender=gender, team_sport=sport, keyWordList = keyWordList,
-                    keyWordCountKeys = keyWordCountDict.keys(), keyWordCountDict = keyWordCountDict, length_dict = len(return_dict))
+                # return render_template('scraperx.html', returnTeam=return_dict, processed=processed,
+                #     team_name =team , team_year=year, team_gender=gender, team_sport=sport, keyWordList = keyWordList,
+                #     keyWordCountKeys = keyWordCountDict.keys(), keyWordCountDict = keyWordCountDict, length_dict = len(return_dict))
 
                 # return template.render(returnTeam=return_dict, processed=processed,
                 #     team_name =team , team_year=year, team_gender=gender, team_sport=sport, keyWordList = keyWordList,
@@ -625,24 +627,33 @@ def processScraper():
 
         # job = q.enqueue(workerProcessScraper, year, gender, sport, team, roster_url, base_url)   
 
-        return Response(stream_with_context(generate(year, gender, sport, team, roster_url, base_url)))
+        # return Response(stream_with_context(generate(year, gender, sport, team, roster_url, base_url)))
         # return ('', 204) 
 
-        # try: 
-        #     job = q.enqueue(base_scraper, roster_url, base_url)
-        #     # return_dict = base_scraper(roster_url, base_url)
-        # except:
-        #     return render_template('404.html')
+        try: 
+            job = q.enqueue(base_scraper, roster_url, base_url)
+            # return_dict = base_scraper(roster_url, base_url)
+        except:
+            return render_template('404.html')
 
 
         # while job.result == None:
         #     time.sleep(5) 
 
-        # return_dict = job.result
+        # return_dict = job.result 
 
-        # if return_dict == None:
 
-        #     return render_template('scraperx.html', teamId="nothing is processed", processed=processed)
+        return redirect(url_for('workerProcessScraper', id = job.id, year = year, gender = gender, sport = sport, team = team))
+
+
+
+
+
+
+
+        if return_dict == None:
+
+            return render_template('scraperx.html', teamId="nothing is processed", processed=processed)
 
 
 
@@ -711,71 +722,107 @@ def processScraper():
     return render_template('scraperx.html', teamId="nothing is processed", processed=processed) 
 
 
-def workerProcessScraper(year, gender, sport, team, roster_url, base_url):
+def get_template(refresh=False): 
+    template_str = '''<html>
+    <head>
+      {% if refresh %}
+        <meta http-equiv="refresh" content="5">
+      {% endif %} 
+
+      <style>
+        .loader {
+          border: 16px solid #f3f3f3;
+          border-radius: 50%;
+          border-top: 16px solid #3498db;
+          width: 120px;
+          height: 120px;
+          -webkit-animation: spin 2s linear infinite; /* Safari */
+          animation: spin 2s linear infinite;
+          visibility: visible;
+        }
+    </head>
+    <body>
+    <div align="center">
+      <div id ="loaderid" class="loader"></div>
+    </div>
+    </body>
+    </html>'''
+    return render_template_string(template_str, refresh=refresh)
+
+@app.route('/workerProcessScraper/<string:id>')
+def workerProcessScraper(id, year, gender, sport, team):
 
     error_scraper = False 
     processed = True 
 
-    try:
-        return_dict = base_scraper(roster_url, base_url)
-    except:
-        return render_template('404.html')
+    # try:
+    #     return_dict = base_scraper(roster_url, base_url)
+    # except:
+    #     return render_template('404.html')
 
 
-    if return_dict == None:
+    job = Job.fetch(id, connection = conn) 
+    status = job.get_status() 
 
-        return render_template('scraperx.html', teamId="nothing is processed", processed=processed)
+    if status != 'finished':
+        return get_template(refresh = True) 
+    else: 
+        
 
+        if return_dict == None:
 
-
-
-
-    if error_scraper:
-
-        return render_template('scraperx.html', teamId="nothing is processed", processed=processed)
-
-    else:
-
-        true_dict = return_dict.copy()
-        for key1, value in true_dict.items():
-            if len(value) == 0:
-                return_dict.pop(key1, None)
+            return render_template('scraperx.html', teamId="nothing is processed", processed=processed)
 
 
 
 
-        keyWordCountDict = {}
-        for key, value in return_dict.items():
 
-            for each in keyWordList:
+        if error_scraper:
 
-                for bullet in value:
+            return render_template('scraperx.html', teamId="nothing is processed", processed=processed)
 
-                    if each in bullet.lower().split():
+        else:
 
-                        if (each in keyWordCountDict):
-                            keyWordCountDict[each] += 1
-                            print("found " + each + " for " + key)
-                            break
-                        else:
-                            keyWordCountDict[each] = 1
-                            print("found " + each + " for " + key)
-                            break
+            true_dict = return_dict.copy()
+            for key1, value in true_dict.items():
+                if len(value) == 0:
+                    return_dict.pop(key1, None)
 
 
-       
-        env = jinja2.Environment(
-            loader=jinja2.FileSystemLoader("./templates")
-        )
-        template = env.get_template("scraperx.html")
 
-        # return render_template('scraperx.html', returnTeam=return_dict, processed=processed,
-        #     team_name =team , team_year=year, team_gender=gender, team_sport=sport, keyWordList = keyWordList,
-        #     keyWordCountKeys = keyWordCountDict.keys(), keyWordCountDict = keyWordCountDict, length_dict = len(return_dict))
 
-        return template.render(returnTeam=return_dict, processed=processed,
-            team_name =team , team_year=year, team_gender=gender, team_sport=sport, keyWordList = keyWordList,
-            keyWordCountKeys = keyWordCountDict.keys(), keyWordCountDict = keyWordCountDict, length_dict = len(return_dict))
+            keyWordCountDict = {}
+            for key, value in return_dict.items():
+
+                for each in keyWordList:
+
+                    for bullet in value:
+
+                        if each in bullet.lower().split():
+
+                            if (each in keyWordCountDict):
+                                keyWordCountDict[each] += 1
+                                print("found " + each + " for " + key)
+                                break
+                            else:
+                                keyWordCountDict[each] = 1
+                                print("found " + each + " for " + key)
+                                break
+
+
+           
+            # env = jinja2.Environment(
+            #     loader=jinja2.FileSystemLoader("./templates")
+            # )
+            # template = env.get_template("scraperx.html")
+
+            return render_template('scraperx.html', returnTeam=return_dict, processed=processed,
+                team_name =team , team_year=year, team_gender=gender, team_sport=sport, keyWordList = keyWordList,
+                keyWordCountKeys = keyWordCountDict.keys(), keyWordCountDict = keyWordCountDict, length_dict = len(return_dict))
+
+            # return template.render(returnTeam=return_dict, processed=processed,
+            #     team_name =team , team_year=year, team_gender=gender, team_sport=sport, keyWordList = keyWordList,
+            #     keyWordCountKeys = keyWordCountDict.keys(), keyWordCountDict = keyWordCountDict, length_dict = len(return_dict))
 
 
 @app.route('/postScraperCheck',methods = ['POST', 'GET'])
