@@ -555,11 +555,16 @@ def processScraper():
             error_scraper = False 
             processed = True 
 
-            try:
-                return_dict = base_scraper(roster_url, base_url)
+            try: 
+                job = q.enqueue(base_scraper, roster_url, base_url)
+                # return_dict = base_scraper(roster_url, base_url)
             except:
                 return render_template('404.html')
 
+            while job.result == None:
+                yield 'Processing' 
+
+            return_dict = job.result
 
             if return_dict == None:
 
