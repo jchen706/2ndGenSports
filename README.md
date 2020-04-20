@@ -22,6 +22,7 @@
 * Many false positives
 
 ## Known Bugs
+* Error may occur if trying to process a pdf that is not in the 'static' folder 
 * Highlighter “on/off” toggle gets put to the left of the results table when processing a PDF with a small amount of hits
 * Web scraper does not support the school Brigham Young University (BYU) due to their unique web formatting
 * The word “sea-son” may be acting like a hit on the keyword “son” in the Florida Gators 2019 Football Media Guide; “sea-son” appears when a paragraph of text gets read
