@@ -641,7 +641,6 @@ def processScraper():
         #     time.sleep(5) 
 
         # return_dict = job.result 
-        time.sleep(1)
 
         return redirect(url_for('workerProcessScraper', jobId = job.id, year = year, gender = gender, sport = sport, team = team))
 
@@ -731,12 +730,19 @@ def get_template(refresh=False):
 
       <style>
         .loader {
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          z-index: 1;
+          width: 150px;
+          height: 150px;
+          margin: -75px 0 0 -75px;
           border: 16px solid #f3f3f3;
           border-radius: 50%;
           border-top: 16px solid #3498db;
           width: 120px;
           height: 120px;
-          -webkit-animation: spin 2s linear infinite; /* Safari */
+          -webkit-animation: spin 2s linear infinite;
           animation: spin 2s linear infinite;
         }  
 
