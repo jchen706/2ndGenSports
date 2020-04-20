@@ -32,6 +32,7 @@ from scraperdynamo import *
 #from flask_sqlalchemy import SQLAlchemy
 #import SQLAlchemy 
 
+import time
 from rq import Queue
 from worker import conn
 
@@ -549,16 +550,17 @@ def processScraper():
         return_dict = None
         error_scraper = False
 
-        # try:
-        #     result = q.enqueue(base_scraper, roster_url, base_url) 
-        #     return_dict = q.dequeue()  
-        #     # return_dict = base_scraper(roster_url, base_url)
-        # except:
-        #     return render_template('404.html') 
-        
-        result = q.enqueue(base_scraper, roster_url, base_url) 
-        return_dict = q.dequeue()  
+        try:
+            job = q.enqueue(base_scraper, roster_url, base_url)  
+            # return_dict = base_scraper(roster_url, base_url)
+        except:
+            return render_template('404.html')
 
+
+        while(job.result == None): 
+            time.sleep(.1)
+
+        return_dict = job.result 
 
         if return_dict == None:
 
