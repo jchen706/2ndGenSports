@@ -112,7 +112,7 @@ def newIndex():
 
 
 def workerParser(filePath): 
-    return parser.from_file(filePath
+    return parser.from_file(filePath)
 
 
 @app.route('/',methods = ['GET','POST'])
