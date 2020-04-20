@@ -134,8 +134,8 @@ def index():
     #form = MediaForm()
     print(BASE_DIR)
 
-    # file_path = BASE_DIR + app.config['UPLOAD_FOLDER'] 
-    file_path = app.config['UPLOAD_FOLDER']
+    file_path = BASE_DIR + app.config['UPLOAD_FOLDER'] 
+    # file_path = app.config['UPLOAD_FOLDER']
     print(file_path)
 
     #database server connection ... for MySQL
@@ -214,9 +214,11 @@ def index():
                     abort(400, description="No file submitted.")
 
                 print(allowed_file(file1.filename)) 
-                if(allowed_file(file1.filename)): 
+                if(allowed_file(file1.filename)):  
+                    filename = secure_filename(file1.filename)
 
-                    file1.save(os.path.join(file_path, file1.filename))
+                    # file1.save(os.path.join(file_path, file1.filename)) 
+                    file1.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
                     # upload_file(file1.filename,file1)
                     # s3_obj = dowload_file(file1.filename, os.path.join(file_path, file1.filename))
