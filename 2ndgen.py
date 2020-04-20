@@ -822,7 +822,7 @@ def postCheckListScraper():
 
     return render_template('postedScraper.html', teamId="nothing is processed")
 
-@app.route('/deleteAll', methods= ['POST'])
+@app.route('/deleteAll', methods= ['POST', 'GET'])
 def deleteAll():
 
 
@@ -836,10 +836,16 @@ def deleteAll():
         items = getAllItems()
         added = False
 
+        return render_template('postedList.html', added1 = added, items = items, keyWordList = keyWordList) 
+    elif(request.method == 'GET'): 
+        
+        items = getAllItems() 
+        added = False 
+
         return render_template('postedList.html', added1 = added, items = items, keyWordList = keyWordList)
 
 
-@app.route('/deleteAllScraper', methods= ['POST'])
+@app.route('/deleteAllScraper', methods= ['POST', 'GET'])
 def deleteAllScraper():
 
 
@@ -853,7 +859,14 @@ def deleteAllScraper():
         items = scrapergetAllItems()
         added = False
 
+        return render_template('postedScraper.html', added1 = added, items = items, keyWordList = keyWordList) 
+    elif(request.method == 'GET'): 
+        
+        items = scrapergetAllItems() 
+        added = False 
+
         return render_template('postedScraper.html', added1 = added, items = items, keyWordList = keyWordList)
+
 
 
 
