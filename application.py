@@ -32,6 +32,7 @@ from scraperdynamo import *
 #from flask_sqlalchemy import SQLAlchemy
 #import SQLAlchemy
 
+
 #absolute path of the file
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
@@ -40,14 +41,14 @@ UPLOAD_FOLDER = '/static/pdfs'
 
 ALLOWED_EXTENSIONS = {'pdf'}
 DEBUG = True
-app = Flask(__name__)
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:1547@localhost/alchemy'
-#app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+application = Flask(__name__)
+#application.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:1547@localhost/alchemy'
+#application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-app.config['SECRET_KEY'] = '1111'
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+application.config['SECRET_KEY'] = '1111'
+application.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-#db = SQLAlchemy(app)
+#db = SQLAlchemy(application)
 
 # class PdfFile(db.Model):
 #     """docstring for ."""
@@ -59,7 +60,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 #         self.arg = arg
 
 
-@app.errorhandler(400)
+@application.errorhandler(400)
 def bad_request(e):
     return render_template('400.html'), 400
 
@@ -79,7 +80,7 @@ class MediaForm(FlaskForm):
     gend = SelectField('Gender: ', choices=[('M','Male'), ('F','Female')], validators = [DataRequired()] )
     submit = SubmitField('Submit')
 
-@app.route('/uploadpdf',methods = ['GET','POST'])
+@application.route('/uploadpdf',methods = ['GET','POST'])
 def newIndex():
     if(request.method == "POST"):
 
@@ -91,7 +92,7 @@ def newIndex():
                 flash('No file selected')
 
             if(file1 and allowed_file(file1.filename)):
-                file1.save(os.path.join(app.config['UPLOAD_FOLDER'], file1.filename))
+                file1.save(os.path.join(application.config['UPLOAD_FOLDER'], file1.filename))
                 print('file save')
 
 
@@ -100,7 +101,7 @@ def newIndex():
     return render_template("uploadpdf.html")
 
 
-@app.route('/',methods = ['GET','POST'])
+@application.route('/',methods = ['GET','POST'])
 def index():
     processed = False
     year = 0000
@@ -118,7 +119,7 @@ def index():
     #form = MediaForm()
     print(BASE_DIR)
 
-    file_path = BASE_DIR + app.config['UPLOAD_FOLDER']
+    file_path = BASE_DIR + application.config['UPLOAD_FOLDER']
     print(file_path)
 
     #database server connection ... for MySQL
@@ -238,7 +239,7 @@ def index():
                         for each in wantedList:
                             if each in eachSentence:
                                 print(eachSentence)
-                                hits.append(eachSentence)
+                                hits.applicationend(eachSentence)
                                 with open('sentence.csv', mode='w', encoding='utf-8', newline='') as sen_file:
                                     employee_writer = csv.writer(sen_file, delimiter='|', quotechar='"', quoting=csv.QUOTE_MINIMAL)
                                     employee_writer.writerow(hits)
@@ -257,9 +258,9 @@ def index():
 
                                 aSentence =' '.join(eachSentence)
                                 #print(aSentence)
-                                wantedListDictionary[count1].append(aSentence)
+                                wantedListDictionary[count1].applicationend(aSentence)
                                 count1+=1
-                                wantedListSentences.append(aSentence)
+                                wantedListSentences.applicationend(aSentence)
                                 # foundKeyWord = True
 
                             # if (each.lower() in keyWordCountDict):
@@ -293,8 +294,8 @@ def index():
                                        if (len(shortenedSentences) < 36):
                                            #print(11111)
                                            #print(eachword)
-                                           cuttedWantedListDictionary[j].append(shortenedSentences)
-                                           sente.append(shortenedSentences+[1,1,1,1])
+                                           cuttedWantedListDictionary[j].applicationend(shortenedSentences)
+                                           sente.applicationend(shortenedSentences+[1,1,1,1])
                                            break
                                        else:
                                          try:
@@ -307,18 +308,18 @@ def index():
                                              if i > 17:
                                                 a = shortenedSentences[i-15:i+20]
                                              #print(a)
-                                             cuttedWantedListDictionary[j].append(a)
-                                             sente.append(a+[2,2,2,2])
+                                             cuttedWantedListDictionary[j].applicationend(a)
+                                             sente.applicationend(a+[2,2,2,2])
 
                                          except:
                                             #print(333333)
                                             #print(eachword)
                                             a = shortenedSentences[i:]
                                             #print(a)
-                                            cuttedWantedListDictionary[j].append(a)
-                                            sente.append(a+[3,3,3,3])
+                                            cuttedWantedListDictionary[j].applicationend(a)
+                                            sente.applicationend(a+[3,3,3,3])
 
-                                            #dic[count].append(a)
+                                            #dic[count].applicationend(a)
 
                     #print('hereeeee')
 
@@ -337,7 +338,7 @@ def index():
                                  #print(aSentence)
 
 
-                                list33.append(aSentence.strip())
+                                list33.applicationend(aSentence.strip())
 
                                 for each in keyWordList:
                                     if each in aSentence.lower().split():
@@ -412,13 +413,13 @@ def index():
     return render_template('home.html',processed = processed, team_name =team , team_year=year, team_gender=gender, team_sport=sport, list1 = list1,len1 = len(list1))
 
 
-@app.route('/processing')
+@application.route('/processing')
 def successful():
     return render_template('process.html')
 
 
 
-@app.route('/postCheckList',methods = ['POST', 'GET'])
+@application.route('/postCheckList',methods = ['POST', 'GET'])
 def postCheckList():
     print('here post check list')
 
@@ -476,7 +477,7 @@ def postCheckList():
     return render_template('postedList.html', teamId="nothing is processed")
 
 
-@app.route('/getAll', methods = ['GET'])
+@application.route('/getAll', methods = ['GET'])
 def getAllData():
 
 
@@ -489,7 +490,7 @@ def getAllData():
         return render_template('postedList.html', added1 = added, items = items, keyWordList = keyWordList)
 
 
-@app.route('/getScraperData', methods = ['GET'])
+@application.route('/getScraperData', methods = ['GET'])
 def getAllScraperData():
 
 
@@ -501,7 +502,7 @@ def getAllScraperData():
 
         return render_template('postedScraper.html', added1 = added, items = items, keyWordList = keyWordList)
 
-@app.route('/getScraper', methods= ['GET'])
+@application.route('/getScraper', methods= ['GET'])
 def getScraper():
     url = None
     #url = request.form['input_url']
@@ -510,7 +511,7 @@ def getScraper():
     if(request.method == 'GET'):
         return render_template('scraperx.html')
 
-@app.route('/postscraper',methods = ['GET','POST'])
+@application.route('/postscraper',methods = ['GET','POST'])
 def processScraper():
     #URL = 'https://mgoblue.com/sports/mens-basketball/roster'
 
@@ -614,7 +615,7 @@ def processScraper():
 
 
 
-@app.route('/postScraperCheck',methods = ['POST', 'GET'])
+@application.route('/postScraperCheck',methods = ['POST', 'GET'])
 def postCheckListScraper():
 
 
@@ -686,7 +687,7 @@ def postCheckListScraper():
 
     return render_template('postedScraper.html', teamId="nothing is processed")
 
-@app.route('/deleteAll', methods= ['POST'])
+@application.route('/deleteAll', methods= ['POST'])
 def deleteAll():
 
 
@@ -703,7 +704,7 @@ def deleteAll():
         return render_template('postedList.html', added1 = added, items = items, keyWordList = keyWordList)
 
 
-@app.route('/deleteAllScraper', methods= ['POST'])
+@application.route('/deleteAllScraper', methods= ['POST'])
 def deleteAllScraper():
 
 
@@ -722,4 +723,4 @@ def deleteAllScraper():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    application.run(debug=True)
