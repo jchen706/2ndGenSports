@@ -624,9 +624,9 @@ def workerProcessScraper(year, gender, sport, team, roster_url, base_url):
 
        
         env = jinja2.Environment(
-            loader=jinja2.FileSystemLoader('/templates')
+            loader=jinja2.FileSystemLoader("./templates")
         )
-        template = env.get_template('scraperx.html')
+        template = env.get_template("scraperx.html")
 
         # return render_template('scraperx.html', returnTeam=return_dict, processed=processed,
         #     team_name =team , team_year=year, team_gender=gender, team_sport=sport, keyWordList = keyWordList,
