@@ -100,9 +100,10 @@ def newIndex():
 
     return render_template("uploadpdf.html")
 
-
+#main index function of the route
 @application.route('/',methods = ['GET','POST'])
 def index():
+    #set default variables
     processed = False
     year = 0000
     team = "No Team"
@@ -214,6 +215,7 @@ def index():
                     tokenizer_words = TweetTokenizer()
                     tokens_sentences=None
 
+                    #use tokenizer to split the entire document into sentences
                     try:
                         tokens_sentences = [tokenizer_words.tokenize(t) for t in nltk.sent_tokenize(input_text)]
                     except Exception as err2:
@@ -239,7 +241,7 @@ def index():
                         print("The file does not exist")
 
                     count = 0
-
+                    #keyword list 
                     wantedList=['parent','Parents', 'Father', 'Mother', 'father', 'mother', 'dad', 'Dad', 'Mom', 'mom', 'son', 'Son', 'daughter', 'Daughter']
 
                     wantedListDictionary = {}
@@ -377,14 +379,14 @@ def index():
                                             keyWordCountDict[each] = 1
                                 break
 
-
+                    #return the rendered home template
                     return render_template('home.html', processed = processed, isGetPreviousResults = isGetPreviousResults, team_name =team , team_year=year, team_gender=gender, team_sport=sport, list1 = list33, len1 = len(list33), keyWordList = keyWordList, keyWordCountKeys = keyWordCountDict.keys(), keyWordCountDict = keyWordCountDict)
             else:
                 abort(400, description="No file submitted.")
-
+        #if the action is to get previous results
         elif request.form['action'] == "getPreviousResults":
-
-
+    
+            #get the default variables
             isGetPreviousResults = True
 
             year = request.form['year']
@@ -395,8 +397,8 @@ def index():
 
 
 
-
-
+            
+            #make sure everything is define type
             try:
                 year = int(year)
             except:
@@ -417,7 +419,7 @@ def index():
 
             checkedList = item["checkedList"]
             resultsList = item["resultsList"]
-
+            #aggregate the previous results and return
             for aSentence in resultsList:
                 for each in keyWordList:
                     if each in aSentence.lower().split():
@@ -434,7 +436,7 @@ def index():
 
     else:
 
-
+        #return default template if no selection is is made
         return render_template('home.html', processed = processed, team_name =team , team_year=year, team_gender=gender, team_sport=sport, list1 = list1, len1 = len(list1))
 
 
