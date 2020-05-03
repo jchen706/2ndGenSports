@@ -71,6 +71,10 @@ If you are unfamiliar with how to navigate a command prompt window, here is a [M
 * Be sure to install all the dependencies on the Miniconda or Anaconda environment you created. You will know that you are in your miniconda environment if you see `myenv` in the Anaconda or Miniconda Prompt window
 * If you are having trouble running the application, make sure you have first activated the miniconda environment using `conda activate myenv`
 
+### Web Scraper Supported Universities Spreadsheet
+
+https://docs.google.com/spreadsheets/d/1JMGE9vjyt_RUCsFW3jGEdUKQa2mGGiYPMml2AXV_L4U/edit?usp=sharing
+
 
 ## Team & Contact Information
 1. Jun Chen  jchen706@gatech.edu 
