@@ -75,6 +75,8 @@ If you are unfamiliar with how to navigate a command prompt window, here is a [M
 
 https://docs.google.com/spreadsheets/d/1JMGE9vjyt_RUCsFW3jGEdUKQa2mGGiYPMml2AXV_L4U/edit?usp=sharing
 
+## Using Selenium for scraping delay Javascript Rendered Websites
+
 ## Language Processing Algorithm 
 
 ## Team & Contact Information
